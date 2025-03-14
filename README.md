@@ -16,8 +16,8 @@ An Educational Management System enabling seamless interaction between students,
 
 To get started, clone the repository and install the required dependencies.  
 
-```bash  
 # Clone the repository  
+```bash  
 git clone https://github.com/prem-1214/EduNexus.git 
 ```
 
