@@ -18,14 +18,20 @@ To get started, clone the repository and install the required dependencies.
 
 ```bash  
 # Clone the repository  
-git clone https://github.com/yourusername/educational-management-system.git  
+git clone https://github.com/prem-1214/EduNexus.git 
+```
 
 # Change to project directory  
-cd educational-management-system  
+cd EduNexus
 
-# Install server dependencies  
+# Install Backend dependencies  
+cd Backend
+```bash
 npm install  
+```
 
-# For the client application, navigate to the client folder and install dependencies  
-cd client  
+# For the Frontend application, navigate to the frotend folder and install dependencies  
+cd Frontend  
+```bash
 npm install
+```
