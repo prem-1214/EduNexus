@@ -29,4 +29,4 @@ app.use(cookieParser())
 app.use('/auth', authRouter)
 
 
-export {app}
+export default app

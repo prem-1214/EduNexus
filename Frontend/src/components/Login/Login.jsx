@@ -8,18 +8,18 @@ const LoginComponent = () => {
   const [password, setPassword] = useState('');  
   
   const handleSubmit = async (e) => {  
-    e.preventDefault(); // Prevent the default form submission  
+    e.preventDefault(); 
   
     await axios.post('/auth/login', { email, password })
       .then((response) => {
         console.log("response in axios", response.data);
       })
       .catch((error) => {
-        console.log("error in axios :", error);
+        console.log("error in axios :", error)
       });
 
     console.log('Email:', email);  
-    console.log('Password:', password);  
+    console.log('Password:');  
   };  
 
   const handleGoogleSuccess = async (response) => {  
@@ -28,10 +28,19 @@ const LoginComponent = () => {
       console.log("Google Credentials:", userInfo);
       console.log("Email :", userInfo.email);
 
+
+      await axios.post('/auth/google-login', {
+        email : userInfo.email
+      })
+      .then((googleResponse) =>{
+        console.log("Google Response:", googleResponse.data);
+      }).catch((error) =>{
+        console.log("Error in Google Login:", error);
+      })
+
     //  try {
     //   const backendResponse = await axios.post('/auth/login', {
-    //      email: userInfo.email,
-    //      password : u
+    //      email: userInfo.email
     //     });
     //   console.log("Backend Response:", backendResponse);
     //  } catch (error) {
@@ -46,9 +55,10 @@ const LoginComponent = () => {
 
   const handleGoogleError = () => {   
     console.log("Google Login Failed...");  
-  };
+  }
 
   return (  
+    <>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">  
       <div className="mt-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>  
@@ -92,6 +102,8 @@ const LoginComponent = () => {
         />
       </div>  
     </form>  
+
+    </>
   );  
 };  
 
