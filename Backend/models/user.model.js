@@ -5,14 +5,14 @@ import jwt from 'jsonwebtoken'
 const userSchema = new Schema({
     userName : {
         type : String,
-        required : true,
+        // required : true,
         unique : [true, 'This username is already taken.'],
         lowercase : true,
         trim : true
     },
     email : {
         type : String,
-        required : true,
+        // required : true,
         unique : true,
         lowercase : true,
         trim : true,
@@ -28,7 +28,7 @@ const userSchema = new Schema({
     },
     avatar : {
         type: String,  //cloudinary url
-        required : true
+        // required : true
     },
     watchHistory : {
         type : Schema.Types.ObjectId,

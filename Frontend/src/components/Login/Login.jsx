@@ -10,7 +10,7 @@ const LoginComponent = () => {
   const handleSubmit = async (e) => {  
     e.preventDefault(); 
   
-    await axios.post('/auth/login', { email, password })
+    await axios.post('/auth/register', { email, password })
       .then((response) => {
         console.log("response in axios", response.data);
       })
