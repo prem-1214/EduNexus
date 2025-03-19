@@ -3,32 +3,99 @@ import bcrypt from 'bcryptjs'
 
 const registerHandler = async (req, res) => {
     try {
-        const { userName, email, password, avatar, watchHistory, refreshToken } = req.body
-
-
-        const existedUser = await User.findOne({ email })
-        if (existedUser) {
-            return res.status(400).json({ message: "User already exists" })
+        const { email, password } = req.body
+ 
+        console.log("register req.body : ", req.body)
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const existedUser = await User.findOne({ email });
+        if (existedUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
 
-        const user = await User.create({
-            userName,
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({ 
             email,
             password: hashedPassword,
-            avatar,
-            watchHistory ,
-            refreshToken
-        })
+        });
 
-        await user.save()
-        console.log("user saved:", user)
-        res.status(201).json({ message: "User registered successfully", user })
+        console.log("user saved: ", user);
+       
+        res.status(201).json({ message: "User registered successfully", user });
     } catch (error) {
-        console.error("Error registering user:", error)
-        res.status(500).json({ message: "Internal server error" })
+        console.error("Error registering user:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 
-export { registerHandler }
+const generateAccessAndRefreshToken = async (userId) =>{
+    try {
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+
+        await user.save({validateBeforeSave : false})
+
+        return {
+            accessToken,
+            refreshToken
+        }
+    } catch (error) {
+        console.log("error in toekn generation :", error)
+    }
+}
+
+const loginHandler = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log("req.body from login:", req.body);
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Please provide credentials",
+            });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                message: "User does not exist",
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const isPasswordValid = await bcrypt.compare(password, hashedPassword)
+        console.log("Password is correct : ", isPasswordValid);
+
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+ 
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+        console.log("loggedInUser:", loggedInUser);
+
+        return res.status(200)
+                  .cookie("accessToken", accessToken, { httpOnly: true })
+                  .cookie("refreshToken", refreshToken, { httpOnly: true })
+                  .json({
+                      user: loggedInUser,
+                      accessToken,
+                      refreshToken,
+                  });
+    } catch (error) {
+        console.error("Error during login:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+export { 
+    registerHandler,
+    generateAccessAndRefreshToken,
+    loginHandler,
+ }

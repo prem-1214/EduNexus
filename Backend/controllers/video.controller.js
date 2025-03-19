@@ -25,8 +25,8 @@ const videoUploadHandler = async (req, res) => {
     const newVideo = new Video({
       title,
       description,
-      videoUrl: uploadedVideo.secure_url,
-      thumbnailUrl: uploadedThumbnail.secure_url,
+      videoUrl: uploadedVideo?.secure_url || "",
+      thumbnailUrl: uploadedThumbnail?.secure_url || "",
       uploader,
       category,
       duration,

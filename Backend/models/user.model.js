@@ -6,13 +6,13 @@ const userSchema = new Schema({
     userName : {
         type : String,
         // required : true,
-        unique : [true, 'This username is already taken.'],
+        // unique : [true, 'This username is already taken.'],
         lowercase : true,
         trim : true
     },
     email : {
-        type : String,
-        // required : true,
+        type : String, 
+        required : true,
         unique : true,
         lowercase : true,
         trim : true,
@@ -53,9 +53,9 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessToken = function() {
+userSchema.methods.generateAccessToken = function(userId) {
     return jwt.sign({
-        _id : this._id,
+        _id : this.userId,
         email : this.email
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -64,9 +64,9 @@ userSchema.methods.generateAccessToken = function() {
     }
 )}
 
-userSchema.methods.generateRefreshToken = function (){
+userSchema.methods.generateRefreshToken = function (userId){
     return jwt.sign({
-        _id : this._id
+        _id : this.userId
     },
     process.env.REFRESH_TOKEN_SECRET,
 {
