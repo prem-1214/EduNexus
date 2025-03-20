@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import Dashboard from '../Dashboard/Dashboard';
 
 const LoginComponent = () => {  
   const [email, setEmail] = useState('');  
