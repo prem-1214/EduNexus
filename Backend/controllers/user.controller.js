@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-const registerHandler = (req, res) =>{
-    const {email, password} = req.body
-
-    
-}
-=======
 import User from "../models/user.model.js"
 import bcrypt from 'bcryptjs'
 
@@ -106,4 +99,3 @@ export {
     generateAccessAndRefreshToken,
     loginHandler,
  }
->>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
