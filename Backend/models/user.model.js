@@ -5,13 +5,22 @@ import jwt from 'jsonwebtoken'
 const userSchema = new Schema({
     userName : {
         type : String,
+<<<<<<< HEAD
         required : true,
         unique : [true, 'This username is already taken.'],
+=======
+        // required : true,
+        // unique : [true, 'This username is already taken.'],
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
         lowercase : true,
         trim : true
     },
     email : {
+<<<<<<< HEAD
         type : String,
+=======
+        type : String, 
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
         required : true,
         unique : true,
         lowercase : true,
@@ -28,7 +37,11 @@ const userSchema = new Schema({
     },
     avatar : {
         type: String,  //cloudinary url
+<<<<<<< HEAD
         required : true
+=======
+        // required : true
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
     },
     watchHistory : {
         type : Schema.Types.ObjectId,
@@ -53,9 +66,15 @@ userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
+<<<<<<< HEAD
 userSchema.methods.generateAccessToken = function() {
     return jwt.sign({
         _id : this._id,
+=======
+userSchema.methods.generateAccessToken = function(userId) {
+    return jwt.sign({
+        _id : this.userId,
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
         email : this.email
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -64,9 +83,15 @@ userSchema.methods.generateAccessToken = function() {
     }
 )}
 
+<<<<<<< HEAD
 userSchema.methods.generateRefreshToken = function (){
     return jwt.sign({
         _id : this._id
+=======
+userSchema.methods.generateRefreshToken = function (userId){
+    return jwt.sign({
+        _id : this.userId
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
     },
     process.env.REFRESH_TOKEN_SECRET,
 {

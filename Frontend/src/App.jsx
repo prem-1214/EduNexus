@@ -1,5 +1,6 @@
 import './App.css'
 import { Auth0Provider } from '@auth0/auth0-react';
+<<<<<<< HEAD
 import Sidebar from './components/Sidebar/Sidebar';
 import LoginButton from './components/Login/Login';
 import LogOutButton from './components/LogOut/Logout';
@@ -41,6 +42,19 @@ function App() {
       </div>
     </Router>
   );
+=======
+import LoginButton from './components/Login/Login';
+import LogOutButton from './components/LogOut/Logout';
+
+function App() {
+
+
+  return (
+    <>
+      <LoginButton />
+    </>
+  )
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
 }
 
 export default App

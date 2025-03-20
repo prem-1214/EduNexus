@@ -1,5 +1,109 @@
+<<<<<<< HEAD
 const registerHandler = (req, res) =>{
     const {email, password} = req.body
 
     
 }
+=======
+import User from "../models/user.model.js"
+import bcrypt from 'bcryptjs'
+
+const registerHandler = async (req, res) => {
+    try {
+        const { email, password } = req.body
+ 
+        console.log("register req.body : ", req.body)
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        const existedUser = await User.findOne({ email });
+        if (existedUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({ 
+            email,
+            password: hashedPassword,
+        });
+
+        console.log("user saved: ", user);
+       
+        res.status(201).json({ message: "User registered successfully", user });
+    } catch (error) {
+        console.error("Error registering user:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+const generateAccessAndRefreshToken = async (userId) =>{
+    try {
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+
+        await user.save({validateBeforeSave : false})
+
+        return {
+            accessToken,
+            refreshToken
+        }
+    } catch (error) {
+        console.log("error in toekn generation :", error)
+    }
+}
+
+const loginHandler = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log("req.body from login:", req.body);
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Please provide credentials",
+            });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                message: "User does not exist",
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const isPasswordValid = await bcrypt.compare(password, hashedPassword)
+        console.log("Password is correct : ", isPasswordValid);
+
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+ 
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+        console.log("loggedInUser:", loggedInUser);
+
+        return res.status(200)
+                  .cookie("accessToken", accessToken, { httpOnly: true })
+                  .cookie("refreshToken", refreshToken, { httpOnly: true })
+                  .json({
+                      user: loggedInUser,
+                      accessToken,
+                      refreshToken,
+                  });
+    } catch (error) {
+        console.error("Error during login:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+export { 
+    registerHandler,
+    generateAccessAndRefreshToken,
+    loginHandler,
+ }
+>>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
