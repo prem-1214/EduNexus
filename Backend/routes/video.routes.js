@@ -16,7 +16,7 @@ router.post('/upload', upload.fields([
     }
 ]), videoUploadHandler);
 
-// router.get('/videos', async (req, res) => {
+// router.get('/videos', async (req, res) => { 
 //     try {
 //       const videos = await Video.find().populate('uploader', 'name');
 //       res.json(videos);
