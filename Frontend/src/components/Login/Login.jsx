@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-<<<<<<< HEAD
-import Dashboard from '../Dashboard/Dashboard';
-=======
->>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
 
 const LoginComponent = () => {  
   const [email, setEmail] = useState('');  
@@ -14,11 +10,7 @@ const LoginComponent = () => {
   const handleSubmit = async (e) => {  
     e.preventDefault(); 
   
-<<<<<<< HEAD
-    await axios.post('/auth/login', { email, password })
-=======
     await axios.post('/auth/register', { email, password })
->>>>>>> 1c9ca375505d585ffa70f5e793ab959de7065ec4
       .then((response) => {
         console.log("response in axios", response.data);
       })
