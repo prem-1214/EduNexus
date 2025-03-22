@@ -23,7 +23,8 @@
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.9.6",
     "multer": "^1.4.5-lts.1",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer-storage-cloudinary": "^4.0.0",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

@@ -1,30 +1,31 @@
-import React, { useState } from 'react';   
-import { GoogleLogin } from "@react-oauth/google";
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import Dashboard from '../Dashboard/Dashboard';
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { GoogleLogin } from "@react-oauth/google"
+import axios from 'axios'
+import api from '../../utils/axiosInstance'
+import { jwtDecode } from 'jwt-decode'
+import {Link, useNavigate} from 'react-router-dom'
 
-const Login = () => {  
-  const [email, setEmail] = useState('');  
-  const [password, setPassword] = useState('');  
+const Register = () => {  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const navigate = useNavigate()
   
   const handleSubmit = async (e) => {  
     e.preventDefault(); 
   
     console.log('Email:', email);  
-    await axios.post('/auth/login', { email, password })
+    await axios.post('/auth/register', { email, password })
       .then((response) => {
-        console.log("response in axios", response.data);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        navigate('/dashboard');
+        console.log("response in axios", response.data)
+        localStorage.setItem('accessToken', response.data.accessToken)
+
+        navigate('/login')
       })
       .catch((error) => {
         console.log("error in axios :", error)
-      });
+      })
 
-    console.log('Password:', password);  
+    console.log('Password:', password)  
   };  
  
   const handleGoogleSuccess = async (response) => {  
@@ -41,20 +42,10 @@ const Login = () => {
         console.log("Google Response:", googleResponse.data)
         localStorage.setItem('accessToken', googleResponse.data.accessToken)
         navigate('/dashboard')
+        
       }).catch((error) =>{
         console.log("Error in Google Login:", error);
       })
-
-    //  try {
-    //   const backendResponse = await axios.post('/auth/login', {
-    //      email: userInfo.email
-    //     });
-    //   console.log("Backend Response:", backendResponse);
-    //  } catch (error) {
-    //    console.error("Error in Google Login:", error);
-      
-    //  }
-
     } else {
       console.error("No valid token received from Google.");
     }
@@ -96,7 +87,7 @@ const Login = () => {
           type="submit"  
           className="bg-green-400 text-white font-bold py-2 px-4 w-full rounded-lg hover:bg-green-600"  
         >  
-          Login 
+          Register 
         </button>  
       </div>  
 
@@ -110,18 +101,17 @@ const Login = () => {
       </div>  
     </form>  
 
-    {/* Link to Register Page */}
-    <div className="mt-4 text-center">
+    {/* Link to Login Page */}
+      <div className="mt-4 text-center">
         <p>
-          Not registered?{' '}
-          <Link to="/register" className="text-blue-500 underline">
-            Register here
+          Already a user?{' '}
+          <Link to="/login" className="text-blue-500 underline">
+            Login
           </Link>
         </p>
       </div>
-
     </>
   );  
 };  
 
-export default Login;
+export default Register

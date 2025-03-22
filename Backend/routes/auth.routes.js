@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { loginHandler, registerHandler } from '../controllers/user.controller.js'
+import { googleLoginHandler, loginHandler, registerHandler } from '../controllers/user.controller.js'
 
 
 const router = Router()
@@ -10,11 +10,7 @@ router.route('/register')
 router.post('/login', loginHandler)
 
 router.route('/google-login') 
-.post((req, res) =>{ 
-        const {email, password} = req.body
-        console.log("email from google-login", email)
-        res.end("google-login successful....")
-})
+.post(googleLoginHandler)
 
 
 export default router

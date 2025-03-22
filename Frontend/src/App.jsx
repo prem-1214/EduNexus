@@ -1,7 +1,7 @@
 import './App.css'
 import { Auth0Provider } from '@auth0/auth0-react';
 import Sidebar from './components/Sidebar/Sidebar';
-import LoginButton from './components/Login/Login';
+import Login from './components/Login/Login';
 import LogOutButton from './components/LogOut/Logout';
 import Dashboard from './components/Dashboard/Dashboard';
 import Assignment from './components/Assignment/Assignment';
@@ -15,6 +15,7 @@ import Classes from "./components/Classes/Classes";
 import Courses from "./components/Courses/Courses";
 import Settings from "./components/Setting/Setting";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from './components/Register/Register';
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
         <Sidebar />
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<LoginButton />} />
+            <Route path="/" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<LogOutButton />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/assignment" element={<Assignment />} />

@@ -5,22 +5,24 @@ const registerHandler = async (req, res) => {
     try {
         const { email, password } = req.body
  
-        console.log("register req.body : ", req.body)
+        console.log("register req.body : ", req.body)     
         // Validate input
-        if (!email || !password) {
+        if (!email || !password) {        
             return res.status(400).json({ message: "Email and password are required" });
         }
-
+      
         const existedUser = await User.findOne({ email });
         if (existedUser) {
+            console.log("user already eists...")
             return res.status(400).json({ message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({ 
-            email,
-            password: hashedPassword,
+            userName : email.split('@')[0],
+            email : email,
+            password: hashedPassword, 
         });
 
         console.log("user saved: ", user);
@@ -94,8 +96,56 @@ const loginHandler = async (req, res) => {
 };
 
 
+const googleLoginHandler = async (req, res) => {
+    try {
+        const { userInfo } = req.body;
+        console.log("req.body : ", userInfo)
+        console.log("email : req.body from login :", userInfo.email)   
+        
+        const email = userInfo.email
+        let profilePicture = userInfo.picture
+
+        let user = await User.findOne({ email })
+
+        if(user) {
+            console.log("user existes")
+        }
+        if (!user) {
+                user = await User.create({
+                    email,
+                    userName : email.split('@')[0],
+                    avatar : profilePicture || "",
+                    googleLogin : true
+            })     
+        }
+
+
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
+ 
+        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+        console.log("loggedInUser:", loggedInUser)
+
+        return res.status(200)
+                  .cookie("accessToken", accessToken, { httpOnly: true })
+                  .cookie("refreshToken", refreshToken, { httpOnly: true })
+                  .json({
+                      user: loggedInUser,
+                      accessToken,
+                      refreshToken,
+                  });
+    } catch (error) {
+        console.error("Error during login:", error)
+        return res.status(500).json({ message: "Internal server error" })
+    }
+};
+
+
+
+
 export { 
     registerHandler,
     generateAccessAndRefreshToken,
     loginHandler,
+    googleLoginHandler
  }

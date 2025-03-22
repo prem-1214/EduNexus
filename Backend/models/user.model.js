@@ -1,19 +1,20 @@
 import mongoose, { mongo, Schema } from "mongoose"
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import uniqid from 'uniqid'
 
 const userSchema = new Schema({
     userName : {
         type : String,
         // required : true,
-        // unique : [true, 'This username is already taken.'],
+        unique : [true, 'This username is already taken.'],
         lowercase : true,
         trim : true
     },
     email : {
         type : String, 
         required : true,
-        unique : true,
+        unique : [true, "This email is already in use."],
         lowercase : true,
         trim : true,
         match: [
@@ -23,16 +24,25 @@ const userSchema = new Schema({
     },
     password : {
         type : String,
-        required : [true, 'Password is required.'],
-        minlength : 8
-    },
+        validate : {
+            validator : function (value){
+                return this.googleLogin || (value && value.length >= 8)
+            },
+            message : "Password is required and must be atleast 8 characters long..."
+        }
+    },  
     avatar : {
         type: String,  //cloudinary url
-        // required : true
+        // required : true,
+        default : ""  //later set in frontend
     },
     watchHistory : {
         type : Schema.Types.ObjectId,
         ref : "Video"
+    },
+    googleLogin : {
+        type : Boolean,
+        default : false
     },
     refreshToken : {
         type : String
@@ -40,12 +50,12 @@ const userSchema = new Schema({
 }, {
     timestamps : true
 })
-
+  
 
 userSchema.pre("save", async function (next) {
     if(!this.isModified("password")) return next()
 
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = bcrypt.hash(this.password, 10)
     next()
 })
 
@@ -56,6 +66,7 @@ userSchema.methods.isPasswordCorrect = async function(password){
 userSchema.methods.generateAccessToken = function(userId) {
     return jwt.sign({
         _id : this.userId,
+        username : this.userName,
         email : this.email
     },
     process.env.ACCESS_TOKEN_SECRET,
