@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000', // Replace with your backend URL
-  withCredentials: true, // Ensure cookies (e.g., refreshToken) are sent with requests
+  baseURL: 'http://localhost:3000', 
+  withCredentials: true, 
 });
 
 // Request Interceptor: Attach the access token to every request

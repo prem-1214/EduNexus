@@ -2,12 +2,13 @@ import {Router} from 'express'
 import Video from '../models/video.model.js'
 import { videoUploadHandler } from '../controllers/video.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
+import authenticate from '../middlewares/auth.middleware.js'
 
 const router = Router()
 
-router.post('/upload', upload.fields([
+router.post('/upload', authenticate, upload.fields([
     {
-        name : "video",
+        name : "video", 
         maxCount : 1
     },
     {
@@ -16,14 +17,14 @@ router.post('/upload', upload.fields([
     }
 ]), videoUploadHandler);
 
-// router.get('/videos', async (req, res) => {
-//     try {
-//       const videos = await Video.find().populate('uploader', 'name');
-//       res.json(videos);
-//     } catch (error) {
-//       res.status(500).json({ message: 'Error fetching videos', error });
-//     }
-//   });
+router.get('/videos', async (req, res) => {
+    try {
+      const videos = await Video.find().populate('uploader', 'name');
+      res.json(videos);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching videos', error });
+    }
+  });
  
 
 export default router
