@@ -1,5 +1,6 @@
 import User from "../models/user.model.js"
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const registerHandler = async (req, res) => {
     try {
@@ -43,7 +44,7 @@ const generateAccessAndRefreshToken = async (userId) =>{
         user.refreshToken = refreshToken
 
         await user.save({validateBeforeSave : false})
-
+ 
         return {
             accessToken,
             refreshToken
@@ -80,6 +81,7 @@ const loginHandler = async (req, res) => {
         const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
         console.log("loggedInUser:", loggedInUser);
+        console.log("accesstoken:", accessToken);
 
         return res.status(200)
                   .cookie("accessToken", accessToken, { httpOnly: true })
@@ -125,6 +127,7 @@ const googleLoginHandler = async (req, res) => {
         const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
         console.log("loggedInUser:", loggedInUser)
+        console.log("Access Token Payload:", jwt.decode(accessToken));
 
         return res.status(200)
                   .cookie("accessToken", accessToken, { httpOnly: true })

@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth.routes.js'
 import videoRouter from './routes/video.routes.js'
+import fileRouter from './routes/file.routes.js'
 
 
 
@@ -31,6 +32,7 @@ app.use(cookieParser())
 // routes
 app.use('/auth', authRouter)
 app.use('/video', videoRouter)  
+app.use('/file', fileRouter)  
 
 
 export default app

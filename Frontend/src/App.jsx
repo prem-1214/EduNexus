@@ -1,7 +1,10 @@
-import './App.css'
+// import './App.css';  
 import { Auth0Provider } from '@auth0/auth0-react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
+import Register from './components/Register/Register';
 import LogOutButton from './components/LogOut/Logout';
 import Dashboard from './components/Dashboard/Dashboard';
 import Assignment from './components/Assignment/Assignment';
@@ -14,36 +17,41 @@ import Downloads from "./components/Download/Download";
 import Classes from "./components/Classes/Classes";
 import Courses from "./components/Courses/Courses";
 import Settings from "./components/Setting/Setting";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Register from './components/Register/Register';
+
+// Layout Component (Only for Authenticated Pages)
+const Layout = ({ children }) => (
+  <div className="flex">
+    <Sidebar />
+    <div className="flex-1">{children}</div>
+  </div>
+);
 
 function App() {
   return (
     <Router>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Routes>
-            <Route path="/" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/logout" element={<LogOutButton />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/assignment" element={<Assignment />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/recordings" element={<Recordings />} />
-            <Route path="/discussions" element={<Discussions />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/notes" element={<Notes />} />
-            <Route path="/downloads" element={<Downloads />} />
-            <Route path="/classes" element={<Classes />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        {/* Authentication Pages (No Sidebar) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Register />} />
+
+        {/* Protected Routes (With Sidebar) */}
+        {/* <Route path="/" element={<Layout><Dashboard /></Layout>} /> */}
+        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+        <Route path="/assignment" element={<Layout><Assignment /></Layout>} />
+        <Route path="/schedule" element={<Layout><Schedule /></Layout>} />
+        <Route path="/recordings" element={<Layout><Recordings /></Layout>} />
+        <Route path="/discussions" element={<Layout><Discussions /></Layout>} />
+        <Route path="/resources" element={<Layout><Resources /></Layout>} />
+        <Route path="/notes" element={<Layout><Notes /></Layout>} />
+        <Route path="/downloads" element={<Layout><Downloads /></Layout>} />
+        <Route path="/classes" element={<Layout><Classes /></Layout>} />
+        <Route path="/courses" element={<Layout><Courses /></Layout>} />
+        <Route path="/settings" element={<Layout><Settings /></Layout>} />
+        <Route path="/logout" element={<Layout><LogOutButton /></Layout>} />
+      </Routes>
     </Router>
   );
 }
 
-export default App
+export default App;

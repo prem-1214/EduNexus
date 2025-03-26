@@ -12,10 +12,10 @@ const videoUploadHandler = async (req, res) => {
     const videoPath = req.files.video[0].path;
     const thumbnailPath = req.files.thumbnail[0].path;
 
-    // console.log("Uploading Thumbnail:", thumbnailPath);/
+    // console.log("Uploading Thumbnail:", thumbnailPath)
     const uploadedThumbnail = await uploadOnCloudinary(thumbnailPath);
     
-    // console.log("Uploading Video:", videoPath);
+    // console.log("Uploading Video:", videoPath)
     const uploadedVideo = await uploadOnCloudinary(videoPath);
 
     if (!uploadedThumbnail || !uploadedVideo) {
