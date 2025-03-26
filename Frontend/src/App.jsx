@@ -1,4 +1,4 @@
-import './App.css'
+// import './App.css'
 import { Auth0Provider } from '@auth0/auth0-react';
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
