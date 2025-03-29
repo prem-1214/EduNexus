@@ -1,5 +1,5 @@
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
+import Navbar from "../Navbar";
+import Sidebar from "../Sidebar";
 import { useState } from "react";
 
 const Schedule = () => {

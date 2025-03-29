@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Sidebar from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar";
+import Navbar from "../Navbar";
 
 const notes = [
   { title: "Product Team Meeting", category: ["Weekly", "Product"], description: "This monthly progress agenda is following this items:", author: "Floyd Miles", date: "Mar 5 04:25" },

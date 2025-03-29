@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import Dashboard from '../Dashboard/Dashboard';
+import StudentDashBoardPage from './Student'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {  

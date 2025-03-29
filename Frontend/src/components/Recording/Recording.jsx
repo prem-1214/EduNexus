@@ -1,5 +1,5 @@
-import Sidebar from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar";
+import Navbar from "../Navbar";
 
 const recordings = [
   { title: "Color Styles - 02", category: "Color Styles", duration: "1:30hr", lessons: 12 },

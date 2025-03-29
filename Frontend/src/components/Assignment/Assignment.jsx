@@ -3,8 +3,8 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FiSettings } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
-import Sidebar from "../Sidebar/Sidebar";
-import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar";
+import Navbar from "../Navbar";
 
 const assignments = [
   { title: "Conducting User Research", course: "User Research and Per...", dueDate: "July 1, 2024", status: "Done", submit: "Submitted" },

@@ -2,10 +2,10 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Sidebar from './components/Sidebar/Sidebar';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import LogOutButton from './components/LogOut/Logout';
+import Sidebar from './components/Sidebar';
+import Login from './pages/Login'
+import Register from './pages/Register';
+import LogOutButton from './components/Logout/Logout';
 import Dashboard from './components/Dashboard/Dashboard';
 import Assignment from './components/Assignment/Assignment';
 import Schedule from "./components/Schedule/Schedule";

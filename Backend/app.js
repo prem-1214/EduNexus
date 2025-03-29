@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth.routes.js'
 import videoRouter from './routes/video.routes.js'
 import fileRouter from './routes/file.routes.js'
+import userRouter from './routes/user.routes.js'
 
 
 
@@ -33,6 +34,7 @@ app.use(cookieParser())
 app.use('/auth', authRouter)
 app.use('/video', videoRouter)  
 app.use('/file', fileRouter)  
+app.use('/user', userRouter)
 
 
 export default app

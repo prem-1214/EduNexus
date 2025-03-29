@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { GoogleLogin } from "@react-oauth/google"
 import axios from 'axios'
-import api from '../../utils/axiosInstance'
+import api from '../utils/axiosInstance'
 import { jwtDecode } from 'jwt-decode'
 import {Link, useNavigate} from 'react-router-dom'
 
