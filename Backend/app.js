@@ -1,14 +1,12 @@
-import express from 'express'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import authRouter from './routes/auth.routes.js'
-import videoRouter from './routes/video.routes.js'
-import fileRouter from './routes/file.routes.js'
-import userRouter from './routes/user.routes.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import authRouter from './routes/auth.routes.js';
+import videoRouter from './routes/video.routes.js';
+import fileRouter from './routes/file.routes.js';
+import userRouter from './routes/user.routes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

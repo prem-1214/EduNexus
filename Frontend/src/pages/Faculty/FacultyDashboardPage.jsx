@@ -3,7 +3,7 @@ import { useUser } from "../../context/UserContext.jsx";
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom";
 
-function FacultyDashboard() {
+function FacultyDashboardPage() {
   const { user } = useUser();
   const [totalStudents, setTotalStudents] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -154,4 +154,4 @@ function FacultyDashboard() {
   );
 }
 
-export default FacultyDashboard;
+export default FacultyDashboardPage;

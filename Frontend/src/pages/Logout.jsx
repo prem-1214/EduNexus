@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const handleLogout = async () => {
+const Logout = async () => {
   try {
     await axios.post("/user/logout", {}, {
       headers: {
@@ -18,4 +18,4 @@ const handleLogout = async () => {
   }
 }
 
-export default handleLogout
+export default Logout

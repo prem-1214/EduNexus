@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useUser } from "../context/UserContext.jsx";
-import LogoutHandler from "../components/Logout/Logout.jsx";
+import { useUser } from "../../context/UserContext.jsx";
+import Logout from "../../pages/Logout.jsx";
 
 function FacultySidebar() {
   const { user } = useUser();
@@ -56,7 +56,7 @@ function FacultySidebar() {
 
       {/* Logout Button */}
       <div className="p-4 border-t border-blue-700">
-        <button onClick={LogoutHandler} className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 rounded">
+        <button onClick={Logout} className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 rounded">
           Logout
         </button>
       </div>
