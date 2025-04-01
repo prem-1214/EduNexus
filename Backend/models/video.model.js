@@ -13,25 +13,25 @@ const videoSchema = new Schema({
   },
   videoUrl: {
     type: String,
-    required: true,
+    // required: true,
   },
   thumbnailUrl: {
     type: String,
-    required: true,
+    // required: true,
   },
   uploader: {
-    type: String, // from User model
+    type: Schema.Types.ObjectId, // from User model
     ref: 'User',
-    required: true,
+    // required: true,
   },
   category: {
     type: String,
     enum: ['sub1', 'sub2', 'sub3', 'sub4'],
-    required: true,
+    // required: true,
   },
   duration: {
     type: Number, // time in seconds
-    required: true,
+    // required: true,
   },
   views: {
     type: Number,

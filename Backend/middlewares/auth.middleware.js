@@ -1,23 +1,24 @@
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 
-const authenticate = (req, res, next) => {
+
+
+const isAuthenticated = (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const token = req.headers.authorization?.split(" ")[1]; // Format: "Bearer <token>"
+    const token = req.headers.authorization?.split(" ")[1] // Format: "Bearer <token>"
 
     if (!token) {
-      return res.status(401).json({ message: "Access Denied. No token provided." });
+      return res.status(401).json({ message: "Access Denied. No token provided." })
     }
 
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET); // Use your JWT secret key
-    req.user = decoded; // Attach the decoded user info to the request object
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    req.user = decoded    // Attaching the decoded user info to the request
 
-    next(); // Proceed to the next middleware or route handler
+    next() 
   } catch (error) {
-    console.error("Authentication Error:", error);
-    res.status(401).json({ message: "Invalid or expired token." });
+    console.error("Authentication Error:", error)
+    res.status(401).json({ message: "Invalid or expired token." })
   }
 };
 
-export default authenticate;
+export default isAuthenticated

@@ -31,8 +31,8 @@ const Register = () => {
   const handleGoogleSuccess = async (response) => {  
     if (response.credential) {
       const userInfo = jwtDecode(response.credential);
-      console.log("Google Credentials:", userInfo);
-      console.log("Email :", userInfo.email);
+      // console.log("Google Credentials:", userInfo);
+      // console.log("Email :", userInfo.email);
 
 
       await axios.post('/auth/google-login', {
@@ -41,7 +41,19 @@ const Register = () => {
       .then((googleResponse) =>{
         console.log("Google Response:", googleResponse.data)
         localStorage.setItem('accessToken', googleResponse.data.accessToken)
-        navigate('/dashboard')
+        // navigate('/dashboard')
+
+        const role = googleResponse.data.user.role
+        console.log("Role:", role)
+        // console.log("Role:", googleResponse.data.user.role)
+
+        if(role === 'student'){
+          navigate('/studentDashboard')
+        } else if(role === 'faculty'){
+          navigate('/facultyDashboard')
+        }else {
+          console.error("Unknown role:", role);
+        }
         
       }).catch((error) =>{
         console.log("Error in Google Login:", error);

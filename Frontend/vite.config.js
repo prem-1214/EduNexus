@@ -1,19 +1,20 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'dist', // Ensure the output directory is within the frontend folder
+    emptyOutDir: true, // Clear the output directory before building
+  },
   server: {
     proxy: {
-      '/auth': {
-        target: 'http://localhost:3000', // Backend for auth routes
-        changeOrigin: true,
-      },
-      '/user': {
-        target: 'http://localhost:3000', // Backend for user routes
-        changeOrigin: true,
-      },
+      "/auth": { target: "http://localhost:3000", changeOrigin: true },
+      "/user": { target: "http://localhost:3000", changeOrigin: true },
+      "/video": { target: "http://localhost:3000", changeOrigin: true },
+      "/faculty": { target: "http://localhost:3000", changeOrigin: true },
     },
+    port: 5173, // Optional: Specify the development server port
   },
-  plugins: [react()],
-})
+  base: "/", // Ensures correct routing
+});

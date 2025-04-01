@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useUser } from "../../context/UserContext.jsx";
+import { useUser } from "../../context/UserContext.jsx"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function FacultyDashboard() {
   const navigate = useNavigate()
 
   useEffect(() => {
-
+ 
     if (!user) {
       navigate("/login")
     }
@@ -110,10 +110,7 @@ function FacultyDashboard() {
           <p className="text-gray-600">
             View and manage assignments for your courses.
           </p>
-          <button
-            className="mt-4 py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600"
-            aria-label="Create New Assignment"
-          >
+          <button className="mt-4 py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600">
             Create New Assignment
           </button>
         </section>
@@ -126,10 +123,7 @@ function FacultyDashboard() {
           <p className="text-gray-600">
             Upload and manage resources for your students.
           </p>
-          <button
-            className="mt-4 py-2 px-4 bg-purple-500 text-white rounded hover:bg-purple-600"
-            aria-label="Upload Resource"
-          >
+          <button className="mt-4 py-2 px-4 bg-purple-500 text-white rounded hover:bg-purple-600">
             Upload Resource
           </button>
         </section>
@@ -142,10 +136,7 @@ function FacultyDashboard() {
           <p className="text-gray-600">
             Update your profile information and settings.
           </p>
-          <button
-            className="mt-4 py-2 px-4 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-            aria-label="Edit Profile"
-          >
+          <button className="mt-4 py-2 px-4 bg-yellow-500 text-white rounded hover:bg-yellow-600">
             Edit Profile
           </button>
         </section>

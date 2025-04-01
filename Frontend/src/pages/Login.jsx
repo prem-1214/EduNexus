@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import StudentDashBoardPage from './Student'
 import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../context/UserContext.jsx'
 
 const Login = () => {  
-  const [email, setEmail] = useState('');  
-  const [password, setPassword] = useState('');  
+  const [email, setEmail] = useState('')  
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate()
+  const { updateUser } = useUser()
   
   const handleSubmit = async (e) => {  
     e.preventDefault(); 
@@ -18,10 +20,24 @@ const Login = () => {
       .then((response) => {
         console.log("response in axios", response.data);
         localStorage.setItem('accessToken', response.data.accessToken);
-        navigate('/dashboard');
+        updateUser(response.data.user)
+
+        const role = response.data.user.role
+        console.log("Role:", role);
+
+        if(role === 'student'){
+          navigate('/studentDashboard')
+        } else if(role === 'faculty'){
+          navigate('/facultyDashboard')
+        }else {
+          console.error("Unknown role:", role);
+          setErrorMessage("Unknown role. Please contact support.");
+        }
+
       })
       .catch((error) => {
         console.log("error in axios :", error)
+        setErrorMessage("Invalid email or password. Please try again.");
       });
 
     console.log('Password:', password);  
@@ -30,8 +46,8 @@ const Login = () => {
   const handleGoogleSuccess = async (response) => {  
     if (response.credential) {
       const userInfo = jwtDecode(response.credential);
-      console.log("Google Credentials:", userInfo);
-      console.log("Email :", userInfo.email);
+      // console.log("Google Credentials:", userInfo);
+      // console.log("Email :", userInfo.email);
 
 
       await axios.post('/auth/google-login', {
@@ -40,9 +56,23 @@ const Login = () => {
       .then((googleResponse) =>{
         console.log("Google Response:", googleResponse.data)
         localStorage.setItem('accessToken', googleResponse.data.accessToken)
-        navigate('/dashboard')
+        updateUser(googleResponse.data.user);
+
+        const role = googleResponse.data.user.role;
+
+        console.log("Role:", role)
+
+        if(role === 'student'){
+          navigate('/studentDashboard')
+        } else if(role === 'admin'){
+          navigate('/admin-dashboard')
+        }else {
+          console.error("Unknown role:", role);
+          setErrorMessage("Unknown role. Please contact support.");
+        }
       }).catch((error) =>{
         console.log("Error in Google Login:", error);
+        setErrorMessage("Google login failed. Please try again.");
       })
 
     //  try {
@@ -57,11 +87,13 @@ const Login = () => {
 
     } else {
       console.error("No valid token received from Google.");
+      setErrorMessage("Google login failed. Please try again.");
     }
   };  
 
   const handleGoogleError = () => {   
     console.log("Google Login Failed...");  
+    setErrorMessage("Google login failed. Please try again.");
   }
 
   return (  

@@ -143,6 +143,20 @@ const googleLoginHandler = async (req, res) => {
     }
 };
 
+const logoutHandler = async (req, res) => {
+    try {
+   
+      res.clearCookie("accessToken", { httpOnly: true });
+      res.clearCookie("refreshToken", { httpOnly: true });
+  
+      console.log("User logged out successfully");
+  
+      return res.status(200).json({ message: "User logged out successfully" });
+    } catch (error) {
+      console.error("Error during logout:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };
 
 
 
@@ -150,5 +164,6 @@ export {
     registerHandler,
     generateAccessAndRefreshToken,
     loginHandler,
-    googleLoginHandler
+    googleLoginHandler,
+    logoutHandler
  }

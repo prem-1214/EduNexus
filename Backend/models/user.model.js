@@ -6,8 +6,6 @@ import uniqid from 'uniqid'
 const userSchema = new Schema({
     userName : {
         type : String,
-        // required : true,
-        unique : [true, 'This username is already taken.'],
         lowercase : true,
         trim : true
     },
@@ -17,10 +15,14 @@ const userSchema = new Schema({
         unique : [true, "This email is already in use."],
         lowercase : true,
         trim : true,
-        match: [
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            'Please provide a valid email address.',
-          ],
+        validate : {
+            validator: function (v) {
+                const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gsfcuniversity\.ac\.in$/
+                const facultyRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gsfcuniversity\.ac\.in$/
+                return studentRegex.test(v) || facultyRegex.test(v)
+              },
+            message : (props) => `${props.value} is not a valid email address!`   
+        } 
     },
     password : {
         type : String,
@@ -31,15 +33,24 @@ const userSchema = new Schema({
             message : "Password is required and must be atleast 8 characters long..."
         }
     },  
+    role : {
+        type : String,
+        enum : ["student", "faculty", "admin"],
+        default : "student"
+    },
+    isActive : {
+        type : Boolean,
+        default : true  //no default restriction 
+
+    },
     avatar : {
         type: String,  //cloudinary url
-        // required : true,
-        default : ""  //later set in frontend
+        default : ""  // default conditional avatar from frontend
     },
-    watchHistory : {
-        type : Schema.Types.ObjectId,
-        ref : "Video"
-    },
+    // watchHistory : {
+    //     type : Schema.Types.ObjectId,
+    //     ref : "Video"
+    // },
     googleLogin : {
         type : Boolean,
         default : false
@@ -53,9 +64,19 @@ const userSchema = new Schema({
   
 
 userSchema.pre("save", async function (next) {
-    if(!this.isModified("password")) return next()
 
+    const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gsfcuniversity\.ac\.in$/;
+  const facultyRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gsfcuniversity\.ac\.in$/;
+
+    if (studentRegex.test(this.email)) {
+        this.role = "student";
+    } else if (facultyRegex.test(this.email)) {
+        this.role = "faculty";
+    }
+
+    if(!this.isModified("password")) return next()
     this.password = bcrypt.hash(this.password, 10)
+
     next()
 })
 
@@ -67,7 +88,8 @@ userSchema.methods.generateAccessToken = function(userId) {
     return jwt.sign({
         id : this._id,
         username : this.userName,
-        email : this.email
+        email : this.email,
+        role : this.role        
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -77,7 +99,8 @@ userSchema.methods.generateAccessToken = function(userId) {
 
 userSchema.methods.generateRefreshToken = function (userId){
     return jwt.sign({
-        id : this._id
+        id : this._id,
+        role : this.role,
     },
     process.env.REFRESH_TOKEN_SECRET,
 {

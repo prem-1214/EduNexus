@@ -1,17 +1,21 @@
-import { googleLogout } from '@react-oauth/google'
+import axios from "axios";
 
-const LogOutButton = ( ) =>{
+const handleLogout = async () => {
+  try {
+    await axios.post("/user/logout", {}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
 
-    const logout = () =>{
-        googleLogout()
-        console.log("logged out...")
-    }
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
 
-    return (
-        <>
-       <button onClick={() => logout()}>logout</button>
-        </>
-    )
+    // Redirect to login page
+    window.location.href = "/login";
+  } catch (error) {
+    console.error("Error during logout:", error);
+  }
 }
 
-export default LogOutButton
+export default handleLogout

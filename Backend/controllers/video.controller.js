@@ -3,8 +3,9 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 
 const videoUploadHandler = async (req, res) => {
   try {
-    const { title, description, uploader, category, duration } = req.body;
-
+    
+    // const { title, description, uploader, category, duration } = req.body;
+    const { title, description } = req.body;
     if (!req.files || !req.files.video || !req.files.thumbnail) {
       return res.status(400).json({ message: 'Missing video or thumbnail file' });
     }
@@ -27,9 +28,9 @@ const videoUploadHandler = async (req, res) => {
       description,
       videoUrl: uploadedVideo?.secure_url || "",
       thumbnailUrl: uploadedThumbnail?.secure_url || "",
-      uploader,
-      category,
-      duration,
+      uploader : req.user.id,
+      // category,
+      // duration,
     });
 
     await newVideo.save();
