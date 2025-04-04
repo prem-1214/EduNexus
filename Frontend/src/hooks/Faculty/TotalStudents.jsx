@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const TotalStudents = () => {
-  const [students, setStudents] = useState([]); // State to store the list of students
-  const [loading, setLoading] = useState(true); // State to handle loading
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch students from the backend
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("/video/students"); // Backend route
+        const response = await axios.get("/video/students");
         setStudents(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching students:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -22,37 +21,45 @@ const TotalStudents = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading students...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
+        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading students...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">Students</h1>
-        <p className="text-gray-600 mt-2">
-          List of all students with their email and username.
+    <div className="p-8 bg-gradient-to-br from-blue-200 to-purple-400 min-h-screen">
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">Students</h1>
+        <p className="text-gray-600 mt-2 text-lg">
+          List of all registered students and their contact details.
         </p>
       </header>
 
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-blue-900 text-white">
-          <tr>
-            <th className="py-3 px-6 text-left">Username</th>
-            <th className="py-3 px-6 text-left">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, index) => (
-            <tr
-              key={index}
-              className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
-            >
-              <td className="py-3 px-6">{student.userName}</td>
-              <td className="py-3 px-6">{student.email}</td>
+      <div className="overflow-x-auto rounded-2xl shadow-lg border border-gray-200 bg-white">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-violet-600 text-white text-left">
+            <tr>
+              <th className="py-4 px-6 text-sm font-medium">Username</th>
+              <th className="py-4 px-6 text-sm font-medium">Email</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr
+                key={index}
+                className={`${
+                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                } hover:bg-violet-50 transition-all`}
+              >
+                <td className="py-3 px-6 text-gray-800 font-medium">{student.userName}</td>
+                <td className="py-3 px-6 text-gray-700">{student.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -2,72 +2,67 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const VideosPage = () => {
-  const [videos, setVideos] = useState([]); // State to store the list of videos
-  const [loading, setLoading] = useState(true); // State to handle loading
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => { 
-    const fetchVideos = async () => {  
+  useEffect(() => {
+    const fetchVideos = async () => {
       try {
-        const response = await axios.get("/video/videos"); // Backend route
+        const response = await axios.get("/video/videos");
         if (!Array.isArray(response.data)) {
           console.error("Unexpected response format:", response.data);
           setLoading(false);
           return;
         }
-        console.log("Fetched videos::::", response.data); // Log the fetched videos
         setVideos(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching videos:", error);
+      } finally {
         setLoading(false);
       }
     };
-  
+
     fetchVideos();
   }, []);
 
-  useEffect(() => {
-    console.log("Videos state updated:", videos); // Log the videos state
-  }, [videos]);
-
   if (loading) {
-    return <p>Loading videos...</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-purple-200">
+        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading videos...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">Uploaded videos</h1>
-        <p className="text-gray-600 mt-2">
-          List of all uploaded videos with their details.
-        </p>
+    <div className="p-8 bg-gradient-to-br from-blue-200 to-purple-400 min-h-screen">
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">Uploaded Videos</h1>
+        <p className="text-gray-600 mt-2 text-lg">Explore all the shared video content</p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {videos.map((video) => {
-          console.log("Rendering video:", video); // Log each video being rendered
-          return (
-            <div
-  key={video._id}
-  className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
-  onClick={() => window.open(video.videoUrl, "_blank")}
->
-  <div className="h-40 bg-gray-200 flex items-center justify-center">
-    <img
-      src={video.thumbnailUrl || "https://via.placeholder.com/150"}
-      alt="thumbnail"
-    />
-  </div>
-  <div className="p-4">
-    <h3 className="font-semibold text-lg text-gray-800">{video.title}</h3>
-    <p className="text-gray-600 mt-2 text-sm">{video.description}</p>
-    <p className="text-gray-500 mt-2 text-sm">
-      Uploaded by: {video.uploader?.userName || "Unknown"}
-    </p>
-  </div>
-</div>
-          );
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {videos.map((video) => (
+          <div
+            key={video._id}
+            className="bg-white rounded-2xl shadow-xl transition-transform hover:scale-105 hover:shadow-2xl overflow-hidden cursor-pointer border border-gray-200"
+            onClick={() => window.open(video.videoUrl, "_blank")}
+          >
+            <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+              <img
+                src={video.thumbnailUrl || "https://via.placeholder.com/300x200"}
+                alt="thumbnail"
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="text-xl font-bold text-gray-800 truncate">{video.title}</h3>
+              <p className="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>
+              <p className="text-xs text-gray-500 mt-4 italic">
+                Uploaded by: <span className="font-medium">{video.uploader?.userName || "Unknown"}</span>
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

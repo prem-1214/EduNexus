@@ -12,11 +12,13 @@ import { useUser } from './context/UserContext.jsx';
 import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
 import VideosPage from "./pages/Faculty/videosPage.jsx";
 import GoogleCalendar from "./components/Schedule/Schedule.jsx";
+import CalendarPage from "./hooks/Faculty/Calander.jsx";
 
 
 // Student imports
-import StudentSidebar from "../src/components/Student/StudentSidebar.jsx";
+import StudentSidebar from "./components/Student/StudentSidebar.jsx";
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx";
+
 
 
 
@@ -88,12 +90,15 @@ function App() {
       <Route path="/total-students" element={<FacultyLayout><TotalStudents /></FacultyLayout>} />
       <Route path="/videos" element={<FacultyLayout><VideosPage /></FacultyLayout>} />
       <Route path="/upload" element={<FacultyLayout><UploadVideoPage /></FacultyLayout>} />
-      <Route path="/calender" element={<FacultyLayout><GoogleCalendar /></FacultyLayout>} />
+      {/* <Route path="/calender" element={<FacultyLayout><GoogleCalendar /></FacultyLayout>} /> */}
+      <Route path="/calender" element={<FacultyLayout><CalendarPage /></FacultyLayout>} />
 
 
 
       {/* Student Routes */}
       <Route path="/studentDashboard" element={<StudentLayout> <StudentDashboardPage /> </StudentLayout>} />
+      
+
 
 
 

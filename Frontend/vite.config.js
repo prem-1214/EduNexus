@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path'; // Import the path module
 
 export default defineConfig({
   plugins: [react()],
@@ -16,6 +17,11 @@ export default defineConfig({
     },
     port: 5173, // Optional: Specify the development server port
     historyApiFallback: true,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './srcStyle'), // Use the path module here
+    },
   },
   base: "./", // Ensures correct routing
 });
