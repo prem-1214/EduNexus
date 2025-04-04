@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["Frontend/srcStyle/*"]   
+      }
+    },
+    "include": ["Frontend/srcStyle/**/*"]
+  }
