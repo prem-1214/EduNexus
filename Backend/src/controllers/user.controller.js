@@ -72,8 +72,8 @@ const loginHandler = async (req, res) => {
                 message: "User does not exist",
             });
         }
-        const hashedPassword = await bcrypt.hash(password, 10)
-        const isPasswordValid = await bcrypt.compare(password, hashedPassword)
+        // const hashedPassword = await bcrypt.hash(password, 10)
+        const isPasswordValid = bcrypt.compare(password, user.password);
         console.log("Password is correct : ", isPasswordValid);
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);

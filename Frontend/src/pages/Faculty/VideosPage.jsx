@@ -1,43 +1,46 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { useUser } from "../../context/UserContext.jsx"
 
 const VideosPage = () => {
-  const [videos, setVideos] = useState([]); // State to store the list of videos
-  const [loading, setLoading] = useState(true); // State to handle loading
+  const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(true) 
+  const {user} = useUser()
 
   useEffect(() => { 
     const fetchVideos = async () => {  
       try {
-        const response = await axios.get("/video/videos"); // Backend route
+        console.log("user in fetch : ", user)
+        const response = await axios.get("/video/videos")
         if (!Array.isArray(response.data)) {
-          console.error("Unexpected response format:", response.data);
-          setLoading(false);
-          return;
+          console.error("Unexpected response format:", response.data)
+          setLoading(false)
+          return
         }
-        console.log("Fetched videos::::", response.data); // Log the fetched videos
-        setVideos(response.data);
-        setLoading(false);
+        console.log("Fetched videos::::", response.data)
+        setVideos(response.data)
+        setLoading(false)
       } catch (error) {
-        console.error("Error fetching videos:", error);
-        setLoading(false);
+        console.error("Error fetching videos:", error)
+        setLoading(false)
       }
     };
   
-    fetchVideos();
+    fetchVideos()
   }, []);
 
   useEffect(() => {
     console.log("Videos state updated:", videos); // Log the videos state
-  }, [videos]);
+  }, [videos])
 
   if (loading) {
-    return <p>Loading videos...</p>;
+    return <p>Loading videos...</p>
   }
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">Uploaded videos</h1>
+        <h1 className="text-4xl font-bold text-gray-800">Latest Uploaded Videos </h1>
         <p className="text-gray-600 mt-2">
           List of all uploaded videos with their details.
         </p>
@@ -61,16 +64,16 @@ const VideosPage = () => {
   <div className="p-4">
     <h3 className="font-semibold text-lg text-gray-800">{video.title}</h3>
     <p className="text-gray-600 mt-2 text-sm">{video.description}</p>
-    <p className="text-gray-500 mt-2 text-sm">
-      Uploaded by: {video.uploader?.userName || "Unknown"}
+    <p className="text-black mt-2 font-semibold text- ">
+      {video.uploader?.userName || "Unknown"}
     </p>
   </div>
 </div>
-          );
+          )
         })}
       </div>
     </div>
   );
 };
 
-export default VideosPage;
+export default VideosPage

@@ -18,13 +18,20 @@ router.post('/upload', isAuthenticated, upload.fields([
     }
 ]), videoUploadHandler);
 
-router.get('/videos', async (req, res) => {
+router.get('/videos', isAuthenticated, async (req, res) => {
     try {
-      const populatedVideo = await Video.find().populate('uploader', 'userName').sort({createdAt : -1});
-      console.log("Fetched Videos:", populatedVideo); // Log the fetched videos
-      return res.status(200).json(populatedVideo);
+      console.log("req.user:", req.user._id); // Log the user object
+      console.log("before populating video")
+      const userId = req.user._id;
+
+      const populatedVideo = await Video.find({ uploader: userId })
+                                  .populate('uploader', 'userName avatar')
+                                  .sort({ createdAt: -1 });
+      // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
+      // console.log("Fetched Videos:", populatedVideo)
+      return res.status(200).json(populatedVideo)
     } catch (error) {
-     return res.status(500).json({ message: 'Error fetching videos', error });
+     return res.status(500).json({ message: 'Error fetching videos', error })
     }
   })
 

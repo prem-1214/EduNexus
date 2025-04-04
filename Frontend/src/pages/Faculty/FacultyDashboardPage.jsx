@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { useUser } from "../../context/UserContext.jsx";
+import { useUser } from "../../context/UserContext.jsx"
 import axios from "axios"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 
 function FacultyDashboardPage() {
   const { user } = useUser();
@@ -18,7 +18,7 @@ function FacultyDashboardPage() {
       try {
         const response = await axios.get("/video/total-students", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Include token for authentication
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, 
           },
         })
         setTotalStudents(response.data.totalStudents);
@@ -26,7 +26,7 @@ function FacultyDashboardPage() {
       } catch (error) {
         console.error("Error fetching total students:", error)
       }finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false)
       }
     }
 
@@ -46,7 +46,7 @@ function FacultyDashboardPage() {
         {/* Header */}
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
-            Welcome, ......{user?.userName || "Faculty"}!
+            {user?.userName?.split('.')[0].toUpperCase() || "Faculty"}'s Dashboard
           </h1>
           <p className="text-gray-600 mt-2">
             Here you can manage your courses, assignments, and resources.
@@ -154,4 +154,4 @@ function FacultyDashboardPage() {
   );
 }
 
-export default FacultyDashboardPage;
+export default FacultyDashboardPage
