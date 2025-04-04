@@ -5,71 +5,165 @@ import Register from './pages/Register.jsx';
 // import FacultySidebar from './hooks/Faculty/FacultySidebar.jsx'
 import FacultyDashboardPage from "./pages/Faculty/FacultyDashboardPage.jsx";
 import TotalStudents from './hooks/Faculty/TotalStudents.jsx'
-import VideosPage from './pages/Faculty/VideosPage.jsx'; // Fixed casing
+import Schedule from "./components/Schedule/Schedule.jsx";
+
 import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
 import { useUser } from './context/UserContext.jsx';
 import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
+import VideosPage from "./pages/Faculty/videosPage.jsx";
+import GoogleCalendar from "./components/Schedule/Schedule.jsx";
 
-const FacultyLayout = ({ children }) => (
-  <div className="flex">
-    <FacultySidebar />
-    <div className="flex-1">{children}</div>
-  </div>
-);
 
-const ProtectedRoute = ({ children }) => {
+// Student imports
+import StudentSidebar from "../src/components/Student/StudentSidebar.jsx";
+import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx";
+
+
+
+// const FacultyLayout = ({ children }) => (
+//   <div className="flex">
+//     <FacultySidebar />
+//     <div className="flex-1 ml-64 p-4">{children}</div>
+//   </div>
+// );
+
+// const ProtectedRoute = ({ children }) => {
+//   const { user } = useUser();
+//   // return user ? children : <Navigate to="/login" />;
+//   if(!user) {
+//     return <Navigate to="/login" />;
+//   }else if(user.role !== "educator") {
+//     return <Navigate to="/login" />;
+//   }else if(user.isActive === false) {
+//     return <Navigate to="/login" />;
+//   }else if(user.role === "educator" && user.isActive === true) {
+//     return children;
+//   }
+// }
+
+
+
+
+const FacultyLayout = ({ children }) => {
   const { user } = useUser();
-  return user ? children : <Navigate to="/login" />;
+
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== "educator") return <Navigate to="/login" />;
+  if (user.isActive === false) return <Navigate to="/login" />;
+
+  return (
+    <div className="flex">
+      <FacultySidebar />
+      <div className="flex-1 ml-64 p-4">{children}</div>
+    </div>
+  );
 };
+
+const StudentLayout = ({ children }) => {
+  const { user } = useUser();
+
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== "student") return <Navigate to="/login" />;
+  if (user.isActive === false) return <Navigate to="/login" />;
+
+  return (
+    <div className="flex">
+      <StudentSidebar />
+      <div className="flex-1 ml-64 p-4">{children}</div>
+    </div>
+  );
+};
+
+
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Register />} />
       <Route path="/register" element={<Register />} />
-      <Route
-        path="/facultyDashboard"
-        element={
-          <ProtectedRoute>
-            <FacultyLayout>
-              <FacultyDashboardPage />
-            </FacultyLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/total-students"
-        element={
-          <ProtectedRoute>
-            <FacultyLayout>
-              <TotalStudents />
-            </FacultyLayout>
-          </ProtectedRoute>
-          }
-        
-      />
-      <Route
-        path="/videos"
-        element={
-          <ProtectedRoute>
-            <FacultyLayout>
-              <VideosPage />
-            </FacultyLayout>
-          </ProtectedRoute>
-          }
-      />
-      <Route
-        path="/upload"
-        element={
-          <ProtectedRoute>
-            <FacultyLayout>
-              <UploadVideoPage />
-            </FacultyLayout>
-          </ProtectedRoute>
-          }
-      />
+      <Route path="/login" element={<Login />} />
+      
+      {/* Educator Routes */}
+      <Route path="/educatorDashboard" element={<FacultyLayout><FacultyDashboardPage /></FacultyLayout>} />
+      <Route path="/total-students" element={<FacultyLayout><TotalStudents /></FacultyLayout>} />
+      <Route path="/videos" element={<FacultyLayout><VideosPage /></FacultyLayout>} />
+      <Route path="/upload" element={<FacultyLayout><UploadVideoPage /></FacultyLayout>} />
+      <Route path="/calender" element={<FacultyLayout><GoogleCalendar /></FacultyLayout>} />
+
+
+
+      {/* Student Routes */}
+      <Route path="/studentDashboard" element={<StudentLayout> <StudentDashboardPage /> </StudentLayout>} />
+
+
+
     </Routes>
   );
 }
+
+
+
+
+
+// function App() {
+//   return (
+//     <Routes>
+//       <Route path="/" element={<Register />} />
+//       <Route path="/register" element={<Register />} />
+//       <Route path="/login" element={<Login />} />
+//       <Route 
+//         path="/educatorDashboard"
+//         element={
+//           <ProtectedRoute>
+//             <FacultyLayout> 
+//               <FacultyDashboardPage />
+//             </FacultyLayout>
+//           </ProtectedRoute>
+//         }
+//       />
+//       <Route
+//         path="/total-students"
+//         element={
+//           <ProtectedRoute>
+//             <FacultyLayout>
+//               <TotalStudents />
+//             </FacultyLayout>
+//           </ProtectedRoute>
+//           }
+        
+//       />
+//       <Route
+//         path="/videos"
+//         element={
+//           <ProtectedRoute>
+//             <FacultyLayout>
+//               <VideosPage />
+//             </FacultyLayout>
+//           </ProtectedRoute>
+//           }
+//       />
+//       <Route
+//         path="/upload"
+//         element={
+//           <ProtectedRoute>
+//             <FacultyLayout>
+//               <UploadVideoPage />
+//             </FacultyLayout>
+//           </ProtectedRoute>
+//           }
+//       />
+//       <Route
+//         path="/calender"
+//         element={
+//           <ProtectedRoute>
+//             <FacultyLayout>
+//               <GoogleCalendar />
+//             </FacultyLayout>
+//           </ProtectedRoute>
+//           }
+//       />
+//     </Routes>
+//   );
+// }
 
 export default App;

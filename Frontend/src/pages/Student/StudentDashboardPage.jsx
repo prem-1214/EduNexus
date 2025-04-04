@@ -10,4 +10,4 @@ export function StudentDashboardPage() {
   )
 }
 
-// export default StudentDashboardPage 
+export default StudentDashboardPage 

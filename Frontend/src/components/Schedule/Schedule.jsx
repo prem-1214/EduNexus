@@ -1,55 +1,67 @@
-import Navbar from "../Navbar";
-import Sidebar from "../Sidebar";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { gapi } from "gapi-script";
 
-const Schedule = () => {
-  const [selectedView, setSelectedView] = useState("Monthly");
-  const events = [
-    { date: "2023-09-05", title: "Meeting", time: "11:30 - 13:00", color: "bg-yellow-200 text-yellow-700" },
-    { date: "2023-09-09", title: "Design Review", time: "10:30 - 11:00", color: "bg-red-200 text-red-700" },
-    { date: "2023-09-09", title: "Discussion", time: "10:00 - 11:00", color: "bg-purple-200 text-purple-700" },
-    { date: "2023-09-14", title: "Market Research", time: "", color: "bg-green-200 text-green-700" },
-    { date: "2023-09-19", title: "Design Review", time: "", color: "bg-red-200 text-red-700" },
-    { date: "2023-09-28", title: "Meeting", time: "", color: "bg-yellow-200 text-yellow-700" },
-  ];
+const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
+const API_KEY = "YOUR_GOOGLE_API_KEY";
+const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+
+const GoogleCalendar = () => {
+  const [events, setEvents] = useState([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    function initClient() {
+      gapi.client.init({ apiKey: VITE_API_KEY, clientId: VITE_CLIENT_ID, discoveryDocs: DISCOVERY_DOCS, scope: SCOPES })
+        .then(() => {
+          const authInstance = gapi.auth2.getAuthInstance();
+          setIsSignedIn(authInstance.isSignedIn.get());
+          authInstance.isSignedIn.listen(setIsSignedIn);
+        })
+        .catch(error => console.error("Error loading Google API: ", error));
+    }
+    gapi.load("client:auth2", initClient);
+  }, []);
+
+  const handleSignIn = () => gapi.auth2.getAuthInstance().signIn();
+  const handleSignOut = () => gapi.auth2.getAuthInstance().signOut();
+
+  const fetchEvents = () => {
+    gapi.client.calendar.events.list({ calendarId: "primary", timeMin: new Date().toISOString(), showDeleted: false, singleEvents: true, orderBy: "startTime" })
+      .then(response => setEvents(response.result.items))
+      .catch(error => console.error("Error fetching events: ", error));
+  };
+
+  const addEvent = () => {
+    const event = {
+      summary: "New Event",
+      start: { dateTime: new Date().toISOString(), timeZone: "UTC" },
+      end: { dateTime: new Date(new Date().getTime() + 60 * 60000).toISOString(), timeZone: "UTC" }
+    };
+    gapi.client.calendar.events.insert({ calendarId: "primary", resource: event })
+      .then(() => fetchEvents())
+      .catch(error => console.error("Error adding event: ", error));
+  };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 p-6 pl-20 md:pl-64 overflow-y-auto overflow-x-hidden">
-        <Navbar />
-        <h1 className="text-2xl font-bold mt-4">Calendar</h1>
-        <div className="flex space-x-4 mt-4 border-b">
-          {["Monthly", "Weekly", "Daily"].map((view) => (
-            <button
-              key={view}
-              className={`p-2 ${selectedView === view ? "border-b-2 border-blue-500 font-bold" : "text-gray-500"}`}
-              onClick={() => setSelectedView(view)}
-            >
-              {view}
-            </button>
-          ))}
+    <div className="p-4 border rounded shadow">
+      <h2 className="text-xl font-bold">Google Calendar</h2>
+      {isSignedIn ? (
+        <div>
+          <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded">Sign Out</button>
+          <button onClick={fetchEvents} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">Fetch Events</button>
+          <button onClick={addEvent} className="ml-2 px-4 py-2 bg-green-500 text-white rounded">Add Event</button>
+          <ul className="mt-4">
+            {events.map(event => (
+              <li key={event.id} className="border-b py-2">{event.summary} - {event.start.dateTime}</li>
+            ))}
+          </ul>
         </div>
-        <div className="mt-4 flex justify-between">
-          <button className="border p-2 rounded">September 2023 ▼</button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">+ Add Event</button>
-        </div>
-        <div className="mt-4 bg-white shadow rounded-lg p-4 grid grid-cols-7 gap-2">
-          {[...Array(30)].map((_, index) => {
-            const date = `2023-09-${String(index + 1).padStart(2, "0")}`;
-            return (
-              <div key={index} className="border p-2 min-h-[100px] relative">
-                <span className="text-gray-500 text-sm">{index + 1}</span>
-                {events.filter((event) => event.date === date).map((event, i) => (
-                  <div key={i} className={`mt-1 p-1 text-xs rounded ${event.color}`}>{event.title}</div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      ) : (
+        <button onClick={handleSignIn} className="px-4 py-2 bg-blue-500 text-white rounded">Sign In with Google</button>
+      )}
     </div>
   );
 };
 
-export default Schedule;
+export default GoogleCalendar;

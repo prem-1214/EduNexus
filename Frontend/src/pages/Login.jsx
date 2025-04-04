@@ -27,8 +27,8 @@ const Login = () => {
 
         if(role === 'student'){
           navigate('/studentDashboard')
-        } else if(role === 'faculty'){
-          navigate('/facultyDashboard')
+        } else if(role === 'educator'){
+          navigate('/educatorDashboard')
         }else {
           console.error("Unknown role:", role);
           setErrorMessage("Unknown role. Please contact support.");
@@ -64,8 +64,8 @@ const Login = () => {
 
         if(role === 'student'){
           navigate('/studentDashboard')
-        } else if(role === 'admin'){
-          navigate('/admin-dashboard')
+        } else if(role === 'educator'){
+          navigate('/educatorDashboard')
         }else {
           console.error("Unknown role:", role);
           setErrorMessage("Unknown role. Please contact support.");

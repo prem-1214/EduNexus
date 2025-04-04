@@ -93,7 +93,7 @@ const UploadVideoPage = () => {
 
         <button
           type="submit"
-          className="py-2 px-6 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="bg-violet-500 hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 "
         >
           Upload Video
         </button>

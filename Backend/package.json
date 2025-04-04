@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "homepage": "./",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon ./src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +19,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^3.0.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.9.6",

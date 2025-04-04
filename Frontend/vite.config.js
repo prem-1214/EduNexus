@@ -11,10 +11,11 @@ export default defineConfig({
     proxy: {
       "/auth": { target: "http://localhost:3000", changeOrigin: true },
       "/user": { target: "http://localhost:3000", changeOrigin: true },
-      "/video": { target: "http://localhost:3000", changeOrigin: true },
+      "/video": { target: "http://localhost:3000", changeOrigin: true, secure: false },
       "/faculty": { target: "http://localhost:3000", changeOrigin: true },
     },
     port: 5173, // Optional: Specify the development server port
+    historyApiFallback: true,
   },
-  base: "/", // Ensures correct routing
+  base: "./", // Ensures correct routing
 });
