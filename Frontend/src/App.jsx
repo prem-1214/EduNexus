@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom"; // Added Navigate
 import ErrorBoundary from './utils/ErrorBoundary.jsx';
 import Login from './pages/Login.jsx';
@@ -60,15 +61,22 @@ import Settings from "./components/Setting/Setting.jsx";
 
 const FacultyLayout = ({ children }) => {
   const { user } = useUser();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   if (!user) return <Navigate to="/login" />;
   if (user.role !== "educator") return <Navigate to="/login" />;
   if (user.isActive === false) return <Navigate to="/login" />;
 
   return (
-    <div className="flex">
-      <FacultySidebar />
-      <div className="flex-1 ml-64 p-4">{children}</div>
+    <div className="flex h-screen">
+      <FacultySidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isSidebarOpen ? "ml-64" : "ml-20"
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
 };
