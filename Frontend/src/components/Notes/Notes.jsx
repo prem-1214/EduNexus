@@ -1,48 +1,68 @@
 import { useState } from "react";
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
+import { FaSearch, FaStickyNote } from "react-icons/fa";
 
-const notes = [
-  { title: "Product Team Meeting", category: ["Weekly", "Product"], description: "This monthly progress agenda is following this items:", author: "Floyd Miles", date: "Mar 5 04:25" },
-  { title: "Product Team Meeting", category: ["Monthly", "Business"], description: "Some Summaries of this weeks meeting with some conclusion we get:", author: "Brooklyn Simmons", date: "Aug 15 10:29" },
-  { title: "HR Interview", category: ["Personal", "Business"], description: "This monthly progress agenda is following this items:", author: "Annette Black", date: "Jan 23 14:31" },
-  { title: "Document Images", category: ["Personal"], description: "Report Document of Weekly Meetings", author: "Cameron Williamson", date: "Dec 30 21:28" },
-  { title: "Monthly Team Progress", category: ["Monthly", "Product"], description: "This monthly progress agenda is following this items:", author: "Robert Fox", date: "Jan 31 09:53" },
+const initialNotes = [
+  {
+    id: 1,
+    title: "React Basics",
+    content: "Components, props, and state management using hooks...",
+  },
+  {
+    id: 2,
+    title: "Tailwind CSS Guide",
+    content: "Utility-first CSS framework for rapidly building UI...",
+  },
+  {
+    id: 3,
+    title: "Node.js Notes",
+    content: "Event-driven JavaScript runtime built on Chrome's V8...",
+  },
 ];
 
 const Notes = () => {
-  return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 p-6 pl-20 md:pl-64 overflow-y-auto">
-        <Navbar />
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Notes</h1>
-          <div className="flex space-x-2">
-            <button className="px-4 py-2 border rounded">Sort By</button>
-            <button className="px-4 py-2 border rounded">Filter</button>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded">+ Add Notes</button>
-          </div>
-        </div>
+  const [notes, setNotes] = useState(initialNotes);
+  const [search, setSearch] = useState("");
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {notes.map((note, index) => (
-            <div key={index} className="bg-white shadow rounded-lg p-4">
-              <div className="flex space-x-2 mb-2">
-                {note.category.map((cat, idx) => (
-                  <span key={idx} className="px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded">{cat}</span>
-                ))}
-              </div>
-              <h2 className="text-lg font-bold">{note.title}</h2>
-              <p className="text-gray-600 text-sm mt-1">{note.description}</p>
-              <div className="flex justify-between items-center mt-3 text-sm text-gray-500">
-                <span>{note.author}</span>
-                <span>{note.date}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="p-6 pt-20">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">📝 Notes</h1>
+
+      {/* Search Input */}
+      <div className="relative mb-6 max-w-md">
+        <FaSearch className="absolute top-3 left-3 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search notes..."
+          className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
+
+      {/* Notes Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        {filteredNotes.length > 0 ? (
+          filteredNotes.map((note) => <NoteCard key={note.id} {...note} />)
+        ) : (
+          <p className="text-gray-500 col-span-full">No matching notes found.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const NoteCard = ({ title, content }) => {
+  return (
+    <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-5 rounded-xl shadow-lg hover:shadow-xl transition">
+      <div className="flex items-center gap-2 mb-2">
+        <FaStickyNote className="text-xl" />
+        <h3 className="text-lg font-semibold">{title}</h3>
+      </div>
+      <p className="text-sm line-clamp-3">{content}</p>
     </div>
   );
 };

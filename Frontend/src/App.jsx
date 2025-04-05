@@ -20,6 +20,16 @@ import StudentSidebar from "./components/Student/StudentSidebar.jsx";
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx";
 
 
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import Assignments from "./components/Assignment/Assignment.jsx";
+import Classes from "./components/Classes/Classes.jsx";
+import Discussions from "./components/Discussion/Discussion.jsx";
+import Resources from "./components/Resources/Resources.jsx";
+import Notes from "./components/Notes/Notes.jsx";
+import Downloads from "./components/Download/Download.jsx";
+import Recording from "./components/Recording/Recording.jsx";
+import Courses from "./components/Courses/Courses.jsx";
+import Settings from "./components/Setting/Setting.jsx";
 
 
 // const FacultyLayout = ({ children }) => (
@@ -101,6 +111,19 @@ function App() {
 
 
 
+      <Route path="/dashboard" element={<StudentLayout> <Dashboard /> </StudentLayout>} />
+      <Route path="/assignment" element={<StudentLayout> <Assignments /> </StudentLayout>} />
+      <Route path="/schedule" element={<StudentLayout> <Schedule /> </StudentLayout>} />
+      <Route path="/classes" element={<StudentLayout> <Classes /> </StudentLayout>} />
+      <Route path="/recordings" element={<StudentLayout> <Recording /> </StudentLayout>} />
+      <Route path="/discussions" element={<StudentLayout> <Discussions /> </StudentLayout>} />
+      <Route path="/resources" element={<StudentLayout> <Resources /> </StudentLayout>} />
+      <Route path="/notes" element={<StudentLayout> <Notes /> </StudentLayout>} />
+      <Route path="/downloads" element={<StudentLayout> <Downloads /> </StudentLayout>} />
+      <Route path="/courses" element={<StudentLayout> <Courses /> </StudentLayout>} />
+      <Route path="/settings" element={<StudentLayout> <Settings /> </StudentLayout>} />
+      
+      {/* 404 Page */}  
 
     </Routes>
   );

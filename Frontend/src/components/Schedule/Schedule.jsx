@@ -1,67 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { gapi } from "gapi-script";
+import { useState } from "react";
 
-const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
-const API_KEY = "YOUR_GOOGLE_API_KEY";
-const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-const SCOPES = "https://www.googleapis.com/auth/calendar.events";
-
-const GoogleCalendar = () => {
-  const [events, setEvents] = useState([]);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-
-  useEffect(() => {
-    function initClient() {
-      gapi.client.init({ apiKey: VITE_API_KEY, clientId: VITE_CLIENT_ID, discoveryDocs: DISCOVERY_DOCS, scope: SCOPES })
-        .then(() => {
-          const authInstance = gapi.auth2.getAuthInstance();
-          setIsSignedIn(authInstance.isSignedIn.get());
-          authInstance.isSignedIn.listen(setIsSignedIn);
-        })
-        .catch(error => console.error("Error loading Google API: ", error));
-    }
-    gapi.load("client:auth2", initClient);
-  }, []);
-
-  const handleSignIn = () => gapi.auth2.getAuthInstance().signIn();
-  const handleSignOut = () => gapi.auth2.getAuthInstance().signOut();
-
-  const fetchEvents = () => {
-    gapi.client.calendar.events.list({ calendarId: "primary", timeMin: new Date().toISOString(), showDeleted: false, singleEvents: true, orderBy: "startTime" })
-      .then(response => setEvents(response.result.items))
-      .catch(error => console.error("Error fetching events: ", error));
-  };
-
-  const addEvent = () => {
-    const event = {
-      summary: "New Event",
-      start: { dateTime: new Date().toISOString(), timeZone: "UTC" },
-      end: { dateTime: new Date(new Date().getTime() + 60 * 60000).toISOString(), timeZone: "UTC" }
-    };
-    gapi.client.calendar.events.insert({ calendarId: "primary", resource: event })
-      .then(() => fetchEvents())
-      .catch(error => console.error("Error adding event: ", error));
-  };
+const Schedule = () => {
+  const [isConnected, setIsConnected] = useState(false);
 
   return (
-    <div className="p-4 border rounded shadow">
-      <h2 className="text-xl font-bold">Google Calendar</h2>
-      {isSignedIn ? (
-        <div>
-          <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded">Sign Out</button>
-          <button onClick={fetchEvents} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">Fetch Events</button>
-          <button onClick={addEvent} className="ml-2 px-4 py-2 bg-green-500 text-white rounded">Add Event</button>
-          <ul className="mt-4">
-            {events.map(event => (
-              <li key={event.id} className="border-b py-2">{event.summary} - {event.start.dateTime}</li>
-            ))}
-          </ul>
+    <div className="p-6 pt-20">
+      <h1 className="text-3xl font-bold mb-4">📆 Your Schedule</h1>
+      <p className="text-gray-600 mb-6">
+        View and manage your events using Google Calendar integration.
+      </p>
+
+      {!isConnected ? (
+        <div className="bg-gradient-to-r from-blue-200 to-blue-100 border border-blue-300 p-6 rounded-xl shadow-sm text-center">
+          <p className="text-lg font-medium mb-4">Connect your Google Calendar to get started!</p>
+          <button
+            onClick={() => setIsConnected(true)} // replace with real auth later
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Connect Calendar
+          </button>
         </div>
       ) : (
-        <button onClick={handleSignIn} className="px-4 py-2 bg-blue-500 text-white rounded">Sign In with Google</button>
+        <div className="mt-6">
+          {/* Google Calendar iFrame will appear here */}
+          <iframe
+            title="Google Calendar"
+            src="https://calendar.google.com/calendar/embed?src=your_calendar_id%40group.calendar.google.com&ctz=Asia%2FKolkata"
+            style={{ border: 0 }}
+            className="w-full h-[600px] rounded-lg shadow-lg"
+            frameBorder="0"
+            scrolling="no"
+          ></iframe>
+        </div>
       )}
     </div>
   );
 };
 
-export default GoogleCalendar;
+export default Schedule;
