@@ -1,59 +1,130 @@
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
+import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
-const recordings = [
-  { title: "Color Styles - 02", category: "Color Styles", duration: "1:30hr", lessons: 12 },
-  { title: "Design Thinking", category: "Curiosity for Terminology", duration: "2:30hr", lessons: 18 },
-  { title: "Visual Design Briefs", category: "Curiosity for Terminology", duration: "3:50hr", lessons: 31 },
-  { title: "Curiosity for Terminology", category: "Curiosity for Terminology", duration: "4:00hr", lessons: 22 },
-  { title: "Color Styles - 01", category: "Color Styles", duration: "2:30hr", lessons: 12 },
+// Dummy recordings data
+const recordingsData = [
+  {
+    id: 1,
+    title: "React Props and State – Lecture 5",
+    date: "2025-04-02",
+    course: "React",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
+  {
+    id: 2,
+    title: "MongoDB Basics – Session 3",
+    date: "2025-03-30",
+    course: "MongoDB",
+    videoUrl: "https://www.w3schools.com/html/movie.mp4",
+  },
+  {
+    id: 3,
+    title: "Tailwind Design Patterns",
+    date: "2025-03-25",
+    course: "Tailwind",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+  },
 ];
 
-const ClassRecordings = () => {
+const ITEMS_PER_PAGE = 2;
+
+const Recordings = () => {
+  const [search, setSearch] = useState("");
+  const [courseFilter, setCourseFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const filteredData = recordingsData.filter((rec) => {
+    const matchesCourse = courseFilter === "All" || rec.course === courseFilter;
+    const matchesSearch = rec.title.toLowerCase().includes(search.toLowerCase());
+    return matchesCourse && matchesSearch;
+  });
+
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 p-6 pl-20 md:pl-64 overflow-y-auto overflow-x-hidden">
-        <Navbar />
-        <h1 className="text-2xl font-bold mt-4">Class Recordings</h1>
-        <p className="text-gray-600">Access and review past class sessions</p>
-        
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {recordings.map((rec, index) => (
-            <div key={index} className="bg-white shadow-lg rounded-lg p-4">
-              <div className="text-lg font-bold">{rec.category}</div>
-              <p className="text-gray-600">{rec.title}</p>
-              <div className="flex justify-between text-sm text-gray-500 mt-2">
-                <span>{rec.duration}</span>
-                <span>{rec.lessons} Lessons</span>
-              </div>
-              <div className="mt-3 flex space-x-2">
-                <button className="px-3 py-1 bg-blue-500 text-white rounded">Watch Now</button>
-                <button className="px-3 py-1 border rounded">Download</button>
-              </div>
-            </div>
-          ))}
+    <div className="p-6 pt-20">
+      <h1 className="text-3xl font-bold mb-6">🎥 Class Recordings</h1>
+
+      {/* Search + Filter */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="relative w-full md:w-1/2">
+          <FaSearch className="absolute top-3 left-3 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search recordings..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+          />
         </div>
 
-        <div className="mt-4 flex justify-between items-center">
-          <div>
-            Show
-            <select className="border mx-2 p-1 rounded">
-              <option>2</option>
-              <option>5</option>
-              <option>10</option>
-            </select>
-            Rows
-          </div>
-          <div className="flex items-center space-x-2">
-            <button className="px-3 py-1 border rounded">Prev</button>
-            <button className="px-3 py-1 bg-blue-500 text-white rounded">1</button>
-            <button className="px-3 py-1 border rounded">Next</button>
-          </div>
-        </div>
+        <select
+          className="w-full md:w-1/3 p-2 rounded-md border shadow-sm"
+          value={courseFilter}
+          onChange={(e) => {
+            setCourseFilter(e.target.value);
+            setCurrentPage(1);
+          }}
+        >
+          <option value="All">All Courses</option>
+          <option value="React">React</option>
+          <option value="MongoDB">MongoDB</option>
+          <option value="Tailwind">Tailwind</option>
+        </select>
       </div>
+
+      {/* Recordings Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {paginatedData.length > 0 ? (
+          paginatedData.map((rec) => <RecordingCard key={rec.id} {...rec} />)
+        ) : (
+          <p className="text-gray-500 col-span-full">No recordings found.</p>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-8">
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-4 py-1 rounded border ${
+                currentPage === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-white hover:bg-blue-100"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default ClassRecordings;
+const RecordingCard = ({ title, date, videoUrl }) => (
+  <div className="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-all border-t-4 border-blue-500">
+    <h2 className="text-lg font-semibold text-gray-800 mb-1">{title}</h2>
+    <p className="text-sm text-gray-500 mb-3">Recorded on: {date}</p>
+    <video controls className="w-full rounded-md mb-3">
+      <source src={videoUrl} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <a
+      href={videoUrl}
+      download
+      className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition"
+    >
+      Download
+    </a>
+  </div>
+);
+
+export default Recordings;
