@@ -30,7 +30,7 @@ const VideosPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-purple-200">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-200 to-blue-200">
         <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading videos...</p>
       </div>
     );

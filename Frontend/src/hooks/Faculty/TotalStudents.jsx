@@ -29,7 +29,7 @@ const TotalStudents = () => {
   }
 
   return (
-    <div className="p-8 bg-gradient-to-br from-blue-200 to-purple-400 min-h-screen">
+    <div className="p-8 bg-gradient-to-br bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">Students</h1>
         <p className="text-gray-600 mt-2 text-lg">

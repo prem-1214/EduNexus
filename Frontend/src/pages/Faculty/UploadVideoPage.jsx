@@ -59,7 +59,7 @@ const UploadVideoPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-purple-400">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-200 to-blue-200">
       <Card className="w-full max-w-3xl bg-white shadow-2xl border border-gray-300 rounded-lg">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-gray-800">Upload Video</CardTitle>

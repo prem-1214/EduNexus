@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import { useUser } from "../../context/UserContext.jsx"
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useUser } from "../../context/UserContext.jsx";
 
-const VideosPage = () => {
-  const [videos, setVideos] = useState([])
-  const [loading, setLoading] = useState(true) 
-  const {user} = useUser()
-  const navigate = useNavigate();
+const UploadedVideosPage = () => {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        console.log("user in fetch : ", user)
-        const response = await axios.get("/video/uploadedVideos")
+        const response = await axios.get("/video/uploadedVideos");
         if (!Array.isArray(response.data)) {
-          console.error("Unexpected response format:", response.data)
-          setLoading(false)
-          return
+          console.error("Unexpected response format:", response.data);
+          return;
         }
         setVideos(response.data);
       } catch (error) {
@@ -30,53 +26,44 @@ const VideosPage = () => {
     fetchVideos();
   }, []);
 
-  const refreshVideos = async () => {
-    try {
-      const response = await axios.get("/video/uploadedVideos");
-      setVideos(response.data);
-    } catch (error) {
-      console.error("Error refreshing videos:", error);
-    }
-  };
-
   const handleDelete = async (videoId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this video?");
+    if (!confirmDelete) return;
+
     try {
-      const confirmDelete = window.confirm("Are you sure you want to delete this video?");
-      if (!confirmDelete) return;
-  
       await axios.delete(`/video/deleteVideo/${videoId}`);
-      setVideos((prevVideos) => prevVideos.filter((video) => video._id !== videoId));
+      setVideos((prev) => prev.filter((video) => video._id !== videoId));
       alert("Video deleted successfully!");
     } catch (error) {
       console.error("Error deleting video:", error);
-      alert("Failed to delete the video.");
+      alert("Failed to delete video.");
     }
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-purple-200">
-        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading videos...</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-violet-200 to-purple-300">
+        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading your videos...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-8 bg-gradient-to-br from-blue-200 to-purple-400 min-h-screen">
+    <div className="p-8 bg-gradient-to-br bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">Uploaded Videos</h1>
-        <p className="text-gray-600 mt-2 text-lg">Explore all the shared video content</p>
+        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-sm">Your Uploaded Videos</h1>
+        <p className="text-gray-700 mt-2 text-lg">Manage and preview your uploaded content below</p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {videos.map((video) => (
           <div
             key={video._id}
-            className="bg-white rounded-2xl shadow-xl transition-transform hover:scale-105 hover:shadow-2xl overflow-hidden cursor-pointer border border-gray-200"
+            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-transform transform hover:scale-105 overflow-hidden"
           >
             <div
-              className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden"
               onClick={() => window.open(video.videoUrl, "_blank")}
+              className="cursor-pointer h-48 bg-gray-100 flex items-center justify-center overflow-hidden"
             >
               <img
                 src={video.thumbnailUrl || "https://via.placeholder.com/300x200"}
@@ -84,16 +71,19 @@ const VideosPage = () => {
                 className="object-cover w-full h-full"
               />
             </div>
-            <div className="p-4">
-              <h3 className="text-xl font-bold text-gray-800 truncate">{video.title}</h3>
+            <div className="p-5">
+              <h3 className="text-xl font-semibold text-gray-800 truncate">{video.title}</h3>
               <p className="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>
               <p className="text-xs text-gray-500 mt-4 italic">
-                <span className="text-base text-black font-semibold">{video.uploader?.userName?.replace('.', ' ') || "Unknown"}</span>
+                Uploaded by:{" "}
+                <span className="text-base text-black font-semibold">
+                  {video.uploader?.userName?.replace(".", " ") || "Unknown"}
+                </span>
               </p>
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end mt-5">
                 <button
                   onClick={() => handleDelete(video._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  className="px-4 py-2 text-sm font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
                 >
                   Delete
                 </button>
@@ -102,8 +92,14 @@ const VideosPage = () => {
           </div>
         ))}
       </div>
+
+      {videos.length === 0 && (
+        <div className="text-center mt-20 text-gray-700 text-lg">
+          You haven't uploaded any videos yet.
+        </div>
+      )}
     </div>
   );
 };
 
-export default VideosPage
+export default UploadedVideosPage;

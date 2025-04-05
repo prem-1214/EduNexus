@@ -36,7 +36,7 @@ function FacultyDashboardPage() {
   }, [user, navigate]);
 
   return (
-    <div className="flex h-screen bg-gradient-to-r from-blue-200 to-purple-400 text-gray-900">
+    <div className="flex h-screen bg-gradient-to-br from-purple-200 to-blue-200 text-gray-900">
   <FacultySidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
   <main className="flex-1 p-8 transition-all duration-300">
