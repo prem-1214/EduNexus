@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import shadcn styles */
+@import "@shadcn/ui/dist/styles.css";
+
 @layer base {
   :root {
     --background: 0 0% 100%;

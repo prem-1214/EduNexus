@@ -14,6 +14,8 @@ export default defineConfig({
       "/user": { target: "http://localhost:3000", changeOrigin: true },
       "/video": { target: "http://localhost:3000", changeOrigin: true, secure: false },
       "/faculty": { target: "http://localhost:3000", changeOrigin: true },
+      "/file": { target: "http://localhost:3000", changeOrigin: true },
+
     },
     port: 5173, // Optional: Specify the development server port
     historyApiFallback: true,

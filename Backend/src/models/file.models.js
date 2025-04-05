@@ -5,11 +5,9 @@ const fileSchema = new Schema(
     fileName: {
       type: String,
       required: true,
-    //   unique: true,
-    }, 
+    },
     fileUrl: {
       type: String,
-    //   unique: true,
       required: true,
     },
     fileSize: {
@@ -19,7 +17,7 @@ const fileSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User", // Reference to the User model
-    //   required: true,
+      required: true, // Ensure this is required
     },
     category: {
       type: String, // Category of the file (e.g., Notes, Assignments, etc.)

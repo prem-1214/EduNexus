@@ -4,6 +4,7 @@ export default {
     content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@shadcn/ui/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
   	extend: {
@@ -56,6 +57,11 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
 

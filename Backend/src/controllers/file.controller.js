@@ -11,7 +11,13 @@ const fileUploadHandler = async (req, res) => {
 
     const filePath = req.file.path;
 
-    console.log("req.user in file controller", req.user)
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+    if (!allowedTypes.includes(req.file.mimetype)) {
+      return res.status(400).json({ message: "Invalid file type" });
+    }
+
+    console.log("req.user in file controller", req.user);
 
     // Upload the file to Cloudinary
     const uploadedFile = await uploadOnCloudinary(filePath);
@@ -20,7 +26,7 @@ const fileUploadHandler = async (req, res) => {
       return res.status(500).json({ message: "Cloudinary upload failed" });
     }
 
-    console.log("req.user in file upload:", req.user)
+    console.log("req.user in file upload:", req.user);
 
     // Save file details to the database
     const newFile = new File({
@@ -29,14 +35,14 @@ const fileUploadHandler = async (req, res) => {
       fileSize: req.file.size,
       owner: req.user, // Use the authenticated user's ID as the owner
       category,
-      description, 
+      description,
     });
 
     await newFile.save();
     res.status(201).json({ message: "File uploaded successfully!", file: newFile });
   } catch (error) {
     console.error("File Upload Error:", error);
-    res.status(500).json({ message: "File upload failed", error });
+    res.status(500).json({ message: "File upload failed", error: error.message });
   }
 };
 

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useUser } from "../../context/UserContext.jsx"
-import { useNavigate } from "react-router-dom";
 
 const VideosPage = () => {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true) 
   const {user} = useUser()
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         console.log("user in fetch : ", user)
-        const response = await axios.get("/video/uploadedVideos")
+        const response = await axios.get("/video/exploreVideos")
         if (!Array.isArray(response.data)) {
           console.error("Unexpected response format:", response.data)
           setLoading(false)
@@ -29,29 +27,6 @@ const VideosPage = () => {
 
     fetchVideos();
   }, []);
-
-  const refreshVideos = async () => {
-    try {
-      const response = await axios.get("/video/uploadedVideos");
-      setVideos(response.data);
-    } catch (error) {
-      console.error("Error refreshing videos:", error);
-    }
-  };
-
-  const handleDelete = async (videoId) => {
-    try {
-      const confirmDelete = window.confirm("Are you sure you want to delete this video?");
-      if (!confirmDelete) return;
-  
-      await axios.delete(`/video/deleteVideo/${videoId}`);
-      setVideos((prevVideos) => prevVideos.filter((video) => video._id !== videoId));
-      alert("Video deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting video:", error);
-      alert("Failed to delete the video.");
-    }
-  };
 
   if (loading) {
     return (
@@ -73,11 +48,9 @@ const VideosPage = () => {
           <div
             key={video._id}
             className="bg-white rounded-2xl shadow-xl transition-transform hover:scale-105 hover:shadow-2xl overflow-hidden cursor-pointer border border-gray-200"
+            onClick={() => window.open(video.videoUrl, "_blank")}
           >
-            <div
-              className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden"
-              onClick={() => window.open(video.videoUrl, "_blank")}
-            >
+            <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
               <img
                 src={video.thumbnailUrl || "https://via.placeholder.com/300x200"}
                 alt="thumbnail"
@@ -88,16 +61,8 @@ const VideosPage = () => {
               <h3 className="text-xl font-bold text-gray-800 truncate">{video.title}</h3>
               <p className="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>
               <p className="text-xs text-gray-500 mt-4 italic">
-                <span className="text-base text-black font-semibold">{video.uploader?.userName?.replace('.', ' ') || "Unknown"}</span>
+                <span className="font-lg text-black font-semibold">{video.uploader?.userName?.replace('.', ' ') || "Unknown"}</span>
               </p>
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={() => handleDelete(video._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                >
-                  Delete
-                </button>
-              </div>
             </div>
           </div>
         ))}

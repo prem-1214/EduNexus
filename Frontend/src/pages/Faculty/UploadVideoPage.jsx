@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "../../../srcStyle/components/ui/card.jsx";
 import { Button } from "../../../srcStyle/components/ui/button.jsx";
 import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx";
 import { UploadCloud, Video, Image } from "lucide-react";
 
 const UploadVideoPage = () => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [video, setVideo] = useState(null);
@@ -13,31 +16,36 @@ const UploadVideoPage = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleUpload = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!video) {
-      setMessage("Please select a video file to upload.");
-      return;
-    }
-
     setLoading(true);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("video", video);
-    formData.append("thumbnail", thumbnail);
 
     try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      if (video) formData.append("video", video);
+      if (thumbnail) formData.append("thumbnail", thumbnail);
+
+      console.log("Submitting form data:", {
+        title,
+        description,
+        video: video ? video.name : null,
+        thumbnail: thumbnail ? thumbnail.name : null,
+      });
+
       const response = await axios.post("/video/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log("Upload response:", response.data);
+
       setMessage(response.data.message);
+      navigate("/uploadedVideos"); // Redirect back to the videos page
     } catch (error) {
-      console.error("Error uploading video:", error);
-      setMessage("Error uploading video.");
+      console.error("Error submitting video:", error);
+      setMessage("Error submitting video.");
     } finally {
       setLoading(false);
     }
@@ -45,6 +53,7 @@ const UploadVideoPage = () => {
 
   const handleFileSelect = (e, type) => {
     const file = e.target.files[0];
+    console.log(`Selected ${type} file:`, file);
     if (type === "video") setVideo(file);
     else if (type === "thumbnail") setThumbnail(file);
   };
@@ -58,7 +67,7 @@ const UploadVideoPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleUpload} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title & Description */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -102,9 +111,10 @@ const UploadVideoPage = () => {
               </label>
             </div>
 
-            {/* Upload Button */}
+            {/* Submit Button */}
             <Button type="submit" className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-purple-600 hover:to-violet-500 text-white text-lg py-3 rounded-lg shadow-md hover:shadow-xl transition-all duration-300" disabled={loading}>
-              {loading ? <Skeleton className="h-6 w-24" /> : <UploadCloud className="inline-block w-5 h-5 mr-2" />} Upload Video
+              {loading ? <Skeleton className="h-6 w-24" /> : <UploadCloud className="inline-block w-5 h-5 mr-2" />}
+              Upload Video
             </Button>
           </form>
 

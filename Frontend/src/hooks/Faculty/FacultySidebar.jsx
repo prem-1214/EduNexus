@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Changed Link to NavLink
 import { useUser } from "../../context/UserContext.jsx";
 import Logout from "../../components/Logout/Logout.jsx";
-import { Menu, Video, Calendar, Users, LogOut, Upload } from "lucide-react";
+import { Menu, Video, Calendar, Users, LogOut, Upload, Compass } from "lucide-react";
+import UploadFilePage from "../../pages/Faculty/UploadFilePage.jsx";
 
 function FacultySidebar() {
   const { user } = useUser();
@@ -12,7 +13,7 @@ function FacultySidebar() {
       {/* Profile Section */}
       <div className="flex items-center space-x-3 p-4 border-b border-violet-600">
         <img
-          src={user?.profilePic || "https://via.placeholder.com/40"}
+          src={user?.avatar || "https://res.cloudinary.com/darbhv6uv/image/upload/v1743795575/EduNexus/logos/g4phi7lpzxj8hfshian4.png"}
           alt="Profile"
           className="w-10 h-10 rounded-full border-2 border-white"
         />
@@ -24,7 +25,9 @@ function FacultySidebar() {
         <ul className="space-y-3">
           <SidebarLink to="/educatorDashboard" icon={<Menu />} text="Dashboard" />
           <SidebarLink to="/upload" icon={<Upload />} text="Upload Video" />
-          <SidebarLink to="/videos" icon={<Video />} text="Uploaded Videos" />
+          <SidebarLink to="/uploadFiles" icon={<Upload />} text="Upload Files" />
+          <SidebarLink to="/uploadedVideos" icon={<Video />} text="Uploaded Videos" />
+          <SidebarLink to="/exploreVideos" icon={<Compass />} text="Explore Videos" />
           <SidebarLink to="/Calender" icon={<Calendar />} text="Calendar" />
           <SidebarLink to="/total-students" icon={<Users />} text="Students" />
         </ul>
@@ -47,13 +50,17 @@ function FacultySidebar() {
 function SidebarLink({ to, icon, text }) {
   return (
     <li>
-      <Link
+      <NavLink
         to={to}
-        className="flex items-center space-x-3 py-2 px-4 rounded hover:bg-violet-800 transition"
+        className={({ isActive }) =>
+          `flex items-center space-x-3 py-2 px-4 rounded transition ${
+            isActive ? "bg-violet-700" : "hover:bg-violet-900"
+          }`
+        }
       >
         {icon}
         <span className="text-sm font-medium">{text}</span>
-      </Link>
+      </NavLink>
     </li>
   );
 }

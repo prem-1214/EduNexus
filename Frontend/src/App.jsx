@@ -7,6 +7,8 @@ import FacultyDashboardPage from "./pages/Faculty/FacultyDashboardPage.jsx";
 import TotalStudents from './hooks/Faculty/TotalStudents.jsx'
 import Schedule from "./components/Schedule/Schedule.jsx";
 
+import ExploreVideosPage from './pages/Faculty/ExploreVideosPage.jsx';
+
 import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
 import { useUser } from './context/UserContext.jsx';
 import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
@@ -18,6 +20,7 @@ import CalendarPage from "./hooks/Faculty/Calander.jsx";
 // Student imports
 import StudentSidebar from "./components/Student/StudentSidebar.jsx";
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx";
+import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx";
 
 
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
@@ -98,10 +101,20 @@ function App() {
       {/* Educator Routes */}
       <Route path="/educatorDashboard" element={<FacultyLayout><FacultyDashboardPage /></FacultyLayout>} />
       <Route path="/total-students" element={<FacultyLayout><TotalStudents /></FacultyLayout>} />
-      <Route path="/videos" element={<FacultyLayout><VideosPage /></FacultyLayout>} />
       <Route path="/upload" element={<FacultyLayout><UploadVideoPage /></FacultyLayout>} />
+      <Route path="/uploadFiles" element={<FacultyLayout><UploadFilePage /></FacultyLayout>} />
+      <Route path="/uploadedVideos" element={<FacultyLayout><VideosPage /></FacultyLayout>} />
+      <Route path="/exploreVideos" element={<FacultyLayout><ExploreVideosPage /></FacultyLayout>} />
       {/* <Route path="/calender" element={<FacultyLayout><GoogleCalendar /></FacultyLayout>} /> */}
       <Route path="/calender" element={<FacultyLayout><CalendarPage /></FacultyLayout>} />
+      <Route
+        path="/editVideo/:videoId"
+        element={
+          <FacultyLayout>
+            <UploadVideoPage />
+          </FacultyLayout>
+        }
+      />
 
 
 
