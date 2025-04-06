@@ -12,9 +12,21 @@ router.post("/upload", isAuthenticated, upload.single("file"), fileUploadHandler
 router.get("/my-files", isAuthenticated, async (req, res) => {
   try {
     const userId = req.user._id;
-    const userFiles = await File.find({ owner: userId }).sort({ createdAt: -1 });
+    const userFiles = await File.find({ owner: userId }).populate('owner', 'userName avatar').sort({ createdAt: -1 });
     console.log("userFiles in get my files", userFiles);
-    res.status(200).json(userFiles);
+
+    const formattedFiles = userFiles.map((file) => ({
+      ...file.toObject(),
+      uploadedAtFormatted: new Date(file.uploadedAt).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    }));
+
+    res.status(200).json(formattedFiles);
   } catch (err) {
     console.error("Error fetching files:", err); // Add detailed logging
     res.status(500).json({ message: "Error fetching files", error: err.message });

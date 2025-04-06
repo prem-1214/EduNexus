@@ -14,6 +14,7 @@ import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
 import { useUser } from './context/UserContext.jsx';
 import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
 import VideosPage from "./pages/Faculty/videosPage.jsx";
+import FilesPage from "./pages/Faculty/FilesPage.jsx";
 import CalendarPage from "./hooks/Faculty/Calander.jsx";
 
 
@@ -108,17 +109,12 @@ function App() {
       <Route path="/total-students" element={<FacultyLayout><TotalStudents /></FacultyLayout>} />
       <Route path="/upload" element={<FacultyLayout><UploadVideoPage /></FacultyLayout>} />
       <Route path="/uploadFiles" element={<FacultyLayout><UploadFilePage /></FacultyLayout>} />
+      <Route path="/my-files" element={<FacultyLayout> <FilesPage/> </FacultyLayout>} />
       <Route path="/uploadedVideos" element={<FacultyLayout><VideosPage /></FacultyLayout>} />
       <Route path="/exploreVideos" element={<FacultyLayout><ExploreVideosPage /></FacultyLayout>} />
       <Route path="/calender" element={<FacultyLayout><CalendarPage /></FacultyLayout>} />
-      <Route
-        path="/editVideo/:videoId"
-        element={
-          <FacultyLayout>
-            <UploadVideoPage />
-          </FacultyLayout>
-        }
-      />
+      <Route path="/editVideo/:videoId" element={<FacultyLayout> <UploadVideoPage /> </FacultyLayout>}/>
+      
 
 
 

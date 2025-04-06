@@ -33,7 +33,7 @@ const fileUploadHandler = async (req, res) => {
       fileName,
       fileUrl: uploadedFile?.secure_url || "",
       fileSize: req.file.size,
-      owner: req.user, // Use the authenticated user's ID as the owner
+      owner: req.user, 
       category,
       description,
     });

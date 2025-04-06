@@ -1,37 +1,46 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const FileUploadPage = () => {
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Notes");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState("")
+  const [description, setDescription] = useState("")
+  const [category, setCategory] = useState("Notes")
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
 
-  const fetchFiles = async () => {
-    try {
-      const response = await axios.get("/file/my-files", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
-      setUploadedFiles(response.data);
-    } catch (err) {
-      console.error("Error fetching files:", err);
-    }
-  };
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    fetchFiles();
-  }, []);
+  // const fetchFiles = async () => {
+  //   try {
+  //     const response = await axios.get("/file/my-files", {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //       },
+  //     })
+  //     setUploadedFiles(response.data)
+  //     setError("") 
+  //     setSuccess("Files fetched successfully.")
+  //   } catch (err) {
+  //     console.error("Error fetching files:", err)
+  //     setError("Failed to fetch files. Please try again later.")
+  //     setSuccess("")
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   fetchFiles()
+  // }, [])
 
   const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    formData.append("description", description);
-    formData.append("category", category);
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("fileName", fileName)
+    formData.append("description", description)
+    formData.append("category", category)
 
     try {
       await axios.post("/file/upload", formData, {
@@ -39,15 +48,22 @@ const FileUploadPage = () => {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      });
+      })
+      
+      setFile(null)
+      setFileName("")
+      setDescription("")
+      setCategory("Notes")
 
-      setFile(null);
-      setFileName("");
-      setDescription("");
-      setCategory("Notes");
-      fetchFiles();
+      setError("")
+      setSuccess("File uploaded successfully.")
+
+      navigate("/my-files")
+
     } catch (err) {
-      console.error("Upload failed:", err);
+      console.error("Upload failed:", err)
+      setError("File upload failed. Please try again.")
+      setSuccess("")
     }
   };
 
@@ -112,38 +128,11 @@ const FileUploadPage = () => {
             Upload File
           </button>
         </form>
+          {error && <p className="font-medium text-red-500 text-center mt-4">{error}</p>}
+          {success && <p className="text-green-500 text-center mt-4">{success}</p>}
       </div>
 
-      {/* Uploaded Files Section */}
-      <div className="max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">📁 My Uploaded Files</h3>
-
-        {uploadedFiles.length === 0 ? (
-          <p className="text-center text-gray-600">You haven't uploaded any files yet.</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {uploadedFiles.map((file) => (
-              <div
-                key={file._id}
-                className="bg-white border border-gray-200 rounded-xl p-5 shadow hover:shadow-lg transition"
-              >
-                <a
-                  href={file.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-blue-600 font-bold text-lg truncate hover:underline"
-                >
-                  Name: {file.fileName}
-                </a>
-                <p className="mt-2 text-sm text-gray-700">
-                  <span className="font-semibold">Description:</span> {file.description}
-                </p>
-                <p className="mt-2 text-xs text-gray-500 italic">Category: {file.category}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+     
     </div>
   );
 };

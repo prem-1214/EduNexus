@@ -9,6 +9,7 @@ import {
   Users,
   LogOut,
   FileUp,
+  File,
   Upload,
   Compass,
   Sun,
@@ -65,6 +66,7 @@ function FacultySidebar({ isOpen, setIsOpen }) {
           <SidebarLink to="/educatorDashboard" icon={<Menu size={22} />} text="Dashboard" isOpen={isOpen} />
           <SidebarLink to="/upload" icon={<Upload size={22} />} text="Upload Video" isOpen={isOpen} />
           <SidebarLink to="/uploadFiles" icon={<FileUp size={22} />} text="Upload Files" isOpen={isOpen} />
+          <SidebarLink to="/my-files" icon={<File size={22} />} text="My Files" isOpen={isOpen} />
           <SidebarLink to="/uploadedVideos" icon={<Video size={22} />} text="Uploaded Videos" isOpen={isOpen} />
           <SidebarLink to="/exploreVideos" icon={<Compass size={22} />} text="Explore Videos" isOpen={isOpen} />
           <SidebarLink to="/Calender" icon={<Calendar size={22} />} text="Calendar" isOpen={isOpen} />
