@@ -2,39 +2,39 @@ import mongoose, { Schema } from "mongoose";
 
 const fileSchema = new Schema(
   {
-    fileName: {
-      type: String,
-      required: true,
-    },
-    fileUrl: {
-      type: String,
-      required: true,
-    },
-    fileSize: {
-      type: Number, // File size in bytes
-      required: true,
-    },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "User", // Reference to the User model
-      required: true, // Ensure this is required
-    },
+    fileName: { type: String, required: true },
+    fileUrl: { type: String, required: true },
+    fileSize: { type: Number, required: true },
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     category: {
-      type: String, // Category of the file (e.g., Notes, Assignments, etc.)
-      enum: ["Notes", "Assignments", "Resources", "Others"], // Predefined categories
+      type: String,
+      enum: ["Notes", "Assignments", "Resources", "Others"],
       default: "Others",
     },
-    description: {
-      type: String, // Optional description of the file
-      maxlength: 500,
+    description: { type: String, maxlength: 500 },
+    program: {
+      type: String,
+      enum: ["B.Tech", "B.Sc", "BBA", "BCA", "Other"],
+      required: true,
     },
-    uploadedAt: {
-      type: Date, // Timestamp for when the file was uploaded
-      default: Date.now,
+    branch: {
+      type: String,
+      required: true,
     },
+    semester: {
+      type: Number,
+      min: 1,
+      max: 8,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+    uploadedAt: { type: Date, default: Date.now },
   },
   {
-    timestamps: true, // Automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true,
   }
 );
 

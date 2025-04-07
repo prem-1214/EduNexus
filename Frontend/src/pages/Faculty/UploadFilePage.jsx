@@ -7,32 +7,22 @@ const FileUploadPage = () => {
   const [fileName, setFileName] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("Notes")
-  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [program, setProgram] = useState("B.Tech")
+  const [branch, setBranch] = useState("")
+  const [semester, setSemester] = useState(1)
+  const [subject, setSubject] = useState("")
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
 
   const navigate = useNavigate()
 
-  // const fetchFiles = async () => {
-  //   try {
-  //     const response = await axios.get("/file/my-files", {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //       },
-  //     })
-  //     setUploadedFiles(response.data)
-  //     setError("") 
-  //     setSuccess("Files fetched successfully.")
-  //   } catch (err) {
-  //     console.error("Error fetching files:", err)
-  //     setError("Failed to fetch files. Please try again later.")
-  //     setSuccess("")
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchFiles()
-  // }, [])
+  const branchesByProgram = {
+    "B.Tech": ["CSE", "ECE", "EEE", "ME", "CE"],
+    "B.Sc": ["Physics", "Chemistry", "Maths"],
+    "BCA": ["General"],
+    "BBA": ["General"],
+    "Other": ["General"]
+  }
 
   const handleUpload = async (e) => {
     e.preventDefault()
@@ -41,6 +31,10 @@ const FileUploadPage = () => {
     formData.append("fileName", fileName)
     formData.append("description", description)
     formData.append("category", category)
+    formData.append("program", program)
+    formData.append("branch", branch)
+    formData.append("semester", semester)
+    formData.append("subject", subject)
 
     try {
       await axios.post("/file/upload", formData, {
@@ -49,31 +43,32 @@ const FileUploadPage = () => {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
-      
+
       setFile(null)
       setFileName("")
       setDescription("")
       setCategory("Notes")
-
+      setProgram("B.Tech")
+      setBranch("")
+      setSemester(1)
+      setSubject("")
       setError("")
       setSuccess("File uploaded successfully.")
-
       navigate("/my-files")
-
     } catch (err) {
       console.error("Upload failed:", err)
       setError("File upload failed. Please try again.")
       setSuccess("")
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-200 p-6 sm:p-10">
-      {/* Upload Form */}
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-md mb-10">
         <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">📤 Upload a File</h2>
 
         <form onSubmit={handleUpload} className="space-y-6">
+          {/* File */}
           <div>
             <label className="block font-semibold text-gray-700 mb-1">Choose File</label>
             <input
@@ -84,11 +79,11 @@ const FileUploadPage = () => {
             />
           </div>
 
+          {/* File Name */}
           <div>
             <label className="block font-semibold text-gray-700 mb-1">File Name</label>
             <input
               type="text"
-              placeholder="Enter file name"
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               required
@@ -96,10 +91,10 @@ const FileUploadPage = () => {
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block font-semibold text-gray-700 mb-1">Description</label>
             <textarea
-              placeholder="Describe the file..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
@@ -107,6 +102,7 @@ const FileUploadPage = () => {
             />
           </div>
 
+          {/* Category */}
           <div>
             <label className="block font-semibold text-gray-700 mb-1">Category</label>
             <select
@@ -121,6 +117,67 @@ const FileUploadPage = () => {
             </select>
           </div>
 
+          {/* Program */}
+          <div>
+            <label className="block font-semibold text-gray-700 mb-1">Program</label>
+            <select
+              value={program}
+              onChange={(e) => {
+                setProgram(e.target.value)
+                setBranch("") // reset branch on program change
+              }}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-50"
+            >
+              {Object.keys(branchesByProgram).map((prog) => (
+                <option key={prog} value={prog}>{prog}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Branch */}
+          <div>
+            <label className="block font-semibold text-gray-700 mb-1">Branch</label>
+            <select
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-50"
+              required
+            >
+              <option value="">-- Select Branch --</option>
+              {branchesByProgram[program].map((br) => (
+                <option key={br} value={br}>{br}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Semester */}
+          <div>
+            <label className="block font-semibold text-gray-700 mb-1">Semester</label>
+            <select
+              value={semester}
+              onChange={(e) => setSemester(parseInt(e.target.value))}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-50"
+            >
+              {Array.from({ length: 8 }, (_, i) => (
+                <option key={i + 1} value={i + 1}>Semester {i + 1}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Subject */}
+          <div>
+            <label className="block font-semibold text-gray-700 mb-1">Subject</label>
+            <input
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Enter subject"
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-50"
+            />
+          </div>
+
+          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
@@ -128,13 +185,12 @@ const FileUploadPage = () => {
             Upload File
           </button>
         </form>
-          {error && <p className="font-medium text-red-500 text-center mt-4">{error}</p>}
-          {success && <p className="text-green-500 text-center mt-4">{success}</p>}
+
+        {error && <p className="font-medium text-red-500 text-center mt-4">{error}</p>}
+        {success && <p className="text-green-500 text-center mt-4">{success}</p>}
       </div>
-
-     
     </div>
-  );
-};
+  )
+}
 
-export default FileUploadPage;
+export default FileUploadPage

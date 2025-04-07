@@ -36,6 +36,10 @@ const fileUploadHandler = async (req, res) => {
       owner: req.user, 
       category,
       description,
+      program : req.body.program,
+      branch : req.body.branch,
+      semester : req.body.semester,
+      subject : req.body.subject,
     });
 
     await newFile.save();

@@ -8,12 +8,12 @@ import FacultyDashboardPage from "./pages/Faculty/FacultyDashboardPage.jsx";
 import TotalStudents from './hooks/Faculty/TotalStudents.jsx'
 import Schedule from "./components/Schedule/Schedule.jsx";
 
-import ExploreVideosPage from './pages/Faculty/ExploreVideosPage.jsx';
+import ExploreVideosPage from './pages/ExploreVideosPage.jsx';
 
 import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
 import { useUser } from './context/UserContext.jsx';
 import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
-import VideosPage from "./pages/Faculty/videosPage.jsx";
+import VideosPage from "./pages/Faculty/VideosPage.jsx";
 import FilesPage from "./pages/Faculty/FilesPage.jsx";
 import CalendarPage from "./hooks/Faculty/Calander.jsx";
 
@@ -31,7 +31,7 @@ import Discussions from "./components/Discussion/Discussion.jsx";
 import Resources from "./components/Resources/Resources.jsx";
 import Notes from "./components/Notes/Notes.jsx";
 import Downloads from "./components/Download/Download.jsx";
-import Recording from "./components/Recording/Recording.jsx";
+import Recording from "./pages/Student/Recording.jsx";
 import Courses from "./components/Courses/Courses.jsx";
 import Settings from "./components/Setting/Setting.jsx";
 
@@ -120,7 +120,7 @@ function App() {
 
       {/* Student Routes */}
       <Route path="/studentDashboard" element={<StudentLayout> <StudentDashboardPage /> </StudentLayout>} />
-      
+      <Route path="/exploreVideos" element={<StudentLayout><ExploreVideosPage /></StudentLayout>} />
 
 
 

@@ -1,5 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose'
-import User from './user.model.js';
+import mongoose, { Schema, model } from 'mongoose';
 
 const videoSchema = new Schema({
   title: {
@@ -7,32 +6,30 @@ const videoSchema = new Schema({
     required: true,
     trim: true,
   },
-  description: {
-    type: String,
-    // required: true,
-  },
-  videoUrl: {
-    type: String,  
-    // required: true,
-  },
-  thumbnailUrl: {
-    type: String,
-    // required: true,
-  },
+  description: String,
+  videoUrl: String,
+  thumbnailUrl: String,
   uploader: {
-    type: mongoose.Schema.Types.ObjectId, // from User model
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    // required: true, // Ensure uploader is mandatory
   },
   category: {
     type: String,
     enum: ['sub1', 'sub2', 'sub3', 'sub4'],
-    // required: true,
   },
-  duration: {
-    type: Number, // time in seconds
-    // required: true,
+  program: {
+    type: String,
   },
+  branch: {
+    type: String,
+  },
+  semester: {
+    type: String,
+  },
+  subject: {
+    type: String,
+  },
+  duration: Number,
   views: {
     type: Number,
     default: 0,
@@ -44,7 +41,7 @@ const videoSchema = new Schema({
   comments: [
     {
       user: {
-        type: Schema.Types.ObjectId, // from User model
+        type: Schema.Types.ObjectId,
         ref: 'User',
       },
       text: {
@@ -63,6 +60,6 @@ const videoSchema = new Schema({
   },
 });
 
-const Video = model('Video', videoSchema)
+const Video = model('Video', videoSchema);
 
-export default Video
+export default Video;

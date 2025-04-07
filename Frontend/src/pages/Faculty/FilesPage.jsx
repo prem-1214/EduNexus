@@ -54,8 +54,12 @@ const FilesPage = () => {
               <th className="border px-4 py-2">File Name</th>
               <th className="border px-4 py-2">Description</th>
               <th className="border px-4 py-2">Category</th>
+              <th className="border px-4 py-2">Program</th>
+              <th className="border px-4 py-2">Branch</th>
+              <th className="border px-4 py-2">Semester</th>
+              <th className="border px-4 py-2">Subject</th>
+              <th className="border px-4 py-2">Uploaded</th>
               <th className="border px-4 py-2">Actions</th>
-              <th className="border px-4 py-2">Upload Time</th>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +68,11 @@ const FilesPage = () => {
                 <td className="border px-4 py-2">{file.fileName}</td>
                 <td className="border px-4 py-2">{file.description}</td>
                 <td className="border px-4 py-2">{file.category}</td>
+                <td className="border px-4 py-2">{file.program}</td>
+                <td className="border px-4 py-2">{file.branch}</td>
+                <td className="border px-4 py-2">{file.semester}</td>
+                <td className="border px-4 py-2">{file.subject}</td>
+                <td className="border px-4 py-2">{file.uploadedAtFormatted || "N/A"}</td>
                 <td className="border px-4 py-2">
                   <a
                     href={file.fileUrl}
@@ -74,7 +83,6 @@ const FilesPage = () => {
                     Download
                   </a>
                 </td>
-                <td className="border px-4 py-2">{file.uploadedAtFormatted}</td>
               </tr>
             ))}
           </tbody>
@@ -87,16 +95,18 @@ const FilesPage = () => {
               key={file._id}
               className="border rounded-lg p-4 bg-white shadow-md"
             >
-              <h2 className="text-lg font-bold text-blue-700">
-                {file.fileName}
-              </h2>
+              <h2 className="text-lg font-bold text-blue-700">{file.fileName}</h2>
               <p className="text-sm text-gray-700 mt-1">
                 {file.description || "No description"}
               </p>
-              <p className="text-xs text-gray-500 italic mt-1">
-                Category: {file.category}
-                {file.userName}
-              </p>
+              <div className="text-xs text-gray-600 mt-2 space-y-1">
+                <p><strong>Category:</strong> {file.category}</p>
+                <p><strong>Program:</strong> {file.program}</p>
+                <p><strong>Branch:</strong> {file.branch}</p>
+                <p><strong>Semester:</strong> {file.semester}</p>
+                <p><strong>Subject:</strong> {file.subject}</p>
+                <p><strong>Uploaded:</strong> {file.uploadedAtFormatted || "N/A"}</p>
+              </div>
               <a
                 href={file.fileUrl}
                 target="_blank"

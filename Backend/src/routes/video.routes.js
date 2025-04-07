@@ -29,7 +29,20 @@ router.get('/uploadedVideos', isAuthenticated, async (req, res) => {
                                   .sort({ createdAt: -1 });
       // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
       // console.log("Fetched Videos:", populatedVideo)
-      return res.status(200).json(populatedVideo)
+
+      const formattedVideo = populatedVideo.map((file) => ({
+        ...file.toObject(),
+        uploadedAtFormatted: new Date(file.createdAt).toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      }));
+
+      console.log("Formatted Videos:", formattedVideo)
+      return res.status(200).json(formattedVideo)
     } catch (error) {
      return res.status(500).json({ message: 'Error fetching videos', error })
     }
@@ -47,7 +60,22 @@ router.get('/exploreVideos', isAuthenticated, async (req, res) => {
       //                             .sort({ createdAt: -1 });
       const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
       console.log("Fetched Videos:", populatedVideo)
-      return res.status(200).json(populatedVideo)
+
+      const formattedVideo = populatedVideo.map((file) => ({
+        ...file.toObject(),
+        uploadedAtFormatted: new Date(file.createdAt).toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      }));
+
+      console.log("Formatted Videos:", formattedVideo)
+
+
+      return res.status(200).json(formattedVideo)
     } catch (error) {
      return res.status(500).json({ message: 'Error fetching videos', error })
     }

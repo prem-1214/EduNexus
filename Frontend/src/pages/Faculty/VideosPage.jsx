@@ -49,7 +49,7 @@ const UploadedVideosPage = () => {
   }
 
   return (
-    <div className="p-8 bg-gradient-to-br bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
+    <div className="p-8 bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-sm">Your Uploaded Videos</h1>
         <p className="text-gray-700 mt-2 text-lg">Manage and preview your uploaded content below</p>
@@ -74,12 +74,24 @@ const UploadedVideosPage = () => {
             <div className="p-5">
               <h3 className="text-xl font-semibold text-gray-800 truncate">{video.title}</h3>
               <p className="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>
+
+              <div className="mt-4 space-y-1 text-sm text-gray-600">
+                <p><strong>Program:</strong> {video.program || "N/A"}</p>
+                <p><strong>Branch:</strong> {video.branch || "N/A"}</p>
+                <p><strong>Semester:</strong> {video.semester || "N/A"}</p>
+                <p><strong>Subject:</strong> {video.subject || "N/A"}</p>
+              </div>
+
               <p className="text-xs text-gray-500 mt-4 italic">
                 Uploaded by:{" "}
                 <span className="text-base text-black font-semibold">
                   {video.uploader?.userName?.replace(".", " ") || "Unknown"}
                 </span>
               </p>
+              <p className="text-xs text-gray-500 italic">
+                {video.uploadedAtFormatted || "Unknown"}
+              </p>
+
               <div className="flex justify-end mt-5">
                 <button
                   onClick={() => handleDelete(video._id)}
