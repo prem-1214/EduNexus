@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext.jsx";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../srcStyle/components/ui/card.jsx";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../srcStyle/components/ui/card.jsx";
 import { Button } from "../../../srcStyle/components/ui/button.jsx";
 import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx";
 
@@ -42,7 +47,8 @@ function FacultyDashboardPage() {
       >
         <header className="p-6">
           <h1 className="text-4xl font-extrabold">
-            Welcome, {user?.userName?.replace(".", " ").toUpperCase() || "Faculty"}!
+            Welcome,{" "}
+            {user?.userName?.replace(".", " ").toUpperCase() || "Faculty"}!
           </h1>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
             Manage your courses, assignments, and students.
@@ -59,7 +65,9 @@ function FacultyDashboardPage() {
                 {loading ? (
                   <Skeleton className="h-10 w-full" />
                 ) : (
-                  <p className="text-5xl font-bold text-blue-600 dark:text-blue-400">{totalStudents}</p>
+                  <p className="text-5xl font-bold text-blue-600 dark:text-blue-400">
+                    {totalStudents}
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -70,7 +78,9 @@ function FacultyDashboardPage() {
               <CardTitle>Manage Courses</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 dark:text-gray-300">Edit and update your course materials.</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Edit and update your course materials.
+              </p>
               <Button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white dark:bg-blue-600 dark:hover:bg-blue-700">
                 View Courses
               </Button>
@@ -82,7 +92,9 @@ function FacultyDashboardPage() {
               <CardTitle>Assignments</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 dark:text-gray-300">Create and manage assignments.</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Create and manage assignments.
+              </p>
               <Button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white dark:bg-green-600 dark:hover:bg-green-700">
                 Create Assignment
               </Button>
@@ -96,7 +108,9 @@ function FacultyDashboardPage() {
               <CardTitle>Resources</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 dark:text-gray-300">Upload and share learning materials.</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Upload and share learning materials.
+              </p>
               <Button className="mt-4 w-full bg-purple-500 hover:bg-purple-600 text-white dark:bg-purple-600 dark:hover:bg-purple-700">
                 Upload Resources
               </Button>
@@ -108,7 +122,9 @@ function FacultyDashboardPage() {
               <CardTitle>Profile</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 dark:text-gray-300">Update your profile and settings.</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Update your profile and settings.
+              </p>
               <Button className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700">
                 Edit Profile
               </Button>

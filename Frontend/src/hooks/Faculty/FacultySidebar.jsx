@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import Logout from "../../components/Logout/Logout.jsx";
 import {
@@ -18,25 +19,33 @@ import {
 
 function FacultySidebar({ isOpen, setIsOpen }) {
   const { user } = useUser();
-  // const [isOpen, setIsOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem("theme") === "dark");
+  const { isDarkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDarkMode);
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      console.log("Dark mode enabled");
+    } else {
+      document.documentElement.classList.remove("dark");
+      console.log("Light mode enabled");
+    }
   }, [isDarkMode]);
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    localStorage.setItem("theme", newMode ? "dark" : "light");
-    document.documentElement.classList.toggle("dark", newMode);
-  };
+  // const toggleDarkMode = () => {
+  //   const newMode = !isDarkMode;
+  //   setIsDarkMode(newMode);
+  //   localStorage.setItem("theme", newMode ? "dark" : "light");
+  //   document.documentElement.classList.toggle("dark", newMode);
+  // };
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-violet-200 to-purple-200 dark:from-gray-900 dark:to-gray-800 
-      text-gray-800 dark:text-white flex flex-col shadow-lg transition-all duration-300 ${
+      className={`fixed top-0 left-0 h-screen ${
+        isDarkMode
+          ? "bg-gradient-to-b from-gray-900 to-gray-800 text-white"
+          : "bg-gradient-to-b from-violet-200 to-purple-200 text-gray-800"
+      } flex flex-col shadow-lg transition-all duration-300 ${
         isOpen ? "w-64" : "w-20 items-center"
       }`}
     >
@@ -63,21 +72,61 @@ function FacultySidebar({ isOpen, setIsOpen }) {
       {/* Navigation */}
       <nav className="flex-1 mt-4 w-full">
         <ul className="space-y-1">
-          <SidebarLink to="/educatorDashboard" icon={<Menu size={22} />} text="Dashboard" isOpen={isOpen} />
-          <SidebarLink to="/upload" icon={<Upload size={22} />} text="Upload Video" isOpen={isOpen} />
-          <SidebarLink to="/uploadFiles" icon={<FileUp size={22} />} text="Upload Files" isOpen={isOpen} />
-          <SidebarLink to="/my-files" icon={<File size={22} />} text="My Files" isOpen={isOpen} />
-          <SidebarLink to="/uploadedVideos" icon={<Video size={22} />} text="Uploaded Videos" isOpen={isOpen} />
-          <SidebarLink to="/exploreVideos" icon={<Compass size={22} />} text="Explore Videos" isOpen={isOpen} />
-          <SidebarLink to="/Calender" icon={<Calendar size={22} />} text="Calendar" isOpen={isOpen} />
-          <SidebarLink to="/total-students" icon={<Users size={22} />} text="Students" isOpen={isOpen} />
+          <SidebarLink
+            to="/educatorDashboard"
+            icon={<Menu size={22} />}
+            text="Dashboard"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/upload"
+            icon={<Upload size={22} />}
+            text="Upload Video"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/uploadFiles"
+            icon={<FileUp size={22} />}
+            text="Upload Files"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/my-files"
+            icon={<File size={22} />}
+            text="My Files"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/uploadedVideos"
+            icon={<Video size={22} />}
+            text="Uploaded Videos"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/exploreVideos"
+            icon={<Compass size={22} />}
+            text="Explore Videos"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/Calender"
+            icon={<Calendar size={22} />}
+            text="Calendar"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/total-students"
+            icon={<Users size={22} />}
+            text="Students"
+            isOpen={isOpen}
+          />
         </ul>
       </nav>
 
       {/* Bottom Controls */}
       <div className="p-4 border-t border-violet-300 dark:border-gray-700 w-full space-y-2">
         <button
-          onClick={toggleDarkMode}
+          onClick={toggleTheme}
           className="flex items-center gap-2 w-full py-2 px-4 bg-purple-400 dark:bg-purple-700 hover:bg-purple-500 dark:hover:bg-purple-600 text-white rounded transition"
         >
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
