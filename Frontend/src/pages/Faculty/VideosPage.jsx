@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from "../../context/UserContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const UploadedVideosPage = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useUser();
+  const { isDarkMode } = useTheme(); // Access dark mode state
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -42,63 +42,79 @@ const UploadedVideosPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-violet-200 to-purple-300">
-        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading your videos...</p>
+      <div
+        className={`flex items-center justify-center min-h-screen transition-colors duration-300 ${
+          isDarkMode
+            ? "bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100"
+            : "bg-gradient-to-br from-purple-200 to-blue-200 text-gray-900"
+        }`}
+      >
+        <p className="text-lg font-semibold animate-pulse">Loading your videos...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-8 bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
+    <div
+      className={`p-8 min-h-screen transition-colors duration-300 ${
+        isDarkMode
+          ? "bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100"
+          : "bg-gradient-to-br from-purple-200 to-blue-200 text-gray-900"
+      }`}
+    >
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-sm">Your Uploaded Videos</h1>
-        <p className="text-gray-700 mt-2 text-lg">Manage and preview your uploaded content below</p>
+        <h1 className="text-4xl font-extrabold drop-shadow-sm">Your Uploaded Videos</h1>
+        <p className="mt-2 text-lg">Manage and preview your uploaded content below</p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {videos.map((video) => (
           <div
             key={video._id}
-            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-transform transform hover:scale-105 overflow-hidden"
+            className={`rounded-lg overflow-hidden ${
+              isDarkMode
+                ? "bg-gray-900 border border-gray-700"
+                : "bg-white border border-gray-200"
+            }`}
           >
+            {/* Thumbnail */}
             <div
               onClick={() => window.open(video.videoUrl, "_blank")}
-              className="cursor-pointer h-48 bg-gray-100 flex items-center justify-center overflow-hidden"
+              className="cursor-pointer relative group"
             >
               <img
                 src={video.thumbnailUrl || "https://via.placeholder.com/300x200"}
                 alt="thumbnail"
-                className="object-cover w-full h-full"
+                className="w-full h-48 object-cover"
               />
-            </div>
-            <div className="p-5">
-              <h3 className="text-xl font-semibold text-gray-800 truncate">{video.title}</h3>
-              <p className="text-sm text-gray-600 mt-2 line-clamp-2">{video.description}</p>
-
-              <div className="mt-4 space-y-1 text-sm text-gray-600">
-                <p><strong>Program:</strong> {video.program || "N/A"}</p>
-                <p><strong>Branch:</strong> {video.branch || "N/A"}</p>
-                <p><strong>Semester:</strong> {video.semester || "N/A"}</p>
-                <p><strong>Subject:</strong> {video.subject || "N/A"}</p>
+              <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                {video.duration || "N/A"}
               </div>
+            </div>
 
-              <p className="text-xs text-gray-500 mt-4 italic">
-                Uploaded by:{" "}
-                <span className="text-base text-black font-semibold">
-                  {video.uploader?.userName?.replace(".", " ") || "Unknown"}
-                </span>
+            {/* Video Details */}
+            <div className="p-4">
+              <h3
+                className={`text-sm font-bold truncate ${
+                  isDarkMode ? "text-gray-100" : "text-gray-800"
+                }`}
+              > Tittle :
+                {video.title}
+              </h3>
+              <p
+                className={`text-xs mt-1 ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >Uploader: 
+                {video.uploader?.userName || "Unknown Uploader"}
               </p>
-              <p className="text-xs text-gray-500 italic">
-                {video.uploadedAtFormatted || "Unknown"}
-              </p>
-
-              <div className="flex justify-end mt-5">
-                <button
-                  onClick={() => handleDelete(video._id)}
-                  className="px-4 py-2 text-sm font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
-                >
-                  Delete
-                </button>
+              <div
+                className={`text-xs mt-2 ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                <span>{video.views || 0} views</span> ·{" "}
+                <span>{video.uploadedAtFormatted || "Unknown Date"}</span>
               </div>
             </div>
           </div>
@@ -106,7 +122,7 @@ const UploadedVideosPage = () => {
       </div>
 
       {videos.length === 0 && (
-        <div className="text-center mt-20 text-gray-700 text-lg">
+        <div className="text-center mt-20 text-lg">
           You haven't uploaded any videos yet.
         </div>
       )}
