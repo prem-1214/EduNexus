@@ -67,7 +67,7 @@ const UploadedVideosPage = () => {
         <p className="mt-2 text-lg">Manage and preview your uploaded content below</p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {videos.map((video) => (
           <div
             key={video._id}
@@ -98,14 +98,14 @@ const UploadedVideosPage = () => {
                 className={`text-sm font-bold truncate ${
                   isDarkMode ? "text-gray-100" : "text-gray-800"
                 }`}
-              > Tittle :
+              > 
                 {video.title}
               </h3>
               <p
                 className={`text-xs mt-1 ${
                   isDarkMode ? "text-gray-400" : "text-gray-600"
                 }`}
-              >Uploader: 
+              >
                 {video.uploader?.userName || "Unknown Uploader"}
               </p>
               <div
