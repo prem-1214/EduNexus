@@ -8,7 +8,7 @@ import { UserProvider } from "./context/UserContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId="722446415910-9sa2opkceeh8e0kr40ablbs0j2hpqfnv.apps.googleusercontent.com">
       <UserProvider>
         <HashRouter>
           <App />
