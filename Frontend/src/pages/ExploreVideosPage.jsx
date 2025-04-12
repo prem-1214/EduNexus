@@ -71,7 +71,7 @@ const ExploreVideosPage = () => {
     <div
       className={`p-8 min-h-screen transition-colors duration-300 ${
         isDarkMode
-          ? "bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100"
+          ? "bg-gray-900"
           // 
           :"bg-white"
       }`}
