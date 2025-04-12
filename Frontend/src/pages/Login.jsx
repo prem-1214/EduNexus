@@ -1,159 +1,128 @@
-import React, { useState } from 'react';   
+import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import { Link, useNavigate } from 'react-router-dom'
-import { useUser } from '../context/UserContext.jsx'
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext.jsx";
+import TypingQuote from "../Context/TypingQuote.jsx";
 
-const Login = () => {  
-  const [email, setEmail] = useState('')  
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate()
-  const { updateUser } = useUser()
-  
-  const handleSubmit = async (e) => {  
-    e.preventDefault(); 
-  
-    console.log('Email:', email);  
-    await axios.post('/auth/login', { email, password })
-      .then((response) => {
-        console.log("response in axios", response.data);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        updateUser(response.data.user)
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const { updateUser } = useUser();
 
-        const role = response.data.user.role
-        console.log("Role:", role);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/auth/login", { email, password });
+      localStorage.setItem("accessToken", response.data.accessToken);
+      updateUser(response.data.user);
+      const role = response.data.user.role;
+      if (role === "student") navigate("/studentDashboard");
+      else if (role === "educator") navigate("/educatorDashboard");
+      else setErrorMessage("Unknown role. Please contact support.");
+    } catch (error) {
+      setErrorMessage("Invalid email or password.");
+    }
+  };
 
-        if(role === 'student'){
-          navigate('/studentDashboard')
-        } else if(role === 'educator'){
-          navigate('/educatorDashboard')
-        }else {
-          console.error("Unknown role:", role);
-          setErrorMessage("Unknown role. Please contact support.");
-        }
-
-      })
-      .catch((error) => {
-        console.log("error in axios :", error)
-        setErrorMessage("Invalid email or password. Please try again.");
-      });
-
-    console.log('Password:', password);  
-  };  
- 
-  const handleGoogleSuccess = async (response) => {  
+  const handleGoogleSuccess = async (response) => {
     if (response.credential) {
       const userInfo = jwtDecode(response.credential);
-      // console.log("Google Credentials:", userInfo);
-      // console.log("Email :", userInfo.email);
-
-
-      await axios.post('/auth/google-login', {
-        userInfo
-      })
-      .then((googleResponse) =>{
-        console.log("Google Response:", googleResponse.data)
-        localStorage.setItem('accessToken', googleResponse.data.accessToken)
+      try {
+        const googleResponse = await axios.post("/auth/google-login", {
+          userInfo,
+        });
+        localStorage.setItem("accessToken", googleResponse.data.accessToken);
         updateUser(googleResponse.data.user);
-
         const role = googleResponse.data.user.role;
-
-        console.log("Role:", role)
-
-        if(role === 'student'){
-          navigate('/studentDashboard')
-        } else if(role === 'educator'){
-          navigate('/educatorDashboard')
-        }else {
-          console.error("Unknown role:", role);
-          setErrorMessage("Unknown role. Please contact support.");
-        }
-      }).catch((error) =>{
-        console.log("Error in Google Login:", error);
-        setErrorMessage("Google login failed. Please try again.");
-      })
-
-    //  try {
-    //   const backendResponse = await axios.post('/auth/login', {
-    //      email: userInfo.email
-    //     });
-    //   console.log("Backend Response:", backendResponse);
-    //  } catch (error) {
-    //    console.error("Error in Google Login:", error);
-      
-    //  }
-
-    } else {
-      console.error("No valid token received from Google.");
-      setErrorMessage("Google login failed. Please try again.");
+        if (role === "student") navigate("/studentDashboard");
+        else if (role === "educator") navigate("/educatorDashboard");
+        else setErrorMessage("Unknown role. Please contact support.");
+      } catch (error) {
+        setErrorMessage("Google login failed.");
+      }
     }
-  };  
+  };
 
-  const handleGoogleError = () => {   
-    console.log("Google Login Failed...");  
-    setErrorMessage("Google login failed. Please try again.");
-  }
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#141e30] via-[#243b55] to-[#141e30] text-white px-4">
+      <div className="w-full max-w-5xl rounded-2xl backdrop-blur-xl bg-white/10 dark:bg-black/30 border border-white/20 shadow-2xl flex flex-col md:flex-row overflow-hidden">
+        {/* Left: Login Form */}
+        <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
+          <h2 className="text-3xl font-extrabold mb-6 text-center tracking-tight">
+            Welcome Back
+          </h2>
 
-  return (  
-    <>
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">  
-      <div className="mt-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>  
-        <input  
-          className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-blue-700"  
-          type="email"  
-          value={email}  
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}  
-          required  
-        />  
-      </div>  
+          {errorMessage && (
+            <div className="bg-red-500/80 text-white text-sm px-4 py-2 rounded-md mb-4 text-center animate-pulse shadow-md">
+              {errorMessage}
+            </div>
+          )}
 
-      <div className="mt-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>  
-        <input  
-          className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-blue-700"  
-          type="password"  
-          value={password}  
-          name="password"
-          onChange={(e) => setPassword(e.target.value)}  
-          required  
-        />  
-      </div>  
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-teal-400 text-white placeholder-gray-300"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
 
-      <div className="mt-8">  
-        <button  
-          type="submit"  
-          className="bg-green-400 text-white font-bold py-2 px-4 w-full rounded-lg hover:bg-green-600"  
-        >  
-          Login 
-        </button>  
-      </div>  
+            <div>
+              <label className="block text-sm font-medium mb-1">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-pink-400 text-white placeholder-gray-300"
+                placeholder="••••••••"
+                required
+              />
+            </div>
 
-      {/* Google Login Button */}  
-      <div className="mt-4 flex justify-center">  
-        <GoogleLogin  
-          onSuccess={handleGoogleSuccess}  
-          onError={handleGoogleError} 
-          useOneTap={true} 
-        />
-      </div>  
-    </form>  
+            <button
+              type="submit"
+              className="w-full py-2 rounded-md bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 transition-all duration-300 font-semibold tracking-wide text-white shadow-md"
+            >
+              Login
+            </button>
+          </form>
 
-    {/* Link to Register Page */}
-    <div className="mt-4 text-center">
-        <p>
-          Not registered?{' '}
-          <Link to="/register" className="text-blue-500 underline">
-            Register here
-          </Link>
-        </p>
+          <div className="mt-6 flex items-center justify-center">
+            <div className="bg-white rounded-md shadow-lg p-1">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setErrorMessage("Google login failed.")}
+                useOneTap
+              />
+            </div>
+          </div>
+
+          <p className="mt-6 text-sm text-center text-gray-300">
+            Not registered?{" "}
+            <Link to="/register" className="text-cyan-400 hover:underline">
+              Create an account
+            </Link>
+          </p>
+        </div>
+
+        {/* Vertical Divider */}
+        <div className="hidden md:block w-px bg-white/20 my-8" />
+
+        {/* Right: Quote Section */}
+        <div className="w-full md:w-1/2 p-10 flex items-center justify-center">
+          <TypingQuote />
+        </div>
       </div>
-
-    </>
-  );  
-};  
+    </div>
+  );
+};
 
 export default Login;

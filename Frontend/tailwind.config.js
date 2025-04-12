@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
   	extend: {
+		animation: {
+			'slow-ping': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+		  },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
