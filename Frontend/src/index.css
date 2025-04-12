@@ -84,30 +84,5 @@
   .floating-icon {
     animation: float 5s ease-in-out infinite;
   }
-
-  /* @keyframes floatIcon {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-  @keyframes fireOut {
-    0% {
-      opacity: 0;
-      transform: scale(0) rotate(0deg);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.1) rotate(45deg);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0) rotate(180deg);
-    }
-  } */
-  
-
 }
 
