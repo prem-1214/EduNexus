@@ -5,31 +5,31 @@ import ErrorBoundary from './utils/ErrorBoundary.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import FacultyDashboardPage from "./pages/Faculty/FacultyDashboardPage.jsx";
-import TotalStudents from './hooks/Faculty/TotalStudents.jsx'
-import Schedule from "./components/Schedule/Schedule.jsx";
+import TotalStudents from "./pages/Faculty/TotalStudents.jsx";
+import Schedule from "./components/Student/Schedule/Schedule.jsx";
 import ExploreVideosPage from './pages/ExploreVideosPage.jsx';
 import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
-import { useUser } from './context/UserContext.jsx';
-import FacultySidebar from "./hooks/Faculty/FacultySidebar.jsx";
+import { useUser } from './context/UserContext.jsx';  
+import FacultySidebar from "./pages/Faculty/FacultySidebar.jsx";
 import VideosPage from "./pages/Faculty/VideosPage.jsx";
 import FilesPage from "./pages/Faculty/FilesPage.jsx";
-import CalendarPage from "./hooks/Faculty/Calander.jsx";
+import CalendarPage from "./pages/Faculty/CalanderPage.jsx";
 
 
 // Student imports
 import StudentSidebar from "./components/Student/StudentSidebar.jsx";
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx";
+import Dashboard from "./components/Student/Dashboard/Dashboard.jsx";
 import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx";
-import Dashboard from "./components/Dashboard/Dashboard.jsx";
-import Assignments from "./components/Assignment/Assignment.jsx";
-import Classes from "./components/Classes/Classes.jsx";
-import Discussions from "./components/Discussion/Discussion.jsx";
-import Resources from "./components/Resources/Resources.jsx";
-import Notes from "./components/Notes/Notes.jsx";
-import Downloads from "./components/Download/Download.jsx";
+import Assignments from "./components/Student/Assignment/Assignment.jsx";
+import Classes from "./components/Student/Classes/Classes.jsx";
+import Discussions from "./components/Student/Discussion/Discussion.jsx";
+import Resources from "./components/Student/Resources/Resources.jsx";
+import Notes from "./components/Student/Notes/Notes.jsx";
+import Downloads from "./components/Student/Download/Download.jsx";
 import Recording from "./pages/Student/Recording.jsx";
-import Courses from "./components/Courses/Courses.jsx";
-import Settings from "./components/Setting/Setting.jsx";
+import Courses from "./components/Student/Courses/Courses.jsx";
+import Settings from "./components/Student/Setting/Setting.jsx";
 
 
 const FacultyLayout = ({ children }) => {
@@ -73,7 +73,7 @@ function App() {
   return (
     <ThemeProvider>
       <Routes>
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       
@@ -93,8 +93,8 @@ function App() {
 
         {/* Student Routes */}
         <Route path="/studentDashboard" element={<StudentLayout> <StudentDashboardPage /> </StudentLayout>} />
+        {/* <Route path="/dashboard" element={<StudentLayout> <Dashboard /> </StudentLayout>} /> */}
         <Route path="/exploreVideos" element={<StudentLayout><ExploreVideosPage /></StudentLayout>} />
-        <Route path="/dashboard" element={<StudentLayout> <Dashboard /> </StudentLayout>} />
         <Route path="/assignment" element={<StudentLayout> <Assignments /> </StudentLayout>} />
         <Route path="/schedule" element={<StudentLayout> <Schedule /> </StudentLayout>} />
         <Route path="/classes" element={<StudentLayout> <Classes /> </StudentLayout>} />

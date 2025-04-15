@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useTheme } from "../../Context/ThemeContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
-import Logout from "../../components/Logout/Logout.jsx";
+import Logout from "../../components/Student/Logout/Logout.jsx";
 import {
   Menu,
   Video,
