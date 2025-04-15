@@ -49,37 +49,55 @@ router.get('/uploadedVideos', isAuthenticated, async (req, res) => {
   })
 
 
-router.get('/exploreVideos', isAuthenticated, async (req, res) => {
-    try {
-      // console.log("req.user:", req.user._id); // Log the user object
-      // console.log("before populating video")
-      // const userId = req.user._id;
+// Assuming Express.js, Mongoose, and 'isAuthenticated' middleware are available  
 
-      // const populatedVideo = await Video.find({ uploader: userId })
-      //                             .populate('uploader', 'userName avatar')
-      //                             .sort({ createdAt: -1 });
-      const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
-      console.log("Fetched Videos:", populatedVideo)
+router.get("/exploreVideos", isAuthenticated, async (req, res) => {  
+  try {  
+    const page = parseInt(req.query.page) || 1;  
+    const limit = parseInt(req.query.limit) || 9;  
+    const skip = (page - 1) * limit;  
 
-      const formattedVideo = populatedVideo.map((file) => ({
-        ...file.toObject(),
-        uploadedAtFormatted: new Date(file.createdAt).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      }));
+    const filters = {};  
+    const { program, branch, semester, subject, searchTerm } = req.query;  
 
-      console.log("Formatted Videos:", formattedVideo)
+    if (program) filters.program = program;  
+    if (branch) filters.branch = branch;  
+    if (semester) filters.semester = semester;  
+    if (subject) filters.subject = subject;  
+    if (searchTerm) {  
+      filters.title = { $regex: searchTerm, $options: "i" };  
+    }  
 
+    // Find videos with filters + pagination + sorting  
+    // Populate uploader info with only userName and avatar fields  
+    const videos = await Video.find(filters)  
+      .populate("uploader", "userName avatar")  
+      .sort({ createdAt: -1 })  
+      .skip(skip)  
+      .limit(limit);  
 
-      return res.status(200).json(formattedVideo)
-    } catch (error) {
-     return res.status(500).json({ message: 'Error fetching videos', error })
-    }
-  })
+    // Count total docs for pagination info  
+    const total = await Video.countDocuments(filters);  
+
+    // Format createdAt date for each video  
+    const formattedVideos = videos.map((video) => ({  
+      ...video.toObject(),  
+      uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {  
+        day: "2-digit",  
+        month: "2-digit",  
+        year: "numeric",  
+        hour: "2-digit",  
+        minute: "2-digit",  
+      }),  
+    }));  
+
+    // Return paginated data and total count  
+    return res.status(200).json({ videos: formattedVideos, total });  
+  } catch (error) {  
+    console.error(error);  
+    return res.status(500).json({ message: "Error fetching videos", error });  
+  }  
+});  
 
 router.delete('/deleteVideo/:id', isAuthenticated, async (req, res) => {
   try {

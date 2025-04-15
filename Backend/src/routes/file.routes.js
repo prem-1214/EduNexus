@@ -33,4 +33,33 @@ router.get("/my-files", isAuthenticated, async (req, res) => {
   }
 });
 
+
+// Route to fetch all files for students
+router.get("/all-files", isAuthenticated, async (req, res) => {
+  try {
+   
+    const allFiles = await File.find({})
+      .populate("owner", "userName email role")
+      .sort({ createdAt: -1 });
+
+    const formattedFiles = allFiles.map((file) => ({
+      ...file.toObject(),
+      uploadedAtFormatted: new Date(file.createdAt).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    }));
+
+    res.status(200).json(formattedFiles);
+  } catch (err) {
+    console.error("Error fetching all files:", err);
+    res.status(500).json({ message: "Error fetching files", error: err.message });
+  }
+});
+
+
+
 export default router;

@@ -57,6 +57,14 @@ const videoUploadHandler = async (req, res) => {
       return res.status(500).json({ message: 'Cloudinary upload failed' });
     }
 
+    const durationInSeconds = uploadedVideo?.duration || 0;
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+
+    const formattedDuration = `${hours > 0 ? `${hours}h ` : ""}${minutes > 0 ? `${minutes}m ` : ""}${seconds}s`;
+
+
     const newVideo = new Video({
       title,
       description,
@@ -64,6 +72,7 @@ const videoUploadHandler = async (req, res) => {
       branch,
       semester,
       subject,
+      duration : formattedDuration,
       videoUrl: uploadedVideo?.secure_url || "",
       thumbnailUrl: uploadedThumbnail?.secure_url || "",
       uploader: req.user?.id,

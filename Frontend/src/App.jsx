@@ -11,9 +11,9 @@ import ExploreVideosPage from './pages/ExploreVideosPage.jsx';
 import UploadVideoPage from './pages/Faculty/UploadVideoPage.jsx';
 import { useUser } from './context/UserContext.jsx';  
 import FacultySidebar from "./pages/Faculty/FacultySidebar.jsx";
-import VideosPage from "./pages/Faculty/VideosPage.jsx";
+import VideosPage from "./pages/Faculty/VideosPage.jsx"; 
 import FilesPage from "./pages/Faculty/FilesPage.jsx";
-import CalendarPage from "./pages/Faculty/CalanderPage.jsx";
+import CalendarPage from "./pages/Faculty/CalanderPage.jsx"; 
 
 
 // Student imports
