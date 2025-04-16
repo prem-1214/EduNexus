@@ -1,77 +1,77 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
-} from "../../../srcStyle/components/ui/card.jsx";
-import { Button } from "../../../srcStyle/components/ui/button.jsx";
-import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx";
-import { UploadCloud, Video, Image } from "lucide-react";
-import { useTheme } from "../../Context/ThemeContext.jsx"; // Import useTheme
+} from "../../../srcStyle/components/ui/card.jsx"
+import { Button } from "../../../srcStyle/components/ui/button.jsx"
+import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx"
+import { UploadCloud, Video, Image } from "lucide-react"
+import { useTheme } from "../../Context/ThemeContext.jsx" // Import useTheme
 
 const UploadVideoPage = () => {
-  const navigate = useNavigate();
-  const { isDarkMode } = useTheme(); // Use the isDarkMode state
+  const navigate = useNavigate()
+  const { isDarkMode } = useTheme() // Use the isDarkMode state
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [video, setVideo] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
-  const [program, setProgram] = useState("");
-  const [branch, setBranch] = useState("");
-  const [semester, setSemester] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [video, setVideo] = useState(null)
+  const [thumbnail, setThumbnail] = useState(null)
+  const [program, setProgram] = useState("")
+  const [branch, setBranch] = useState("")
+  const [semester, setSemester] = useState("")
+  const [subject, setSubject] = useState("")
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const branchOptions = {
     "B.Tech": ["CSE", "ECE", "ME", "CE"],
     "B.Sc": ["Maths", "Physics", "Chemistry"],
     BBA: ["General", "Finance", "Marketing"],
-  };
+  }
 
-  const semesterOptions = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const semesterOptions = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("program", program);
-      formData.append("branch", branch);
-      formData.append("semester", semester);
-      formData.append("subject", subject);
-      if (video) formData.append("video", video);
-      if (thumbnail) formData.append("thumbnail", thumbnail);
+      const formData = new FormData()
+      formData.append("title", title)
+      formData.append("description", description)
+      formData.append("program", program)
+      formData.append("branch", branch)
+      formData.append("semester", semester)
+      formData.append("subject", subject)
+      if (video) formData.append("video", video)
+      if (thumbnail) formData.append("thumbnail", thumbnail)
 
       const response = await axios.post("/video/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      });
+      })
 
-      setMessage(response.data.message);
-      navigate("/uploadedVideos");
+      setMessage(response.data.message)
+      navigate("/uploadedVideos")
     } catch (error) {
-      console.error("Error submitting video:", error);
-      setMessage("Error submitting video.");
+      console.error("Error submitting video:", error)
+      setMessage("Error submitting video.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleFileSelect = (e, type) => {
-    const file = e.target.files[0];
-    if (type === "video") setVideo(file);
-    else if (type === "thumbnail") setThumbnail(file);
-  };
+    const file = e.target.files[0]
+    if (type === "video") setVideo(file)
+    else if (type === "thumbnail") setThumbnail(file)
+  }
 
   return (
     <div
@@ -131,8 +131,8 @@ const UploadVideoPage = () => {
                 <select
                   value={program}
                   onChange={(e) => {
-                    setProgram(e.target.value);
-                    setBranch(""); // reset branch when program changes
+                    setProgram(e.target.value)
+                    setBranch("") // reset branch when program changes
                   }}
                   className="block w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors"
                   required
@@ -266,7 +266,7 @@ const UploadVideoPage = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default UploadVideoPage;
+export default UploadVideoPage

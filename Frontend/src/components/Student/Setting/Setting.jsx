@@ -1,4 +1,4 @@
-import { FaUser, FaEnvelope, FaLock, FaBell, FaSave } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaBell, FaSave } from "react-icons/fa"
 
 const Settings = () => {
   return (
@@ -35,11 +35,17 @@ const Settings = () => {
           <FaBell /> Notifications
         </h2>
         <label className="flex items-center space-x-3">
-          <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600" />
+          <input
+            type="checkbox"
+            className="form-checkbox h-5 w-5 text-blue-600"
+          />
           <span>Enable email notifications</span>
         </label>
         <label className="flex items-center space-x-3 mt-2">
-          <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600" />
+          <input
+            type="checkbox"
+            className="form-checkbox h-5 w-5 text-blue-600"
+          />
           <span>Enable class reminders</span>
         </label>
       </div>
@@ -51,7 +57,7 @@ const Settings = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

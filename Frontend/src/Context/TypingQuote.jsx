@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 import {
   FaLightbulb,
   FaBook,
@@ -10,7 +10,7 @@ import {
   FaRocket,
   FaPencilAlt,
   FaBrain,
-} from "react-icons/fa";
+} from "react-icons/fa"
 
 const quotes = [
   "Learning never exhausts the mind – Leonardo da Vinci",
@@ -49,7 +49,7 @@ const quotes = [
   "A teacher affects eternity; he can never tell where his influence stops – Henry Adams",
   "The secret of getting ahead is getting started – Mark Twain",
   "The mind is not a vessel to be filled, but a fire to be kindled – Plutarch",
-];
+]
 
 const iconList = [
   FaLightbulb,
@@ -61,7 +61,7 @@ const iconList = [
   FaRocket,
   FaPencilAlt,
   FaBrain,
-];
+]
 
 const iconPositions = [
   { x: 80, y: 60 },
@@ -69,39 +69,39 @@ const iconPositions = [
   { x: 300, y: 110 },
   { x: 350, y: -150 },
   { x: 20, y: -200 },
-];
+]
 
 const TypingQuote = () => {
-  const [displayText, setDisplayText] = useState("");
-  const [currentQuote, setCurrentQuote] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [iconsVisible, setIconsVisible] = useState(false);
-  const [randomIcons, setRandomIcons] = useState([]);
+  const [displayText, setDisplayText] = useState("")
+  const [currentQuote, setCurrentQuote] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const [iconsVisible, setIconsVisible] = useState(false)
+  const [randomIcons, setRandomIcons] = useState([])
 
   useEffect(() => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setCurrentQuote(randomQuote);
-    setTimeout(() => setIsTyping(true), 1000);
-  }, []);
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)]
+    setCurrentQuote(randomQuote)
+    setTimeout(() => setIsTyping(true), 1000)
+  }, [])
 
   useEffect(() => {
-    if (!isTyping || !currentQuote) return;
+    if (!isTyping || !currentQuote) return
 
-    let index = 0;
+    let index = 0
     const interval = setInterval(() => {
-      setDisplayText(currentQuote.slice(0, index + 1));
-      index++;
+      setDisplayText(currentQuote.slice(0, index + 1))
+      index++
       if (index === currentQuote.length) {
-        clearInterval(interval);
-        setIsTyping(false);
-        const shuffled = [...iconList].sort(() => 0.5 - Math.random());
-        setRandomIcons(shuffled.slice(0, iconPositions.length));
-        setIconsVisible(true);
+        clearInterval(interval)
+        setIsTyping(false)
+        const shuffled = [...iconList].sort(() => 0.5 - Math.random())
+        setRandomIcons(shuffled.slice(0, iconPositions.length))
+        setIconsVisible(true)
       }
-    }, 50);
+    }, 50)
 
-    return () => clearInterval(interval);
-  }, [isTyping, currentQuote]);
+    return () => clearInterval(interval)
+  }, [isTyping, currentQuote])
 
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-full text-center overflow-hidden">
@@ -120,7 +120,7 @@ const TypingQuote = () => {
         {/* Animated Icons */}
         {iconsVisible &&
           iconPositions.map((pos, idx) => {
-            const Icon = randomIcons[idx];
+            const Icon = randomIcons[idx]
             return (
               <motion.div
                 key={idx}
@@ -152,11 +152,11 @@ const TypingQuote = () => {
                   <Icon className="text-white w-6 h-6" />
                 </motion.div>
               </motion.div>
-            );
+            )
           })}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TypingQuote;
+export default TypingQuote

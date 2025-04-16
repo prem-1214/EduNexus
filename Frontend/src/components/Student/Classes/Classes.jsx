@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaChalkboardTeacher, FaSearch, FaCalendarAlt } from "react-icons/fa";
+import { useState } from "react"
+import { FaChalkboardTeacher, FaSearch, FaCalendarAlt } from "react-icons/fa"
 
 const classList = [
   {
@@ -23,14 +23,14 @@ const classList = [
     time: "Friday, 2:00 - 4:00 PM",
     link: "#",
   },
-];
+]
 
 const Classes = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
 
   const filteredClasses = classList.filter((cls) =>
     cls.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div className="p-6 pt-20">
@@ -57,8 +57,8 @@ const Classes = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ClassCard = ({ title, instructor, time, link }) => {
   return (
@@ -78,7 +78,7 @@ const ClassCard = ({ title, instructor, time, link }) => {
         View / Join Class
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Classes;
+export default Classes

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa";
+import { useState } from "react"
+import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa"
 
 const resourceData = [
   {
@@ -26,14 +26,14 @@ const resourceData = [
     type: "link",
     url: "https://docs.github.com/en/get-started",
   },
-];
+]
 
 const Resources = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
 
   const filteredResources = resourceData.filter((res) =>
     res.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div className="p-6 pt-20">
@@ -60,12 +60,12 @@ const Resources = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ResourceCard = ({ title, type, url }) => {
-  const isPDF = type === "pdf";
-  const isLink = type === "link";
+  const isPDF = type === "pdf"
+  const isLink = type === "link"
 
   return (
     <div className="bg-white border-l-4 border-indigo-500 rounded-xl shadow-md p-4 hover:shadow-lg transition-all">
@@ -95,7 +95,7 @@ const ResourceCard = ({ title, type, url }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Resources;
+export default Resources

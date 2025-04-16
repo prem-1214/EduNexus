@@ -1,53 +1,65 @@
-import React, { useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import { v4 as uuidv4 } from "uuid"; // for unique event IDs
-import { useTheme } from "../../Context/ThemeContext.jsx";
+import React, { useState } from "react"
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import interactionPlugin from "@fullcalendar/interaction"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import listPlugin from "@fullcalendar/list"
+import { v4 as uuidv4 } from "uuid" // for unique event IDs
+import { useTheme } from "../../Context/ThemeContext.jsx"
 
 const CalendarPage = () => {
-  const { isDarkMode } = useTheme(); // Access dark mode state
+  const { isDarkMode } = useTheme() // Access dark mode state
   const [events, setEvents] = useState([
-    { id: uuidv4(), title: "Holiday: Independence Day", date: "2025-08-15", color: "green" },
+    {
+      id: uuidv4(),
+      title: "Holiday: Independence Day",
+      date: "2025-08-15",
+      color: "green",
+    },
     { id: uuidv4(), title: "Exam: Math", date: "2025-04-10", color: "red" },
-    { id: uuidv4(), title: "Lecture: Physics", date: "2025-04-12", color: "blue" },
-  ]);
+    {
+      id: uuidv4(),
+      title: "Lecture: Physics",
+      date: "2025-04-12",
+      color: "blue",
+    },
+  ])
 
   const handleDateClick = (info) => {
-    const title = prompt(`Enter event for ${info.dateStr}`);
+    const title = prompt(`Enter event for ${info.dateStr}`)
     if (title) {
       const newEvent = {
         id: uuidv4(),
         title,
         date: info.dateStr,
         color: "blue", // Default color for new events
-      };
-      setEvents((prev) => [...prev, newEvent]);
+      }
+      setEvents((prev) => [...prev, newEvent])
     }
-  };
+  }
 
   const handleEventClick = (info) => {
     const action = prompt(
       `Edit or delete event: "${info.event.title}"? Type "edit" to edit or "delete" to delete.`
-    );
+    )
     if (action === "edit") {
-      const newTitle = prompt("Enter new title:", info.event.title);
+      const newTitle = prompt("Enter new title:", info.event.title)
       if (newTitle) {
         setEvents((prev) =>
           prev.map((event) =>
             event.id === info.event.id ? { ...event, title: newTitle } : event
           )
-        );
+        )
       }
     } else if (action === "delete") {
-      const confirmDelete = window.confirm(`Delete event: "${info.event.title}"?`);
+      const confirmDelete = window.confirm(
+        `Delete event: "${info.event.title}"?`
+      )
       if (confirmDelete) {
-        setEvents((prev) => prev.filter((event) => event.id !== info.event.id));
+        setEvents((prev) => prev.filter((event) => event.id !== info.event.id))
       }
     }
-  };
+  }
 
   return (
     <div
@@ -58,9 +70,7 @@ const CalendarPage = () => {
       } p-6 sm:p-10`}
     >
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-bold drop-shadow">
-          📅 Calendar
-        </h1>
+        <h1 className="text-4xl font-bold drop-shadow">📅 Calendar</h1>
         <p className="mt-2 text-lg">
           Add, edit, or delete events. Highlight holidays, exams, and lectures.
         </p>
@@ -75,7 +85,12 @@ const CalendarPage = () => {
         }`}
       >
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+          plugins={[
+            dayGridPlugin,
+            timeGridPlugin,
+            interactionPlugin,
+            listPlugin,
+          ]}
           initialView="dayGridMonth"
           headerToolbar={{
             left: "prev,next today",
@@ -91,11 +106,13 @@ const CalendarPage = () => {
           height="auto"
           eventColor={isDarkMode ? "gray" : "blue"}
           themeSystem="standard"
-          eventBackgroundColor={(info) => info.event.extendedProps.color || "blue"}
+          eventBackgroundColor={(info) =>
+            info.event.extendedProps.color || "blue"
+          }
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CalendarPage;
+export default CalendarPage

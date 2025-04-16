@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState } from "react"
 
 const Schedule = () => {
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(false)
 
   return (
     <div className="p-6 pt-20">
@@ -12,7 +12,9 @@ const Schedule = () => {
 
       {!isConnected ? (
         <div className="bg-gradient-to-r from-blue-200 to-blue-100 border border-blue-300 p-6 rounded-xl shadow-sm text-center">
-          <p className="text-lg font-medium mb-4">Connect your Google Calendar to get started!</p>
+          <p className="text-lg font-medium mb-4">
+            Connect your Google Calendar to get started!
+          </p>
           <button
             onClick={() => setIsConnected(true)} // replace with real auth later
             className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
@@ -34,7 +36,7 @@ const Schedule = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Schedule;
+export default Schedule

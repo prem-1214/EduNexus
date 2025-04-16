@@ -1,44 +1,44 @@
-import React, { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
-import TypingQuote from "../Context/TypingQuote.jsx";
+import React, { useState } from "react"
+import { GoogleLogin } from "@react-oauth/google"
+import axios from "axios"
+import { jwtDecode } from "jwt-decode"
+import { Link, useNavigate } from "react-router-dom"
+import TypingQuote from "../Context/TypingQuote.jsx"
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const response = await axios.post("/auth/register", { email, password });
-      localStorage.setItem("accessToken", response.data.accessToken);
-      navigate("/login");
+      const response = await axios.post("/auth/register", { email, password })
+      localStorage.setItem("accessToken", response.data.accessToken)
+      navigate("/login")
     } catch (error) {
-      setErrorMessage("Registration failed. Try again.");
+      setErrorMessage("Registration failed. Try again.")
     }
-  };
+  }
 
   const handleGoogleSuccess = async (response) => {
     if (response.credential) {
-      const userInfo = jwtDecode(response.credential);
+      const userInfo = jwtDecode(response.credential)
       try {
         const googleResponse = await axios.post("/auth/google-login", {
           userInfo,
-        });
-        localStorage.setItem("accessToken", googleResponse.data.accessToken);
-        const role = googleResponse.data.user.role;
-        if (role === "student") navigate("/studentDashboard");
-        else if (role === "educator") navigate("/educatorDashboard");
-        else setErrorMessage("Unknown role. Please contact support.");
+        })
+        localStorage.setItem("accessToken", googleResponse.data.accessToken)
+        const role = googleResponse.data.user.role
+        if (role === "student") navigate("/studentDashboard")
+        else if (role === "educator") navigate("/educatorDashboard")
+        else setErrorMessage("Unknown role. Please contact support.")
       } catch (error) {
-        setErrorMessage("Google registration failed.");
+        setErrorMessage("Google registration failed.")
       }
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#141e30] via-[#243b55] to-[#141e30] text-white px-4">
@@ -115,7 +115,7 @@ const Register = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

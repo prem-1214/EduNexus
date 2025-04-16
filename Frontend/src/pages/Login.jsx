@@ -1,51 +1,51 @@
-import React, { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext.jsx";
-import TypingQuote from "../Context/TypingQuote.jsx";
+import React, { useState } from "react"
+import { GoogleLogin } from "@react-oauth/google"
+import axios from "axios"
+import { jwtDecode } from "jwt-decode"
+import { Link, useNavigate } from "react-router-dom"
+import { useUser } from "../context/UserContext.jsx"
+import TypingQuote from "../Context/TypingQuote.jsx"
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
-  const { updateUser } = useUser();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const navigate = useNavigate()
+  const { updateUser } = useUser()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const response = await axios.post("/auth/login", { email, password });
-      localStorage.setItem("accessToken", response.data.accessToken);
-      updateUser(response.data.user);
-      const role = response.data.user.role;
-      if (role === "student") navigate("/studentDashboard");
-      else if (role === "educator") navigate("/educatorDashboard");
-      else setErrorMessage("Unknown role. Please contact support.");
+      const response = await axios.post("/auth/login", { email, password })
+      localStorage.setItem("accessToken", response.data.accessToken)
+      updateUser(response.data.user)
+      const role = response.data.user.role
+      if (role === "student") navigate("/studentDashboard")
+      else if (role === "educator") navigate("/educatorDashboard")
+      else setErrorMessage("Unknown role. Please contact support.")
     } catch (error) {
-      setErrorMessage("Invalid email or password.");
+      setErrorMessage("Invalid email or password.")
     }
-  };
+  }
 
   const handleGoogleSuccess = async (response) => {
     if (response.credential) {
-      const userInfo = jwtDecode(response.credential);
+      const userInfo = jwtDecode(response.credential)
       try {
         const googleResponse = await axios.post("/auth/google-login", {
           userInfo,
-        });
-        localStorage.setItem("accessToken", googleResponse.data.accessToken);
-        updateUser(googleResponse.data.user);
-        const role = googleResponse.data.user.role;
-        if (role === "student") navigate("/studentDashboard");
-        else if (role === "educator") navigate("/educatorDashboard");
-        else setErrorMessage("Unknown role. Please contact support.");
+        })
+        localStorage.setItem("accessToken", googleResponse.data.accessToken)
+        updateUser(googleResponse.data.user)
+        const role = googleResponse.data.user.role
+        if (role === "student") navigate("/studentDashboard")
+        else if (role === "educator") navigate("/educatorDashboard")
+        else setErrorMessage("Unknown role. Please contact support.")
       } catch (error) {
-        setErrorMessage("Google login failed.");
+        setErrorMessage("Google login failed.")
       }
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#141e30] via-[#243b55] to-[#141e30] text-white px-4">
@@ -122,7 +122,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaSearch, FaGraduationCap, FaClock, FaUser } from "react-icons/fa";
+import { useState } from "react"
+import { FaSearch, FaGraduationCap, FaClock, FaUser } from "react-icons/fa"
 
 const courseList = [
   {
@@ -23,14 +23,14 @@ const courseList = [
     duration: "4 Weeks",
     link: "#",
   },
-];
+]
 
 const Courses = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
 
   const filteredCourses = courseList.filter((course) =>
     course.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div className="p-6 pt-20">
@@ -51,14 +51,16 @@ const Courses = () => {
       {/* Course Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredCourses.length > 0 ? (
-          filteredCourses.map((course) => <CourseCard key={course.id} {...course} />)
+          filteredCourses.map((course) => (
+            <CourseCard key={course.id} {...course} />
+          ))
         ) : (
           <p className="text-gray-500 col-span-full">No courses found.</p>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const CourseCard = ({ title, instructor, duration, link }) => {
   return (
@@ -80,7 +82,7 @@ const CourseCard = ({ title, instructor, duration, link }) => {
         View Course
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Courses;
+export default Courses

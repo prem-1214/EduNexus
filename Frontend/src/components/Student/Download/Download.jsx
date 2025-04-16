@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaSearch, FaDownload, FaFileAlt } from "react-icons/fa";
+import { useState } from "react"
+import { FaSearch, FaDownload, FaFileAlt } from "react-icons/fa"
 
 const initialDownloads = [
   {
@@ -20,14 +20,14 @@ const initialDownloads = [
     url: "/downloads/dsa-cheatsheet.pdf",
     size: "650KB",
   },
-];
+]
 
 const Downloads = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("")
 
   const filteredDownloads = initialDownloads.filter((file) =>
     file.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div className="p-6 pt-20">
@@ -48,14 +48,16 @@ const Downloads = () => {
       {/* Download Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredDownloads.length > 0 ? (
-          filteredDownloads.map((file) => <DownloadCard key={file.id} {...file} />)
+          filteredDownloads.map((file) => (
+            <DownloadCard key={file.id} {...file} />
+          ))
         ) : (
           <p className="text-gray-500 col-span-full">No files found.</p>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DownloadCard = ({ title, url, size }) => {
   return (
@@ -75,7 +77,7 @@ const DownloadCard = ({ title, url, size }) => {
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Downloads;
+export default Downloads

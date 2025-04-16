@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from "mongoose"
 
 const videoSchema = new Schema({
   title: {
@@ -11,11 +11,11 @@ const videoSchema = new Schema({
   thumbnailUrl: String,
   uploader: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
   category: {
     type: String,
-    enum: ['sub1', 'sub2', 'sub3', 'sub4'],
+    enum: ["sub1", "sub2", "sub3", "sub4"],
   },
   program: {
     type: String,
@@ -42,7 +42,7 @@ const videoSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
       text: {
         type: String,
@@ -58,8 +58,8 @@ const videoSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-const Video = model('Video', videoSchema);
+const Video = model("Video", videoSchema)
 
-export default Video;
+export default Video

@@ -1,37 +1,41 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
 
 const TotalStudents = () => {
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [students, setStudents] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("/video/students");
-        setStudents(response.data);
+        const response = await axios.get("/video/students")
+        setStudents(response.data)
       } catch (error) {
-        console.error("Error fetching students:", error);
+        console.error("Error fetching students:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchStudents();
-  }, []);
+    fetchStudents()
+  }, [])
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 to-blue-100">
-        <p className="text-lg font-semibold text-gray-700 animate-pulse">Loading students...</p>
+        <p className="text-lg font-semibold text-gray-700 animate-pulse">
+          Loading students...
+        </p>
       </div>
-    );
+    )
   }
 
   return (
     <div className="p-8 bg-gradient-to-br from-purple-200 to-blue-200 min-h-screen">
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">Students</h1>
+        <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow-lg">
+          Students
+        </h1>
         <p className="text-gray-600 mt-2 text-lg">
           List of all registered students and their contact details.
         </p>
@@ -53,7 +57,9 @@ const TotalStudents = () => {
                   index % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } hover:bg-violet-50 transition-all`}
               >
-                <td className="py-3 px-6 text-gray-800 font-medium">{student.userName}</td>
+                <td className="py-3 px-6 text-gray-800 font-medium">
+                  {student.userName}
+                </td>
                 <td className="py-3 px-6 text-gray-700">{student.email}</td>
               </tr>
             ))}
@@ -61,7 +67,7 @@ const TotalStudents = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TotalStudents;
+export default TotalStudents

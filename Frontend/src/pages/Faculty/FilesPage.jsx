@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useTheme } from "../../Context/ThemeContext.jsx";
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { useTheme } from "../../Context/ThemeContext.jsx"
 
 const FilesPage = () => {
-  const { isDarkMode } = useTheme(); // Access dark mode state
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [viewMode, setViewMode] = useState("table"); // 'table' or 'card'
+  const { isDarkMode } = useTheme() // Access dark mode state
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [viewMode, setViewMode] = useState("table") // 'table' or 'card'
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -16,19 +16,19 @@ const FilesPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        });
-        setUploadedFiles(response.data);
-        setError("");
-        setSuccess("Files fetched successfully.");
+        })
+        setUploadedFiles(response.data)
+        setError("")
+        setSuccess("Files fetched successfully.")
       } catch (error) {
-        console.error("Error fetching files:", error);
-        setError("Failed to fetch files. Please try again later.");
-        setSuccess("");
+        console.error("Error fetching files:", error)
+        setError("Failed to fetch files. Please try again later.")
+        setSuccess("")
       }
-    };
+    }
 
-    fetchFiles();
-  }, []);
+    fetchFiles()
+  }, [])
 
   return (
     <div
@@ -159,7 +159,7 @@ const FilesPage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FilesPage;
+export default FilesPage

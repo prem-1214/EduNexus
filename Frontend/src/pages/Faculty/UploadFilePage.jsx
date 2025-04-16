@@ -1,42 +1,42 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../Context/ThemeContext.jsx";
+import { useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { useTheme } from "../../Context/ThemeContext.jsx"
 
 const UploadFilePage = () => {
-  const { isDarkMode } = useTheme(); // Access dark mode state
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Notes");
-  const [program, setProgram] = useState("B.Tech");
-  const [branch, setBranch] = useState("");
-  const [semester, setSemester] = useState(1);
-  const [subject, setSubject] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { isDarkMode } = useTheme() // Access dark mode state
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState("")
+  const [description, setDescription] = useState("")
+  const [category, setCategory] = useState("Notes")
+  const [program, setProgram] = useState("B.Tech")
+  const [branch, setBranch] = useState("")
+  const [semester, setSemester] = useState(1)
+  const [subject, setSubject] = useState("")
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const branchesByProgram = {
     "B.Tech": ["CSE", "ECE", "EEE", "ME", "CE"],
     "B.Sc": ["Physics", "Chemistry", "Maths"],
-    "BCA": ["General"],
-    "BBA": ["General"],
-    "Other": ["General"],
-  };
+    BCA: ["General"],
+    BBA: ["General"],
+    Other: ["General"],
+  }
 
   const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("program", program);
-    formData.append("branch", branch);
-    formData.append("semester", semester);
-    formData.append("subject", subject);
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("fileName", fileName)
+    formData.append("description", description)
+    formData.append("category", category)
+    formData.append("program", program)
+    formData.append("branch", branch)
+    formData.append("semester", semester)
+    formData.append("subject", subject)
 
     try {
       await axios.post("/file/upload", formData, {
@@ -44,25 +44,25 @@ const UploadFilePage = () => {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      });
+      })
 
-      setFile(null);
-      setFileName("");
-      setDescription("");
-      setCategory("Notes");
-      setProgram("B.Tech");
-      setBranch("");
-      setSemester(1);
-      setSubject("");
-      setError("");
-      setSuccess("File uploaded successfully.");
-      navigate("/my-files");
+      setFile(null)
+      setFileName("")
+      setDescription("")
+      setCategory("Notes")
+      setProgram("B.Tech")
+      setBranch("")
+      setSemester(1)
+      setSubject("")
+      setError("")
+      setSuccess("File uploaded successfully.")
+      navigate("/my-files")
     } catch (err) {
-      console.error("Upload failed:", err);
-      setError("File upload failed. Please try again.");
-      setSuccess("");
+      console.error("Upload failed:", err)
+      setError("File upload failed. Please try again.")
+      setSuccess("")
     }
-  };
+  }
 
   return (
     <div
@@ -143,8 +143,8 @@ const UploadFilePage = () => {
             <select
               value={program}
               onChange={(e) => {
-                setProgram(e.target.value);
-                setBranch(""); // reset branch on program change
+                setProgram(e.target.value)
+                setBranch("") // reset branch on program change
               }}
               className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
@@ -226,7 +226,7 @@ const UploadFilePage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UploadFilePage;
+export default UploadFilePage

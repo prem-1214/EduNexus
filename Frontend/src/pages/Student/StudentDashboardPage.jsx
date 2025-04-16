@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 const StudentDashboardPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const cards = [
     {
@@ -28,7 +28,7 @@ const StudentDashboardPage = () => {
       color: "from-purple-500 to-purple-700",
       to: "/discussions",
     },
-  ];
+  ]
 
   return (
     <div className="p-6 pt-20">
@@ -55,8 +55,8 @@ const StudentDashboardPage = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DashboardCard = ({ title, value, gradient, onClick }) => {
   return (
@@ -68,7 +68,7 @@ const DashboardCard = ({ title, value, gradient, onClick }) => {
       <h3 className="text-sm opacity-90">{title}</h3>
       <p className="text-3xl font-bold mt-2">{value}</p>
     </div>
-  );
-};
+  )
+}
 
-export default StudentDashboardPage;
+export default StudentDashboardPage

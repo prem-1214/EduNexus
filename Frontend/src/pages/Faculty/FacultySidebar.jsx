@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { useTheme } from "../../Context/ThemeContext.jsx";
-import { useUser } from "../../context/UserContext.jsx";
-import Logout from "../../components/Student/Logout/Logout.jsx";
+import React, { useState, useEffect } from "react"
+import { NavLink } from "react-router-dom"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useUser } from "../../context/UserContext.jsx"
+import Logout from "../../components/Student/Logout/Logout.jsx"
 import {
   Menu,
   Video,
@@ -15,23 +15,23 @@ import {
   Compass,
   Sun,
   Moon,
-} from "lucide-react";
+} from "lucide-react"
 
 function FacultySidebar({ isOpen, setIsOpen }) {
-  const { user } = useUser();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { user } = useUser()
+  const { isDarkMode, toggleTheme } = useTheme()
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-      console.log("Dark mode enabled");
+      document.documentElement.classList.add("dark")
+      console.log("Dark mode enabled")
     } else {
-      document.documentElement.classList.remove("dark");
-      console.log("Light mode enabled");
+      document.documentElement.classList.remove("dark")
+      console.log("Light mode enabled")
     }
-  }, [isDarkMode]);
+  }, [isDarkMode])
 
-  const toggleSidebar = () => setIsOpen((prev) => !prev);
+  const toggleSidebar = () => setIsOpen((prev) => !prev)
   // const toggleDarkMode = () => {
   //   const newMode = !isDarkMode;
   //   setIsDarkMode(newMode);
@@ -142,7 +142,7 @@ function FacultySidebar({ isOpen, setIsOpen }) {
         </button>
       </div>
     </aside>
-  );
+  )
 }
 
 function SidebarLink({ to, icon, text, isOpen }) {
@@ -164,7 +164,7 @@ function SidebarLink({ to, icon, text, isOpen }) {
         {isOpen && <span>{text}</span>}
       </NavLink>
     </li>
-  );
+  )
 }
 
-export default FacultySidebar;
+export default FacultySidebar

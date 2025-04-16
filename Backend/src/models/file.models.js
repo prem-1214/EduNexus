@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose"
 
 const fileSchema = new Schema(
   {
@@ -36,8 +36,8 @@ const fileSchema = new Schema(
   {
     timestamps: true,
   }
-);
+)
 
-const File = mongoose.model("File", fileSchema);
+const File = mongoose.model("File", fileSchema)
 
-export default File;
+export default File

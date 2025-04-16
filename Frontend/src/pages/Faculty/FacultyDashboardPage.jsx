@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { useUser } from "../../context/UserContext.jsx";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useUser } from "../../context/UserContext.jsx"
+import axios from "axios"
+import { Link, useNavigate } from "react-router-dom"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../../../srcStyle/components/ui/card.jsx";
-import { Button } from "../../../srcStyle/components/ui/button.jsx";
-import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx";
+} from "../../../srcStyle/components/ui/card.jsx"
+import { Button } from "../../../srcStyle/components/ui/button.jsx"
+import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx"
 
 function FacultyDashboardPage() {
-  const { user } = useUser();
-  const [totalStudents, setTotalStudents] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const { user } = useUser()
+  const [totalStudents, setTotalStudents] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/login")
     }
     const fetchTotalStudents = async () => {
       try {
@@ -27,16 +27,16 @@ function FacultyDashboardPage() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        });
-        setTotalStudents(response.data.totalStudents);
+        })
+        setTotalStudents(response.data.totalStudents)
       } catch (error) {
-        console.error("Error fetching total students:", error);
+        console.error("Error fetching total students:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchTotalStudents();
-  }, [user, navigate]);
+    }
+    fetchTotalStudents()
+  }, [user, navigate])
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-purple-200 to-blue-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
@@ -133,7 +133,7 @@ function FacultyDashboardPage() {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
-export default FacultyDashboardPage;
+export default FacultyDashboardPage
