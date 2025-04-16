@@ -146,35 +146,55 @@ const ExploreVideosPage = () => {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-10 space-x-2">
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-            className="px-3 py-1 rounded border bg-gray-300"
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded border ${
-                i + 1 === page ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-            disabled={page === totalPages}
-            className="px-3 py-1 rounded border bg-gray-300"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {/* Pagination Controls */}
+{totalPages > 1 && (
+  <div className="flex justify-center mt-10 space-x-2 flex-wrap">
+    {/* Prev Button */}
+    <button
+      onClick={() => setPage((p) => Math.max(p - 1, 1))}
+      disabled={page === 1}
+      className={`px-4 py-2 rounded-lg border text-white ${
+        page === 1
+          ? "bg-gray-300 cursor-not-allowed"
+          : "bg-blue-500 hover:bg-blue-600"
+      }`}
+    >
+      Prev
+    </button>
+
+    {/* Page Number Buttons */}
+    {Array.from({ length: totalPages }, (_, i) => (
+      <button
+        key={i + 1}
+        onClick={() => setPage(i + 1)}
+        className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+          page === i + 1
+            ? isDarkMode
+              ? "bg-blue-500 text-white"
+              : "bg-blue-600 text-white"
+            : isDarkMode
+            ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+            : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+        }`}
+      >
+        {i + 1}
+      </button>
+    ))}
+
+    {/* Next Button */}
+    <button
+      onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+      disabled={page === totalPages}
+      className={`px-4 py-2 rounded-lg border text-white ${
+        page === totalPages
+          ? "bg-gray-300 cursor-not-allowed"
+          : "bg-blue-500 hover:bg-blue-600"
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
     </div>
   );
 };

@@ -98,7 +98,7 @@ function App() {
         <Route path="/assignment" element={<StudentLayout> <Assignments /> </StudentLayout>} />
         <Route path="/schedule" element={<StudentLayout> <Schedule /> </StudentLayout>} />
         <Route path="/classes" element={<StudentLayout> <Classes /> </StudentLayout>} />
-        <Route path="/recordings" element={<StudentLayout> <Recording /> </StudentLayout>} />
+        <Route path="/recordings" element={<StudentLayout> <ExploreVideosPage /> </StudentLayout>} />
         <Route path="/discussions" element={<StudentLayout> <Discussions /> </StudentLayout>} />
         <Route path="/resources" element={<StudentLayout> <Resources /> </StudentLayout>} />
         <Route path="/notes" element={<StudentLayout> <Notes /> </StudentLayout>} />

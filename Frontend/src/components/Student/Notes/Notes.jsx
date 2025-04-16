@@ -23,7 +23,7 @@ const StudentFilesPage = () => {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
-        setFiles(response.data);
+        setFiles(response.data.files || []);
         setError("");
       } catch (err) {
         console.error("Error fetching files:", err);
@@ -37,13 +37,11 @@ const StudentFilesPage = () => {
   useEffect(() => {
     let tempFiles = [...files];
 
-    // Filtering
     if (program) tempFiles = tempFiles.filter((f) => f.program === program);
     if (branch) tempFiles = tempFiles.filter((f) => f.branch === branch);
     if (semester) tempFiles = tempFiles.filter((f) => f.semester === semester);
     if (search) tempFiles = tempFiles.filter((f) => f.fileName.toLowerCase().includes(search.toLowerCase()));
 
-    // Sorting
     if (sortOption === "newest") {
       tempFiles.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
     } else if (sortOption === "name") {
@@ -56,11 +54,14 @@ const StudentFilesPage = () => {
   const totalPages = Math.ceil(filteredFiles.length / filesPerPage);
   const paginatedFiles = filteredFiles.slice((currentPage - 1) * filesPerPage, currentPage * filesPerPage);
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="p-6 pt-20">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">📁 Shared Files</h1>
 
-      {/* Top Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <div className="flex gap-2">
           <button
@@ -89,7 +90,6 @@ const StudentFilesPage = () => {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <select value={program} onChange={(e) => setProgram(e.target.value)} className="border rounded-md px-3 py-2">
           <option value="">All Programs</option>
@@ -118,7 +118,6 @@ const StudentFilesPage = () => {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Content */}
       {viewMode === "table" ? (
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
@@ -144,14 +143,7 @@ const StudentFilesPage = () => {
                 <td className="border px-4 py-2">{file.semester}</td>
                 <td className="border px-4 py-2">{file.owner?.userName || "Unknown"}</td>
                 <td className="border px-4 py-2">
-                  <a
-                    href={file.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    Download
-                  </a>
+                  <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Download</a>
                 </td>
               </tr>
             ))}
@@ -167,31 +159,45 @@ const StudentFilesPage = () => {
                 {file.category} | {file.program}-{file.branch} | Semester {file.semester}
               </p>
               <p className="text-xs mt-1 text-gray-400">Uploaded by: {file.owner?.userName || "Unknown"}</p>
-              <a
-                href={file.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-block text-blue-600 font-semibold hover:underline"
-              >
-                Download
-              </a>
+              <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-600 font-semibold hover:underline">Download</a>
             </div>
           ))}
         </div>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="flex justify-center mt-10 space-x-2 flex-wrap">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg border text-white ${
+              currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            }`}
+          >
+            Prev
+          </button>
+
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 rounded ${currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"}`}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
               {i + 1}
             </button>
           ))}
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg border text-white ${
+              currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            }`}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
