@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import {
   FaHome,
   FaBook,
@@ -12,16 +13,26 @@ import {
   FaGraduationCap,
   FaCog,
   FaSignOutAlt,
+  FaSun,
+  FaMoon,
 } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
-import { NavLink } from "react-router-dom"
+import { useTheme } from "../../Context/ThemeContext"
 
-const Sidebar = () => {
+const StudentSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const navigate = useNavigate()
+  const { isDarkMode, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [isDarkMode])
 
   const menuItems = [
-    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
+    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard " },
     { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
@@ -35,60 +46,87 @@ const Sidebar = () => {
   ]
 
   const handleLogout = () => {
-    // Clear tokens, session, or context here if needed
     navigate("/login")
   }
 
   return (
     <div
-      className={`h-screen bg-gray-100 p-2 flex flex-col justify-between transition-all duration-300 ${
+      className={`h-screen fixed left-0 top-0 z-50 transition-all duration-300 ${
         isCollapsed ? "w-20" : "w-64"
-      } fixed left-0 top-0`}
+      } p-3 flex flex-col justify-between
+      backdrop-blur-lg shadow-xl border-r
+      ${
+        isDarkMode
+          ? "bg-[#111827]/60 border-[#334155] text-white"
+          : "bg-[#F8FAFC]/70 border-[#E5E7EB] text-gray-800"
+      }`}
     >
+      {/* Logo and Toggle */}
       <div>
         <img
           src="https://res.cloudinary.com/darbhv6uv/image/upload/v1742227008/EduNexus/logos/dbsiimjxvibjbqmqct5l.png"
           alt="EduNexus Logo"
-          className={`cursor-pointer transition-all duration-300 mx-auto ${
-            isCollapsed ? "w-12" : "w-32"
-          } h-auto mb-4`}
+          className={`cursor-pointer mx-auto transition-all duration-300 ${
+            isCollapsed ? "w-12" : "w-36"
+          }`}
           onClick={() => setIsCollapsed(!isCollapsed)}
         />
-        <ul className="mt-2 w-full">
+
+        <ul className="space-y-1">
           {menuItems.map((item, index) => (
             <li key={index}>
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center p-2 rounded transition-all duration-300 cursor-pointer ${
+                  `flex items-center rounded-lg px-4 py-2 transition-all duration-300 font-medium ${
                     isActive
-                      ? "bg-blue-500 text-white"
-                      : "hover:bg-blue-200 hover:text-black"
-                  } ${isCollapsed ? "justify-center" : "pl-4"}`
+                      ? isDarkMode
+                        ? "bg-green-600/20 text-green-300"
+                        : "bg-[#E0F7F1] text-[#1FAA59]"
+                      : isDarkMode
+                      ? "hover:bg-gray-700 hover:text-green-300"
+                      : "hover:bg-[#F3F4F6] hover:text-[#1E1E7E]"
+                  } ${isCollapsed ? "justify-center" : "gap-3"}`
                 }
               >
+                <span className={`${isCollapsed ? "text-lg" : "text-base"}`}>
                 {item.icon}
-                {!isCollapsed && <span className="ml-2">{item.name}</span>}
+                </span>
+                {!isCollapsed && <span className="truncate">{item.name}</span>}
               </NavLink>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Logout Button at Bottom */}
-      <div className="w-full p-2">
+      {/* Bottom Controls */}
+      <div className="flex flex-col gap-2">
+        <button
+          onClick={toggleTheme}
+          className={`w-full flex items-center rounded-lg px-3 py-2 transition font-medium ${
+            isDarkMode
+              ? "bg-purple-700 hover:bg-purple-600 text-white"
+              : "bg-purple-200 hover:bg-purple-300 text-[#1E1E7E]"
+          } ${isCollapsed ? "justify-center" : "gap-3"}`}
+        >
+          {isDarkMode ? <FaSun /> : <FaMoon />}
+          {!isCollapsed && <span>Toggle Theme</span>}
+        </button>
+
         <button
           onClick={handleLogout}
-          className={`flex items-center w-full text-left p-2 rounded transition-all duration-300 bg-red-500 hover:bg-red-600 text-white ${
-            isCollapsed ? "justify-center" : "pl-4"
-          }`}
+          className={`w-full flex items-center rounded-lg px-3 py-2 transition font-medium ${
+            isDarkMode
+              ? "bg-red-600 hover:bg-red-500 text-white"
+              : "bg-red-500 hover:bg-red-600 text-white"
+          } ${isCollapsed ? "justify-center" : "gap-3"}`}
         >
           <FaSignOutAlt />
-          {!isCollapsed && <span className="ml-2">Logout</span>}
+          {!isCollapsed && <span>Logout</span>}
         </button>
       </div>
     </div>
   )
 }
 
-export default Sidebar
+export default StudentSidebar

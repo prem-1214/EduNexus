@@ -1,42 +1,46 @@
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../Context/ThemeContext.jsx";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const UploadFilePage = () => {
-  const { isDarkMode } = useTheme() // Access dark mode state
-  const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("Notes")
-  const [program, setProgram] = useState("B.Tech")
-  const [branch, setBranch] = useState("")
-  const [semester, setSemester] = useState(1)
-  const [subject, setSubject] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
+  const { isDarkMode } = useTheme();
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Notes");
+  const [program, setProgram] = useState("B.Tech");
+  const [branch, setBranch] = useState("");
+  const [semester, setSemester] = useState(1);
+  const [subject, setSubject] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const branchesByProgram = {
     "B.Tech": ["CSE", "ECE", "EEE", "ME", "CE"],
     "B.Sc": ["Physics", "Chemistry", "Maths"],
-    BCA: ["General"],
-    BBA: ["General"],
-    Other: ["General"],
-  }
+    "BCA": ["General"],
+    "BBA": ["General"],
+    "Other": ["General"],
+  };
 
   const handleUpload = async (e) => {
-    e.preventDefault()
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("fileName", fileName)
-    formData.append("description", description)
-    formData.append("category", category)
-    formData.append("program", program)
-    formData.append("branch", branch)
-    formData.append("semester", semester)
-    formData.append("subject", subject)
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("program", program);
+    formData.append("branch", branch);
+    formData.append("semester", semester);
+    formData.append("subject", subject);
 
     try {
       await axios.post("/file/upload", formData, {
@@ -44,89 +48,63 @@ const UploadFilePage = () => {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      })
+      });
 
-      setFile(null)
-      setFileName("")
-      setDescription("")
-      setCategory("Notes")
-      setProgram("B.Tech")
-      setBranch("")
-      setSemester(1)
-      setSubject("")
-      setError("")
-      setSuccess("File uploaded successfully.")
-      navigate("/my-files")
+      setFile(null);
+      setFileName("");
+      setDescription("");
+      setCategory("Notes");
+      setProgram("B.Tech");
+      setBranch("");
+      setSemester(1);
+      setSubject("");
+      setError("");
+      setSuccess("File uploaded successfully.");
+      navigate("/my-files");
     } catch (err) {
-      console.error("Upload failed:", err)
-      setError("File upload failed. Please try again.")
-      setSuccess("")
+      console.error("Upload failed:", err);
+      setError("File upload failed. Please try again.");
+      setSuccess("");
     }
-  }
+  };
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen transition duration-300 px-4 py-10 sm:px-10 ${
         isDarkMode
-          ? "bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100"
-          : "bg-gradient-to-br from-purple-200 to-blue-200 text-gray-900"
-      } p-6 sm:p-10`}
+          ? "bg-[#0F172A] text-[#F8FAFC]"
+          : "bg-[#FAFAFA] text-[#1F2937]"
+      }`}
     >
-      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md mb-10 border border-gray-300 dark:border-gray-700">
-        <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-blue-400 mb-6">
+      <Card className={`max-w-3xl mx-auto glassmorphism p-8 rounded-2xl shadow-xl border ${
+        isDarkMode ? "bg-[#1E293B] border-[#334155]" : "bg-white border-[#E5E7EB]"
+      }`}>
+        <h2 className="text-3xl font-semibold text-center text-[#1E1E7E] dark:text-green-400 mb-8">
           📤 Upload a File
         </h2>
 
         <form onSubmit={handleUpload} className="space-y-6">
-          {/* File */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Choose File
-            </label>
-            <input
-              type="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              required
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            />
+            <label className="block font-medium mb-1">Choose File</label>
+            <Input type="file" onChange={(e) => setFile(e.target.files[0])} required />
           </div>
 
-          {/* File Name */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              File Name
-            </label>
-            <input
-              type="text"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              required
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            />
+            <label className="block font-medium mb-1">File Name</label>
+            <Input value={fileName} onChange={(e) => setFileName(e.target.value)} required />
           </div>
 
-          {/* Description */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            />
+            <label className="block font-medium mb-1">Description</label>
+            <Textarea rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
           </div>
 
-          {/* Category */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Category
-            </label>
+            <label className="block font-medium mb-1">Category</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full rounded-lg px-4 py-2 border bg-gray-50 dark:bg-gray-800"
             >
               <option value="Notes">Notes</option>
               <option value="Assignments">Assignments</option>
@@ -135,98 +113,70 @@ const UploadFilePage = () => {
             </select>
           </div>
 
-          {/* Program */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Program
-            </label>
+            <label className="block font-medium mb-1">Program</label>
             <select
               value={program}
               onChange={(e) => {
-                setProgram(e.target.value)
-                setBranch("") // reset branch on program change
+                setProgram(e.target.value);
+                setBranch("");
               }}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full rounded-lg px-4 py-2 border bg-gray-50 dark:bg-gray-800"
             >
               {Object.keys(branchesByProgram).map((prog) => (
-                <option key={prog} value={prog}>
-                  {prog}
-                </option>
+                <option key={prog} value={prog}>{prog}</option>
               ))}
             </select>
           </div>
 
-          {/* Branch */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Branch
-            </label>
+            <label className="block font-medium mb-1">Branch</label>
             <select
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               required
+              className="w-full rounded-lg px-4 py-2 border bg-gray-50 dark:bg-gray-800"
             >
               <option value="">-- Select Branch --</option>
               {branchesByProgram[program].map((br) => (
-                <option key={br} value={br}>
-                  {br}
-                </option>
+                <option key={br} value={br}>{br}</option>
               ))}
             </select>
           </div>
 
-          {/* Semester */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Semester
-            </label>
+            <label className="block font-medium mb-1">Semester</label>
             <select
               value={semester}
               onChange={(e) => setSemester(parseInt(e.target.value))}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="w-full rounded-lg px-4 py-2 border bg-gray-50 dark:bg-gray-800"
             >
               {Array.from({ length: 8 }, (_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  Semester {i + 1}
-                </option>
+                <option key={i + 1} value={i + 1}>Semester {i + 1}</option>
               ))}
             </select>
           </div>
 
-          {/* Subject */}
           <div>
-            <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Subject
-            </label>
-            <input
-              type="text"
+            <label className="block font-medium mb-1">Subject</label>
+            <Input
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              placeholder="Enter subject"
               required
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              placeholder="Enter subject"
             />
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
-          >
+          <Button type="submit" className="w-full bg-[#1FAA59] hover:bg-[#16A34A] text-white">
             Upload File
-          </button>
+          </Button>
         </form>
 
-        {error && (
-          <p className="font-medium text-red-500 text-center mt-4">{error}</p>
-        )}
-        {success && (
-          <p className="text-green-500 text-center mt-4">{success}</p>
-        )}
-      </div>
+        {error && <p className="text-red-500 text-center mt-4 font-medium">{error}</p>}
+        {success && <p className="text-green-500 text-center mt-4 font-medium">{success}</p>}
+      </Card>
     </div>
-  )
-}
+  );
+};
 
-export default UploadFilePage
+export default UploadFilePage;
