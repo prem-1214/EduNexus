@@ -49,8 +49,8 @@ const FilesPage = () => {
     <div
       className={`min-h-screen transition-colors duration-300 ${
         isDarkMode
-          ? "bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100"
-          : "bg-gradient-to-br from-purple-200 to-blue-200 text-gray-900"
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#FAFAFA] text-[#1F2937]"
       } p-6 sm:p-10`}
     >
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md border border-gray-300 dark:border-gray-700">

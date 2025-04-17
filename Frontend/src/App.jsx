@@ -41,10 +41,10 @@ const FacultyLayout = ({ children }) => {
   if (user.isActive === false) return <Navigate to="/login" />
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-purple-200 to-blue-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="flex z-50 h-screen transition-all duration-300 bg-[#F9FAFB] dark:bg-[#111827]/60 text-[#1F2937] dark:text-[#F8FAFC]">
       <FacultySidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div
-        className={`flex-1 transition-all duration-300 ${
+        className={`flex-1 transition-all duration-300 ${ 
           isSidebarOpen ? "ml-64" : "ml-20"
         }`}
       >
