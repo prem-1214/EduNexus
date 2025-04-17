@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useTheme } from "../Context/ThemeContext.jsx"
+import Pagination from "../components/Pagination/Pagination.jsx"
 
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()
@@ -185,36 +186,13 @@ const ExploreVideosPage = () => {
         </div>
       )}
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-10 space-x-2">
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-            className="px-3 py-1 rounded border bg-gray-300"
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded border ${
-                i + 1 === page ? "bg-blue-500 text-white" : "bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-            disabled={page === totalPages}
-            className="px-3 py-1 rounded border bg-gray-300"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        isDarkMode={isDarkMode}
+      />
+
     </div>
   )
 }

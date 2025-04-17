@@ -18,7 +18,6 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 )
 
-// ✅ Force reload on HMR issues (fixes white screen after refresh)
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     window.location.reload()

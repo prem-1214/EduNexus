@@ -35,7 +35,7 @@ const StudentSidebar = () => {
     { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard " },
     { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
-    { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
+    { name: "explore", icon: <FaVideo />, to: "/recordings" },
     { name: "Discussions", icon: <FaComments />, to: "/discussions" },
     { name: "Resources", icon: <FaFileAlt />, to: "/resources" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },

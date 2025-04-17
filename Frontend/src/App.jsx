@@ -20,7 +20,7 @@ import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 // Student imports
 import StudentSidebar from "./components/Student/StudentSidebar.jsx"
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx"
-import Dashboard from "./components/Student/Dashboard/Dashboard.jsx"
+// import Dashboard from "./components/Student/Dashboard/Dashboard.jsx";
 import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx"
 import Assignments from "./components/Student/Assignment/Assignment.jsx"
 import Classes from "./components/Student/Classes/Classes.jsx"
@@ -204,7 +204,7 @@ function App() {
           element={
             <StudentLayout>
               {" "}
-              <Recording />{" "}
+              <ExploreVideosPage />{" "}
             </StudentLayout>
           }
         />
