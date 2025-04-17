@@ -24,7 +24,8 @@ router.get('/uploadedVideos', isAuthenticated, paginate, async (req, res) => {
       
       const userId = req.user._id;
       const {page, limit, skip} = req.pagination
-      const {program, branch, semester, subject, serchTerm} = req.query
+      const { program, branch, semester, subject, searchTerm } = req.query
+
 
       const filters = {uploader : userId}
       console.log("Filters:", filters)
@@ -33,7 +34,7 @@ router.get('/uploadedVideos', isAuthenticated, paginate, async (req, res) => {
       if (branch) filters.branch = branch
       if (semester) filters.semester  = semester
       if (subject) filters.subject = subject
-      if (serchTerm) filters.title = { $regex: serchTerm, $options: "i" }
+      if (searchTerm) filters.title = { $regex: searchTerm, $options: "i" }
 
 
       const videos = await Video.find(filters)
@@ -57,7 +58,7 @@ router.get('/uploadedVideos', isAuthenticated, paginate, async (req, res) => {
       // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
       // console.log("Fetched Videos:", populatedVideo)
 
-      const formattedVideo = videos.map((video) => ({
+      const formattedVideos = videos.map((video) => ({
         ...video.toObject(),
         uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {
           day: "2-digit",
@@ -68,8 +69,8 @@ router.get('/uploadedVideos', isAuthenticated, paginate, async (req, res) => {
         }),
       }));
 
-      console.log("Formatted Videos:", formattedVideo)
-      return res.status(200).json({videos : formattedVideo, totalPages, total, page, limit})
+      console.log("Formatted Videos:", formattedVideos)
+      return res.status(200).json({ videos: formattedVideos, totalPages, total, page, limit })
     } catch (error) {
      return res.status(500).json({ message: 'Error fetching videos', error })
     }
