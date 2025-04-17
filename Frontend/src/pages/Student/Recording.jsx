@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext"
+import pagination from "../../components/Pagination/Pagination.jsx";
 
 const VideosPage = () => {
   const [videos, setVideos] = useState([]);
