@@ -31,11 +31,7 @@ const StudentDashboardPage = ({ isSidebarCollapsed }) => {
   ];
 
   return (
-    <div
-      className={`p-6 pt-20 transition-all duration-300 ${
-        isSidebarCollapsed ? "ml-20" : "ml-64"
-      }`}
-    >
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">

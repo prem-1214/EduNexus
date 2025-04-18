@@ -63,12 +63,12 @@ const StudentLayout = ({ children }) => {
   if (user.isActive === false) return <Navigate to="/login" />;
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <StudentSidebar onToggle={setIsSidebarCollapsed} />
       <div
         className={`flex-1 transition-all duration-300 ${
           isSidebarCollapsed ? "ml-20" : "ml-64"
-        } p-4`}
+        }`}
       >
         {children}
       </div>
