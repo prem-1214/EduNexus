@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext.jsx";
+import ChatbotWidget from "../../components/ChatbotWidget.jsx";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -53,6 +54,7 @@ function FacultyDashboardPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ChatbotWidget/>
           <Link to="/total-students">
             <Card className="bg-white dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155] backdrop-blur-xl rounded-2xl shadow-lg hover:scale-[1.02] transition-all">
               <CardHeader>

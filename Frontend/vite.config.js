@@ -15,6 +15,11 @@ export default defineConfig({
       "/video": { target: "http://localhost:3000", changeOrigin: true, secure: false },
       "/faculty": { target: "http://localhost:3000", changeOrigin: true },
       "/file": { target: "http://localhost:3000", changeOrigin: true },
+      '/api/generate': {
+        target: 'http://localhost:11434',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/generate/, '/api/generate'),
+      },  
 
     },
     port: 5173, // Optional: Specify the development server port
