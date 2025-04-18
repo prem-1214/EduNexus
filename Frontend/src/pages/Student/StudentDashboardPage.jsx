@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../Context/ThemeContext";
 
 const StudentDashboardPage = ({ isSidebarCollapsed }) => {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme(); // Access the dark mode state from ThemeContext
 
   const cards = [
     {
@@ -31,7 +33,11 @@ const StudentDashboardPage = ({ isSidebarCollapsed }) => {
   ];
 
   return (
-    <div className="p-6">
+    <div
+      className={`p-6 transition-all duration-300 ${
+        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+      }`}
+    >
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
@@ -46,9 +52,13 @@ const StudentDashboardPage = ({ isSidebarCollapsed }) => {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl p-6 shadow-md">
+      <div
+        className={`rounded-xl p-6 shadow-md ${
+          isDarkMode ? "bg-[#1E293B] text-[#F8FAFC]" : "bg-white text-gray-700"
+        }`}
+      >
         <h2 className="text-xl font-semibold mb-2">📢 Announcements</h2>
-        <ul className="list-disc list-inside space-y-1 text-gray-700">
+        <ul className="list-disc list-inside space-y-1">
           <li>Mid-sem exam schedule will be uploaded soon.</li>
           <li>Assignment 3 deadline extended to April 10th.</li>
           <li>New course on AI Ethics launched.</li>

@@ -1,5 +1,6 @@
-import { useState } from "react"
-import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa"
+import { useState } from "react";
+import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa";
+import { useTheme } from "../../../Context/ThemeContext";
 
 const resourceData = [
   {
@@ -26,28 +27,41 @@ const resourceData = [
     type: "link",
     url: "https://docs.github.com/en/get-started",
   },
-]
+];
 
 const Resources = () => {
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
+  const { isDarkMode } = useTheme(); // Access the dark mode state
 
   const filteredResources = resourceData.filter((res) =>
     res.title.toLowerCase().includes(search.toLowerCase())
-  )
+  );
 
   return (
-    <div className="p-6 pt-20">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">📚 Resources</h1>
+    <div
+      className={`p-6 pt-20 transition-all duration-300 ${
+        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+      }`}
+    >
+      <h1 className="text-3xl font-bold mb-6">📚 Resources</h1>
 
       {/* Search Bar */}
       <div className="relative mb-6 max-w-md">
-        <FaSearch className="absolute top-3 left-3 text-gray-400" />
+        <FaSearch
+          className={`absolute top-3 left-3 ${
+            isDarkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        />
         <input
           type="text"
           placeholder="Search resources..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-400"
+          className={`w-full pl-10 pr-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring ${
+            isDarkMode
+              ? "bg-[#1E293B] text-[#F8FAFC] border-gray-600 focus:border-blue-500"
+              : "bg-white text-gray-800 border-gray-300 focus:border-blue-400"
+          }`}
         />
       </div>
 
@@ -56,30 +70,59 @@ const Resources = () => {
         {filteredResources.length > 0 ? (
           filteredResources.map((res) => <ResourceCard key={res.id} {...res} />)
         ) : (
-          <p className="text-gray-500 col-span-full">No matching resources.</p>
+          <p
+            className={`col-span-full ${
+              isDarkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            No matching resources.
+          </p>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ResourceCard = ({ title, type, url }) => {
-  const isPDF = type === "pdf"
-  const isLink = type === "link"
+  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const isPDF = type === "pdf";
+  const isLink = type === "link";
 
   return (
-    <div className="bg-white border-l-4 border-indigo-500 rounded-xl shadow-md p-4 hover:shadow-lg transition-all">
+    <div
+      className={`rounded-xl shadow-md p-4 border-l-4 hover:shadow-lg transition-all ${
+        isDarkMode
+          ? "bg-[#1E293B] text-[#F8FAFC] border-indigo-500"
+          : "bg-white text-gray-800 border-indigo-600"
+      }`}
+    >
       <div className="flex items-center gap-3 mb-3">
-        {isPDF && <FaFilePdf className="text-red-600 text-xl" />}
-        {isLink && <FaLink className="text-blue-600 text-xl" />}
-        <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
+        {isPDF && (
+          <FaFilePdf
+            className={`text-xl ${
+              isDarkMode ? "text-red-400" : "text-red-600"
+            }`}
+          />
+        )}
+        {isLink && (
+          <FaLink
+            className={`text-xl ${
+              isDarkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+          />
+        )}
+        <h2 className="text-lg font-semibold">{title}</h2>
       </div>
       <div className="flex justify-end">
         {isPDF ? (
           <a
             href={url}
             download
-            className="inline-flex items-center gap-2 text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            className={`inline-flex items-center gap-2 text-sm px-4 py-2 rounded transition ${
+              isDarkMode
+                ? "bg-blue-600 text-white hover:bg-blue-500"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
           >
             <FaDownload /> Download
           </a>
@@ -88,14 +131,18 @@ const ResourceCard = ({ title, type, url }) => {
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+            className={`inline-flex items-center gap-2 text-sm px-4 py-2 rounded transition ${
+              isDarkMode
+                ? "bg-green-600 text-white hover:bg-green-500"
+                : "bg-green-600 text-white hover:bg-green-700"
+            }`}
           >
             <FaLink /> Visit
           </a>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Resources
+export default Resources;

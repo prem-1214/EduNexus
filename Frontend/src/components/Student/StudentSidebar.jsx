@@ -32,7 +32,7 @@ const StudentSidebar = ({ onToggle }) => {
   }, [isDarkMode]);
 
   const menuItems = [
-    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard " },
+    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
     { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Explore", icon: <FaVideo />, to: "/recordings" },
@@ -62,8 +62,8 @@ const StudentSidebar = ({ onToggle }) => {
       backdrop-blur-lg shadow-xl border-r
       ${
         isDarkMode
-          ? "bg-[#111827]/60 border-[#334155] text-white"
-          : "bg-[#F8FAFC]/70 border-[#E5E7EB] text-gray-800"
+          ? "bg-[#1E293B] border-[#334155] text-[#F8FAFC]"
+          : "bg-[#F3F4F6] border-[#E5E7EB] text-[#1F2937]"
       }`}
     >
       {/* Logo and Toggle */}
@@ -77,7 +77,7 @@ const StudentSidebar = ({ onToggle }) => {
           onClick={toggleSidebar}
         />
 
-        <ul className="space-y-1">
+        <ul className="space-y-1 mt-6">
           {menuItems.map((item, index) => (
             <li key={index}>
               <NavLink
@@ -89,8 +89,8 @@ const StudentSidebar = ({ onToggle }) => {
                         ? "bg-green-600/20 text-green-300"
                         : "bg-[#E0F7F1] text-[#1FAA59]"
                       : isDarkMode
-                      ? "hover:bg-gray-700 hover:text-green-300"
-                      : "hover:bg-[#F3F4F6] hover:text-[#1E1E7E]"
+                      ? "hover:bg-[#334155] hover:text-green-300"
+                      : "hover:bg-[#E5E7EB] hover:text-[#1E1E7E]"
                   } ${isCollapsed ? "justify-center" : "gap-3"}`
                 }
               >
