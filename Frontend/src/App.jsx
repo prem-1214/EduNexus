@@ -55,19 +55,26 @@ const FacultyLayout = ({ children }) => {
 }
 
 const StudentLayout = ({ children }) => {
-  const { user } = useUser()
+  const { user } = useUser();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  if (!user) return <Navigate to="/login" />
-  if (user.role !== "student") return <Navigate to="/login" />
-  if (user.isActive === false) return <Navigate to="/login" />
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== "student") return <Navigate to="/login" />;
+  if (user.isActive === false) return <Navigate to="/login" />;
 
   return (
     <div className="flex">
-      <StudentSidebar />
-      <div className="flex-1 ml-64 p-4">{children}</div>
+      <StudentSidebar onToggle={setIsSidebarCollapsed} />
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isSidebarCollapsed ? "ml-20" : "ml-64"
+        } p-4`}
+      >
+        {children}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 function App() {
   return (

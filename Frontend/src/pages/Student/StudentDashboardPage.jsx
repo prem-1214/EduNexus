@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-const StudentDashboardPage = () => {
-  const navigate = useNavigate()
+const StudentDashboardPage = ({ isSidebarCollapsed }) => {
+  const navigate = useNavigate();
 
   const cards = [
     {
@@ -28,10 +28,14 @@ const StudentDashboardPage = () => {
       color: "from-purple-500 to-purple-700",
       to: "/discussions",
     },
-  ]
+  ];
 
   return (
-    <div className="p-6 pt-20">
+    <div
+      className={`p-6 pt-20 transition-all duration-300 ${
+        isSidebarCollapsed ? "ml-20" : "ml-64"
+      }`}
+    >
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
@@ -55,8 +59,8 @@ const StudentDashboardPage = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const DashboardCard = ({ title, value, gradient, onClick }) => {
   return (
@@ -68,7 +72,7 @@ const DashboardCard = ({ title, value, gradient, onClick }) => {
       <h3 className="text-sm opacity-90">{title}</h3>
       <p className="text-3xl font-bold mt-2">{value}</p>
     </div>
-  )
-}
+  );
+};
 
-export default StudentDashboardPage
+export default StudentDashboardPage;
