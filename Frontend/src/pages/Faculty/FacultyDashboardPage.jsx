@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useUser } from "../../context/UserContext.jsx"
-import ChatbotWidget from "../../components/ChatbotWidget.jsx"
+import ChatbotWidget from "../../components/ChatBot/ChatbotWidget.jsx"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import {

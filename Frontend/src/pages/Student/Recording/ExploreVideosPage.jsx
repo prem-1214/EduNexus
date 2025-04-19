@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { useTheme } from "../Context/ThemeContext.jsx"
-import Pagination from "../components/Pagination/Pagination.jsx"
+import { useTheme } from "../../../Context/ThemeContext.jsx"
+import Pagination from "../../../components/Pagination/Pagination.jsx"
 
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()

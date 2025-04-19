@@ -16,7 +16,7 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa"
-import { useTheme } from "../../Context/ThemeContext"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const StudentSidebar = ({ onToggle }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -37,7 +37,6 @@ const StudentSidebar = ({ onToggle }) => {
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
     { name: "Discussions", icon: <FaComments />, to: "/discussions" },
-    { name: "Resources", icon: <FaFileAlt />, to: "/resources" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },
     { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
     { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },

@@ -7,8 +7,8 @@ import Register from "./pages/Register.jsx"
 // Faculty imports
 import FacultyDashboardPage from "./pages/Faculty/FacultyDashboardPage.jsx"
 import TotalStudents from "./pages/Faculty/TotalStudents.jsx"
-import Schedule from "./components/Student/Schedule/Schedule.jsx"
-import ExploreVideosPage from "./pages/ExploreVideosPage.jsx"
+import Schedule from "./pages/Student/Schedule/Schedule.jsx"
+import ExploreVideosPage from "./pages/Student/Recording/ExploreVideosPage.jsx"
 import UploadVideoPage from "./pages/Faculty/UploadVideoPage.jsx"
 import { useUser } from "./context/UserContext.jsx"
 import FacultySidebar from "./pages/Faculty/FacultySidebar.jsx"
@@ -17,17 +17,16 @@ import FilesPage from "./pages/Faculty/FilesPage.jsx"
 import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 
 // Student imports
-import StudentSidebar from "./components/Student/StudentSidebar.jsx"
-import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx"
+import StudentSidebar from "./pages/Student/StudentSidebar/StudentSidebar.jsx"
+import StudentDashboardPage from "./pages/Student/Dashboard/StudentDashboardPage.jsx"
 import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx"
-import Assignments from "./components/Student/Assignment/Assignment.jsx"
-import Classes from "./components/Student/Classes/Classes.jsx"
-import Discussions from "./components/Student/Discussion/Discussion.jsx"
-import Resources from "./components/Student/Resources/Resources.jsx"
-import Notes from "./components/Student/Notes/Notes.jsx"
-import Downloads from "./components/Student/Download/Download.jsx"
-import Courses from "./components/Student/Courses/Courses.jsx"
-import Settings from "./components/Student/Setting/Setting.jsx"
+import Assignments from "./pages/Student/Assignment/Assignment.jsx"
+import Classes from "./pages/Student/Classes/Classes.jsx"
+import Discussions from "./pages/Student/Discussion/Discussion.jsx"
+import Notes from "./pages/Student/Notes/Notes.jsx"
+import Downloads from "./pages/Student/Download/Download.jsx"
+import Courses from "./pages/Student/Courses/Courses.jsx"
+import Settings from "./pages/Student/Setting/Setting.jsx"
 
 const FacultyLayout = ({ children }) => {
   const { user } = useUser()
@@ -209,15 +208,6 @@ function App() {
             <StudentLayout>
               {" "}
               <Discussions />{" "}
-            </StudentLayout>
-          }
-        />
-        <Route
-          path="/resources"
-          element={
-            <StudentLayout>
-              {" "}
-              <Resources />{" "}
             </StudentLayout>
           }
         />
