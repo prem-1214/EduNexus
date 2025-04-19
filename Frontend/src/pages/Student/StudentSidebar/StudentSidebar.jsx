@@ -42,6 +42,7 @@ const StudentSidebar = ({ onToggle }) => {
     { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
     { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Settings", icon: <FaCog />, to: "/settings" },
+    { name: "Quiz", icon: <FaCog />, to: "/quiz" },
   ]
 
   const handleLogout = () => {

@@ -27,6 +27,7 @@ import Notes from "./pages/Student/Notes/Notes.jsx"
 import Downloads from "./pages/Student/Download/Download.jsx"
 import Courses from "./pages/Student/Courses/Courses.jsx"
 import Settings from "./pages/Student/Setting/Setting.jsx"
+import QuizPage from "./pages/Student/Quiz/Quiz.jsx"
 
 const FacultyLayout = ({ children }) => {
   const { user } = useUser()
@@ -244,6 +245,15 @@ function App() {
             <StudentLayout>
               {" "}
               <Settings />{" "}
+            </StudentLayout>
+          }
+        />
+        <Route
+          path="/quiz"
+          element={
+            <StudentLayout>
+              {" "}
+              <QuizPage />{" "}
             </StudentLayout>
           }
         />
