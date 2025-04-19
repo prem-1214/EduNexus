@@ -20,6 +20,7 @@ import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 // Student imports
 import StudentSidebar from "./components/Student/StudentSidebar.jsx"
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx"
+// import Dashboard from "./components/Student/Dashboard/Dashboard.jsx";
 import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx"
 import Assignments from "./components/Student/Assignment/Assignment.jsx"
 import Classes from "./components/Student/Classes/Classes.jsx"
@@ -54,19 +55,26 @@ const FacultyLayout = ({ children }) => {
 }
 
 const StudentLayout = ({ children }) => {
-  const { user } = useUser()
+  const { user } = useUser();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  if (!user) return <Navigate to="/login" />
-  if (user.role !== "student") return <Navigate to="/login" />
-  if (user.isActive === false) return <Navigate to="/login" />
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== "student") return <Navigate to="/login" />;
+  if (user.isActive === false) return <Navigate to="/login" />;
 
   return (
-    <div className="flex">
-      <StudentSidebar />
-      <div className="flex-1 ml-64 p-4">{children}</div>
+    <div className="flex h-screen">
+      <StudentSidebar onToggle={setIsSidebarCollapsed} />
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isSidebarCollapsed ? "ml-20" : "ml-64"
+        }`}
+      >
+        {children}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 function App() {
   return (

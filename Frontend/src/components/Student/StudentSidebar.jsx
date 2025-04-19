@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaBook,
@@ -15,27 +15,27 @@ import {
   FaSignOutAlt,
   FaSun,
   FaMoon,
-} from "react-icons/fa"
-import { useTheme } from "../../Context/ThemeContext"
+} from "react-icons/fa";
+import { useTheme } from "../../Context/ThemeContext";
 
-const StudentSidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const navigate = useNavigate()
-  const { isDarkMode, toggleTheme } = useTheme()
+const StudentSidebar = ({ onToggle }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark")
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark")
+      document.documentElement.classList.remove("dark");
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
   const menuItems = [
-    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard " },
+    { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
     { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
-    { name: "explore", icon: <FaVideo />, to: "/recordings" },
+    { name: "Explore", icon: <FaVideo />, to: "/recordings" },
     { name: "Discussions", icon: <FaComments />, to: "/discussions" },
     { name: "Resources", icon: <FaFileAlt />, to: "/resources" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },
@@ -43,11 +43,16 @@ const StudentSidebar = () => {
     { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
     { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Settings", icon: <FaCog />, to: "/settings" },
-  ]
+  ];
 
   const handleLogout = () => {
-    navigate("/login")
-  }
+    navigate("/login");
+  };
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+    onToggle(!isCollapsed); // Notify parent component about the state change
+  };
 
   return (
     <div
@@ -57,8 +62,8 @@ const StudentSidebar = () => {
       backdrop-blur-lg shadow-xl border-r
       ${
         isDarkMode
-          ? "bg-[#111827]/60 border-[#334155] text-white"
-          : "bg-[#F8FAFC]/70 border-[#E5E7EB] text-gray-800"
+          ? "bg-[#1E293B] border-[#334155] text-[#F8FAFC]"
+          : "bg-[#F3F4F6] border-[#E5E7EB] text-[#1F2937]"
       }`}
     >
       {/* Logo and Toggle */}
@@ -69,10 +74,10 @@ const StudentSidebar = () => {
           className={`cursor-pointer mx-auto transition-all duration-300 ${
             isCollapsed ? "w-12" : "w-36"
           }`}
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={toggleSidebar}
         />
 
-        <ul className="space-y-1">
+        <ul className="space-y-1 mt-6">
           {menuItems.map((item, index) => (
             <li key={index}>
               <NavLink
@@ -84,13 +89,13 @@ const StudentSidebar = () => {
                         ? "bg-green-600/20 text-green-300"
                         : "bg-[#E0F7F1] text-[#1FAA59]"
                       : isDarkMode
-                      ? "hover:bg-gray-700 hover:text-green-300"
-                      : "hover:bg-[#F3F4F6] hover:text-[#1E1E7E]"
+                      ? "hover:bg-[#334155] hover:text-green-300"
+                      : "hover:bg-[#E5E7EB] hover:text-[#1E1E7E]"
                   } ${isCollapsed ? "justify-center" : "gap-3"}`
                 }
               >
                 <span className={`${isCollapsed ? "text-lg" : "text-base"}`}>
-                {item.icon}
+                  {item.icon}
                 </span>
                 {!isCollapsed && <span className="truncate">{item.name}</span>}
               </NavLink>
@@ -126,7 +131,7 @@ const StudentSidebar = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentSidebar
+export default StudentSidebar;
