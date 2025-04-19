@@ -6,7 +6,6 @@ import {
   FaCalendar,
   FaVideo,
   FaComments,
-  FaFileAlt,
   FaStickyNote,
   FaDownload,
   FaChalkboardTeacher,
@@ -15,6 +14,7 @@ import {
   FaSignOutAlt,
   FaSun,
   FaMoon,
+  FaQuestionCircle,
 } from "react-icons/fa"
 import { useTheme } from "../../../Context/ThemeContext"
 
@@ -42,7 +42,7 @@ const StudentSidebar = ({ onToggle }) => {
     { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
     { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Settings", icon: <FaCog />, to: "/settings" },
-    { name: "Quiz", icon: <FaCog />, to: "/quiz" },
+    { name: "Quiz", icon: <FaQuestionCircle />, to: "/quiz" },
   ]
 
   const handleLogout = () => {
