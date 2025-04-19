@@ -77,7 +77,7 @@ const StudentSidebar = ({ onToggle }) => {
           onClick={toggleSidebar}
         />
 
-        <ul className="space-y-1 mt-6">
+        <ul className="space-y-1 mt-6 text-sm">
           {menuItems.map((item, index) => (
             <li key={index}>
               <NavLink
@@ -94,7 +94,7 @@ const StudentSidebar = ({ onToggle }) => {
                   } ${isCollapsed ? "justify-center" : "gap-3"}`
                 }
               >
-                <span className={`${isCollapsed ? "text-lg" : "text-base"}`}>
+                <span className={`${isCollapsed ? "text-xl" : "text-base "}`}>
                   {item.icon}
                 </span>
                 {!isCollapsed && <span className="truncate">{item.name}</span>}
