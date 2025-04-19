@@ -1,9 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../Context/ThemeContext";
+import { useNavigate } from "react-router-dom"
+import { useUser } from "../../context/UserContext.jsx"
+import { useTheme } from "../../Context/ThemeContext"
 
 const StudentDashboardPage = ({ isSidebarCollapsed }) => {
-  const navigate = useNavigate();
-  const { isDarkMode } = useTheme(); // Access the dark mode state from ThemeContext
+  const navigate = useNavigate()
+  const { isDarkMode } = useTheme()
+  const { user } = useUser()
 
   const cards = [
     {
@@ -30,15 +32,20 @@ const StudentDashboardPage = ({ isSidebarCollapsed }) => {
       color: "from-purple-500 to-purple-700",
       to: "/discussions",
     },
-  ];
+  ]
 
   return (
     <div
       className={`p-6 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
-      <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        Welcome {user?.userName?.replace(".", " ").toUpperCase() || "Student"}{" "}
+        to Your Dashboard
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
         {cards.map((card, idx) => (
@@ -65,8 +72,8 @@ const StudentDashboardPage = ({ isSidebarCollapsed }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DashboardCard = ({ title, value, gradient, onClick }) => {
   return (
@@ -78,7 +85,7 @@ const DashboardCard = ({ title, value, gradient, onClick }) => {
       <h3 className="text-sm opacity-90">{title}</h3>
       <p className="text-3xl font-bold mt-2">{value}</p>
     </div>
-  );
-};
+  )
+}
 
-export default StudentDashboardPage;
+export default StudentDashboardPage

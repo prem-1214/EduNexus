@@ -1,10 +1,14 @@
-// src/components/common/Pagination.jsx
-import React from "react";
+import React from "react"
 
-const Pagination = ({ currentPage, totalPages, onPageChange, isDarkMode = false }) => {
-  if (totalPages <= 1) return null;
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  isDarkMode = false,
+}) => {
+  if (totalPages <= 1) return null
 
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
     <div className="flex justify-center mt-10 space-x-2 flex-wrap">
@@ -50,7 +54,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, isDarkMode = false 
         Next
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Pagination;
+export default Pagination

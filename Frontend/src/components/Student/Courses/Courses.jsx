@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaSearch, FaGraduationCap, FaClock, FaUser } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { FaSearch, FaGraduationCap, FaClock, FaUser } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const courseList = [
   {
@@ -24,20 +24,22 @@ const courseList = [
     duration: "4 Weeks",
     link: "#",
   },
-];
+]
 
 const Courses = () => {
-  const [search, setSearch] = useState("");
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [search, setSearch] = useState("")
+  const { isDarkMode } = useTheme()
 
   const filteredCourses = courseList.filter((course) =>
     course.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-6">📚 Courses</h1>
@@ -79,11 +81,11 @@ const Courses = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const CourseCard = ({ title, instructor, duration, link }) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode } = useTheme()
 
   return (
     <div
@@ -114,7 +116,7 @@ const CourseCard = ({ title, instructor, duration, link }) => {
         View Course
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Courses;
+export default Courses

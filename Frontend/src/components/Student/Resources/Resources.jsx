@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { FaSearch, FaDownload, FaFilePdf, FaLink } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const resourceData = [
   {
@@ -27,20 +27,22 @@ const resourceData = [
     type: "link",
     url: "https://docs.github.com/en/get-started",
   },
-];
+]
 
 const Resources = () => {
-  const [search, setSearch] = useState("");
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [search, setSearch] = useState("")
+  const { isDarkMode } = useTheme()
 
   const filteredResources = resourceData.filter((res) =>
     res.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-6">📚 Resources</h1>
@@ -80,13 +82,13 @@ const Resources = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ResourceCard = ({ title, type, url }) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
-  const isPDF = type === "pdf";
-  const isLink = type === "link";
+  const { isDarkMode } = useTheme()
+  const isPDF = type === "pdf"
+  const isLink = type === "link"
 
   return (
     <div
@@ -142,7 +144,7 @@ const ResourceCard = ({ title, type, url }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Resources;
+export default Resources

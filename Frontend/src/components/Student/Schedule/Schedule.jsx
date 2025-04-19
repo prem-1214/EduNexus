@@ -1,22 +1,20 @@
-import { useState } from "react";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const Schedule = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [isConnected, setIsConnected] = useState(false)
+  const { isDarkMode } = useTheme()
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-4">📆 Your Schedule</h1>
-      <p
-        className={`mb-6 ${
-          isDarkMode ? "text-gray-400" : "text-gray-600"
-        }`}
-      >
+      <p className={`mb-6 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
         View and manage your events using Google Calendar integration.
       </p>
 
@@ -32,7 +30,7 @@ const Schedule = () => {
             Connect your Google Calendar to get started!
           </p>
           <button
-            onClick={() => setIsConnected(true)} // Replace with real auth later
+            onClick={() => setIsConnected(true)}
             className={`px-5 py-2 rounded-lg transition ${
               isDarkMode
                 ? "bg-blue-600 text-white hover:bg-blue-500"
@@ -58,7 +56,7 @@ const Schedule = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Schedule;
+export default Schedule

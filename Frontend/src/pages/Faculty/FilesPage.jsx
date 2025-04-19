@@ -3,20 +3,20 @@ import axios from "axios"
 import { useTheme } from "../../Context/ThemeContext.jsx"
 
 const FilesPage = () => {
-  const { isDarkMode } = useTheme();
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [viewMode, setViewMode] = useState("table");
+  const { isDarkMode } = useTheme()
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [viewMode, setViewMode] = useState("table")
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const filesPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1)
+  const filesPerPage = 6
 
-  const totalPages = Math.ceil(uploadedFiles.length / filesPerPage);
+  const totalPages = Math.ceil(uploadedFiles.length / filesPerPage)
   const paginatedFiles = uploadedFiles.slice(
     (currentPage - 1) * filesPerPage,
     currentPage * filesPerPage
-  );
+  )
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -25,10 +25,9 @@ const FilesPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        });
-        setUploadedFiles(response.data.files);
-        setError("");
-        // setSuccess("Files fetched successfully.");
+        })
+        setUploadedFiles(response.data.files)
+        setError("")
       } catch (error) {
         console.error("Error fetching files:", error)
         setError("Failed to fetch files. Please try again later.")
@@ -41,9 +40,9 @@ const FilesPage = () => {
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+      setCurrentPage(newPage)
     }
-  };
+  }
 
   return (
     <div
@@ -171,44 +170,50 @@ const FilesPage = () => {
           </div>
         )}
 
-{totalPages > 1 && (
-        <div className="flex justify-center mt-10 space-x-2 flex-wrap">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg border text-white ${
-              currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-            }`}
-          >
-            Prev
-          </button>
-
-          {Array.from({ length: totalPages }, (_, i) => (
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-10 space-x-2 flex-wrap">
             <button
-              key={i + 1}
-              onClick={() => handlePageChange(i + 1)}
-              className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 rounded-lg border text-white ${
+                currentPage === 1
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
               }`}
             >
-              {i + 1}
+              Prev
             </button>
-          ))}
 
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg border text-white ${
-              currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
-    </div>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 rounded-lg border text-white ${
+                currentPage === totalPages
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
-export default FilesPage;
+export default FilesPage

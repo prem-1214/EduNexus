@@ -192,7 +192,6 @@ const ExploreVideosPage = () => {
         onPageChange={setPage}
         isDarkMode={isDarkMode}
       />
-
     </div>
   )
 }

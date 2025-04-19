@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { Routes, Route, Navigate } from "react-router-dom" // Added Navigate
 import { ThemeProvider } from "./Context/ThemeContext.jsx"
-import ErrorBoundary from "./utils/ErrorBoundary.jsx"
 import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
 
@@ -20,7 +19,6 @@ import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 // Student imports
 import StudentSidebar from "./components/Student/StudentSidebar.jsx"
 import StudentDashboardPage from "./pages/Student/StudentDashboardPage.jsx"
-// import Dashboard from "./components/Student/Dashboard/Dashboard.jsx";
 import UploadFilePage from "./pages/Faculty/UploadFilePage.jsx"
 import Assignments from "./components/Student/Assignment/Assignment.jsx"
 import Classes from "./components/Student/Classes/Classes.jsx"
@@ -28,7 +26,6 @@ import Discussions from "./components/Student/Discussion/Discussion.jsx"
 import Resources from "./components/Student/Resources/Resources.jsx"
 import Notes from "./components/Student/Notes/Notes.jsx"
 import Downloads from "./components/Student/Download/Download.jsx"
-import Recording from "./pages/Student/Recording.jsx"
 import Courses from "./components/Student/Courses/Courses.jsx"
 import Settings from "./components/Student/Setting/Setting.jsx"
 
@@ -44,7 +41,7 @@ const FacultyLayout = ({ children }) => {
     <div className="flex z-50 h-screen transition-all duration-300 bg-[#F9FAFB] dark:bg-[#111827]/60 text-[#1F2937] dark:text-[#F8FAFC]">
       <FacultySidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div
-        className={`flex-1 transition-all duration-300 ${ 
+        className={`flex-1 transition-all duration-300 ${
           isSidebarOpen ? "ml-64" : "ml-20"
         }`}
       >
@@ -55,12 +52,12 @@ const FacultyLayout = ({ children }) => {
 }
 
 const StudentLayout = ({ children }) => {
-  const { user } = useUser();
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const { user } = useUser()
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-  if (!user) return <Navigate to="/login" />;
-  if (user.role !== "student") return <Navigate to="/login" />;
-  if (user.isActive === false) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/login" />
+  if (user.role !== "student") return <Navigate to="/login" />
+  if (user.isActive === false) return <Navigate to="/login" />
 
   return (
     <div className="flex h-screen">
@@ -73,8 +70,8 @@ const StudentLayout = ({ children }) => {
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
 
 function App() {
   return (
@@ -167,15 +164,6 @@ function App() {
             <StudentLayout>
               {" "}
               <StudentDashboardPage />{" "}
-            </StudentLayout>
-          }
-        />
-        {/* <Route path="/dashboard" element={<StudentLayout> <Dashboard /> </StudentLayout>} /> */}
-        <Route
-          path="/exploreVideos"
-          element={
-            <StudentLayout>
-              <ExploreVideosPage />
             </StudentLayout>
           }
         />

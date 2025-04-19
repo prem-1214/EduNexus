@@ -1,54 +1,66 @@
-import React, { useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import { v4 as uuidv4 } from "uuid";
-import { useTheme } from "../../Context/ThemeContext.jsx";
-import { Card } from "@/components/ui/card";
+import React, { useState } from "react"
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import interactionPlugin from "@fullcalendar/interaction"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import listPlugin from "@fullcalendar/list"
+import { v4 as uuidv4 } from "uuid"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { Card } from "@/components/ui/card"
 
 const CalendarPage = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme()
   const [events, setEvents] = useState([
-    { id: uuidv4(), title: "Holiday: Independence Day", date: "2025-08-15", color: "#1FAA59" },
+    {
+      id: uuidv4(),
+      title: "Holiday: Independence Day",
+      date: "2025-08-15",
+      color: "#1FAA59",
+    },
     { id: uuidv4(), title: "Exam: Math", date: "2025-04-10", color: "#EF4444" },
-    { id: uuidv4(), title: "Lecture: Physics", date: "2025-04-12", color: "#3B82F6" },
-  ]);
+    {
+      id: uuidv4(),
+      title: "Lecture: Physics",
+      date: "2025-04-12",
+      color: "#3B82F6",
+    },
+  ])
 
   const handleDateClick = (info) => {
-    const title = prompt(`Enter event for ${info.dateStr}`);
+    const title = prompt(`Enter event for ${info.dateStr}`)
     if (title) {
       const newEvent = {
         id: uuidv4(),
         title,
         date: info.dateStr,
         color: "#3B82F6",
-      };
-      setEvents((prev) => [...prev, newEvent]);
+      }
+      setEvents((prev) => [...prev, newEvent])
     }
-  };
+  }
 
   const handleEventClick = (info) => {
     const action = prompt(
       `Edit or delete event: "${info.event.title}"? Type "edit" to edit or "delete" to delete.`
-    );
+    )
     if (action === "edit") {
-      const newTitle = prompt("Enter new title:", info.event.title);
+      const newTitle = prompt("Enter new title:", info.event.title)
       if (newTitle) {
         setEvents((prev) =>
           prev.map((event) =>
             event.id === info.event.id ? { ...event, title: newTitle } : event
           )
-        );
+        )
       }
     } else if (action === "delete") {
-      const confirmDelete = window.confirm(`Delete event: "${info.event.title}"?`);
+      const confirmDelete = window.confirm(
+        `Delete event: "${info.event.title}"?`
+      )
       if (confirmDelete) {
-        setEvents((prev) => prev.filter((event) => event.id !== info.event.id));
+        setEvents((prev) => prev.filter((event) => event.id !== info.event.id))
       }
     }
-  };
+  }
 
   return (
     <div
@@ -59,9 +71,7 @@ const CalendarPage = () => {
       }`}
     >
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-bold drop-shadow-sm">
-          📅 Calendar
-        </h1>
+        <h1 className="text-4xl font-bold drop-shadow-sm">📅 Calendar</h1>
         <p className="mt-2 text-lg font-medium text-[#1FAA59]">
           Add, edit, or delete events. Highlight holidays, exams, and lectures.
         </p>
@@ -78,7 +88,12 @@ const CalendarPage = () => {
         }`}
       >
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+          plugins={[
+            dayGridPlugin,
+            timeGridPlugin,
+            interactionPlugin,
+            listPlugin,
+          ]}
           initialView="dayGridMonth"
           headerToolbar={{
             left: "prev,next today",
@@ -96,7 +111,7 @@ const CalendarPage = () => {
         />
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default CalendarPage;
+export default CalendarPage

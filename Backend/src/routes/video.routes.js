@@ -1,10 +1,10 @@
 import { Router } from "express"
 import Video from "../models/video.model.js"
-import User from '../models/user.model.js';
-import { videoUploadHandler } from '../controllers/video.controller.js';
-import { upload } from '../middlewares/multer.middleware.js';
-import isAuthenticated from '../middlewares/auth.middleware.js'
-import paginate from '../middlewares/pagination.js';
+import User from "../models/user.model.js"
+import { videoUploadHandler } from "../controllers/video.controller.js"
+import { upload } from "../middlewares/multer.middleware.js"
+import isAuthenticated from "../middlewares/auth.middleware.js"
+import paginate from "../middlewares/pagination.js"
 
 const router = Router()
 
@@ -24,114 +24,112 @@ router.post(
   videoUploadHandler
 )
 
-router.get('/uploadedVideos', isAuthenticated, paginate, async (req, res) => {
-    try {
-      
-      const userId = req.user._id;
-      const {page, limit, skip} = req.pagination
-      const { program, branch, semester, subject, searchTerm } = req.query
+router.get("/uploadedVideos", isAuthenticated, paginate, async (req, res) => {
+  try {
+    const userId = req.user._id
+    const { page, limit, skip } = req.pagination
+    const { program, branch, semester, subject, searchTerm } = req.query
 
+    const filters = { uploader: userId }
+    console.log("Filters:", filters)
 
-      const filters = {uploader : userId}
-      console.log("Filters:", filters)
+    if (program) filters.program = program
+    if (branch) filters.branch = branch
+    if (semester) filters.semester = semester
+    if (subject) filters.subject = subject
+    if (searchTerm) filters.title = { $regex: searchTerm, $options: "i" }
 
-      if (program) filters.program = program
-      if (branch) filters.branch = branch
-      if (semester) filters.semester  = semester
-      if (subject) filters.subject = subject
-      if (searchTerm) filters.title = { $regex: searchTerm, $options: "i" }
-
-
-      const videos = await Video.find(filters)
-      .populate('uploader', 'userName avatar')
+    const videos = await Video.find(filters)
+      .populate("uploader", "userName avatar")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
 
-      const total = await Video.countDocuments(filters)
-      const totalPages = Math.ceil(total / limit)
-      console.log("Total Videos:", total)
-      console.log("Videos:", videos)
+    const total = await Video.countDocuments(filters)
+    const totalPages = Math.ceil(total / limit)
+    console.log("Total Videos:", total)
+    console.log("Videos:", videos)
 
+    // console.log("req.user:", req.user._id); // Log the user object
+    // console.log("before populating video")
 
-      // console.log("req.user:", req.user._id); // Log the user object
-      // console.log("before populating video")
+    // const populatedVideo = await Video.find({ uploader: userId })
+    //                             .populate('uploader', 'userName avatar')
+    //                             .sort({ createdAt: -1 });
+    // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
+    // console.log("Fetched Videos:", populatedVideo)
 
-      // const populatedVideo = await Video.find({ uploader: userId })
-      //                             .populate('uploader', 'userName avatar')
-      //                             .sort({ createdAt: -1 });
-      // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
-      // console.log("Fetched Videos:", populatedVideo)
+    const formattedVideos = videos.map((video) => ({
+      ...video.toObject(),
+      uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    }))
 
-      const formattedVideos = videos.map((video) => ({
-        ...video.toObject(),
-        uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      }));
+    console.log("Formatted Videos:", formattedVideos)
+    return res
+      .status(200)
+      .json({ videos: formattedVideos, totalPages, total, page, limit })
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching videos", error })
+  }
+})
 
-      console.log("Formatted Videos:", formattedVideos)
-      return res.status(200).json({ videos: formattedVideos, totalPages, total, page, limit })
-    } catch (error) {
-     return res.status(500).json({ message: 'Error fetching videos', error })
-    }
-  })
-
-
-router.get("/exploreVideos", isAuthenticated, paginate, async (req, res) => {  
-  try {  
+router.get("/exploreVideos", isAuthenticated, paginate, async (req, res) => {
+  try {
     const { page, limit, skip } = req.pagination
 
-    const filters = {};  
-    const { program, branch, semester, subject, searchTerm } = req.query;  
+    const filters = {}
+    const { program, branch, semester, subject, searchTerm } = req.query
 
-    if (program) filters.program = program;  
-    if (branch) filters.branch = branch;  
-    if (semester) filters.semester = semester;  
-    if (subject) filters.subject = subject;  
-    if (searchTerm) {  
-      filters.title = { $regex: searchTerm, $options: "i" };  
-    }  
+    if (program) filters.program = program
+    if (branch) filters.branch = branch
+    if (semester) filters.semester = semester
+    if (subject) filters.subject = subject
+    if (searchTerm) {
+      filters.title = { $regex: searchTerm, $options: "i" }
+    }
 
-   
-    const videos = await Video.find(filters)  
-      .populate("uploader", "userName avatar")  
-      .sort({ createdAt: -1 })  
-      .skip(skip)  
-      .limit(limit);  
+    const videos = await Video.find(filters)
+      .populate("uploader", "userName avatar")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
 
-    // Count total docs for pagination info  
+    // Count total docs for pagination info
     const total = await Video.countDocuments(filters)
     const totalPages = Math.ceil(total / limit)
 
-    // Format createdAt date for each video  
-    const formattedVideos = videos.map((video) => ({  
-      ...video.toObject(),  
-      uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {  
-        day: "2-digit",  
-        month: "2-digit",  
-        year: "numeric",  
-        hour: "2-digit",  
-        minute: "2-digit",  
-      }),  
-    }));  
+    // Format createdAt date for each video
+    const formattedVideos = videos.map((video) => ({
+      ...video.toObject(),
+      uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    }))
 
-    // Return paginated data and total count  
-    return res.status(200).json({ videos: formattedVideos, totalPages, total, page, limit });  
-  } catch (error) {  
-    console.error(error);  
-    return res.status(500).json({ message: "Error fetching videos", error });  
-  }  
-});  
+    // Return paginated data and total count
+    return res
+      .status(200)
+      .json({ videos: formattedVideos, totalPages, total, page, limit })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: "Error fetching videos", error })
+  }
+})
 
-router.delete('/deleteVideo/:id', isAuthenticated, async (req, res) => {
+router.delete("/deleteVideo/:id", isAuthenticated, async (req, res) => {
   try {
-    const videoId = req.params.id;
-    const userId = req.user._id;
+    const videoId = req.params.id
+    const userId = req.user._id
 
     // Find the video to ensure it belongs to the authenticated user
     const video = await Video.findOne({ _id: videoId, uploader: userId })

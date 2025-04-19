@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { useTheme } from "../../Context/ThemeContext.jsx";
-import { useUser } from "../../context/UserContext.jsx";
-import Logout from "../../components/Student/Logout/Logout.jsx";
+import React, { useState, useEffect } from "react"
+import { NavLink } from "react-router-dom"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useUser } from "../../context/UserContext.jsx"
+import Logout from "../../components/Student/Logout/Logout.jsx"
 import {
   Menu,
   Video,
@@ -15,21 +15,21 @@ import {
   Compass,
   Sun,
   Moon,
-} from "lucide-react";
+} from "lucide-react"
 
 function FacultySidebar({ isOpen, setIsOpen }) {
-  const { user } = useUser();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { user } = useUser()
+  const { isDarkMode, toggleTheme } = useTheme()
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add("dark")
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove("dark")
     }
-  }, [isDarkMode]);
+  }, [isDarkMode])
 
-  const toggleSidebar = () => setIsOpen((prev) => !prev);
+  const toggleSidebar = () => setIsOpen((prev) => !prev)
 
   return (
     <aside
@@ -66,14 +66,54 @@ function FacultySidebar({ isOpen, setIsOpen }) {
       {/* Navigation */}
       <nav className="flex-1 mt-4 w-full font-inter">
         <ul className="space-y-1">
-          <SidebarLink to="/educatorDashboard" icon={<Menu size={22} />} text="Dashboard" isOpen={isOpen} />
-          <SidebarLink to="/upload" icon={<Upload size={22} />} text="Upload Video" isOpen={isOpen} />
-          <SidebarLink to="/uploadFiles" icon={<FileUp size={22} />} text="Upload Files" isOpen={isOpen} />
-          <SidebarLink to="/my-files" icon={<File size={22} />} text="My Files" isOpen={isOpen} />
-          <SidebarLink to="/uploadedVideos" icon={<Video size={22} />} text="Uploaded Videos" isOpen={isOpen} />
-          <SidebarLink to="/exploreVideos" icon={<Compass size={22} />} text="Explore Videos" isOpen={isOpen} />
-          <SidebarLink to="/Calender" icon={<Calendar size={22} />} text="Calendar" isOpen={isOpen} />
-          <SidebarLink to="/total-students" icon={<Users size={22} />} text="Students" isOpen={isOpen} />
+          <SidebarLink
+            to="/educatorDashboard"
+            icon={<Menu size={22} />}
+            text="Dashboard"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/upload"
+            icon={<Upload size={22} />}
+            text="Upload Video"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/uploadFiles"
+            icon={<FileUp size={22} />}
+            text="Upload Files"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/my-files"
+            icon={<File size={22} />}
+            text="My Files"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/uploadedVideos"
+            icon={<Video size={22} />}
+            text="Uploaded Videos"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/exploreVideos"
+            icon={<Compass size={22} />}
+            text="Explore Videos"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/Calender"
+            icon={<Calendar size={22} />}
+            text="Calendar"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/total-students"
+            icon={<Users size={22} />}
+            text="Students"
+            isOpen={isOpen}
+          />
         </ul>
       </nav>
 
@@ -111,7 +151,7 @@ function FacultySidebar({ isOpen, setIsOpen }) {
         </button>
       </div>
     </aside>
-  );
+  )
 }
 
 function SidebarLink({ to, icon, text, isOpen }) {
@@ -133,7 +173,7 @@ function SidebarLink({ to, icon, text, isOpen }) {
         {isOpen && <span>{text}</span>}
       </NavLink>
     </li>
-  );
+  )
 }
 
-export default FacultySidebar;
+export default FacultySidebar

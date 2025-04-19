@@ -1,43 +1,43 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaCommentDots, FaTimes } from "react-icons/fa";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import axios from "axios";
+import { useState, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { FaCommentDots, FaTimes } from "react-icons/fa"
+import ReactMarkdown from "react-markdown"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import axios from "axios"
 
 const ChatbotWidget = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [userInput, setUserInput] = useState("");
-  const isLoading = useRef(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState([])
+  const [userInput, setUserInput] = useState("")
+  const isLoading = useRef(false)
 
   const handleSend = async () => {
-    if (!userInput.trim() || isLoading.current) return;
-    const newMessages = [...messages, { role: "user", content: userInput }];
-    setMessages(newMessages);
-    setUserInput("");
-    isLoading.current = true;
+    if (!userInput.trim() || isLoading.current) return
+    const newMessages = [...messages, { role: "user", content: userInput }]
+    setMessages(newMessages)
+    setUserInput("")
+    isLoading.current = true
 
     try {
       const res = await axios.post("http://localhost:11434/api/generate", {
         model: "llama3.2",
         prompt: userInput,
         stream: false,
-      });
+      })
 
-      const response = res.data.response;
-      setMessages((prev) => [...prev, { role: "bot", content: response }]);
+      const response = res.data.response
+      setMessages((prev) => [...prev, { role: "bot", content: response }])
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error:", err)
       setMessages((prev) => [
         ...prev,
         { role: "bot", content: "Error talking to bot." },
-      ]);
+      ])
     } finally {
-      isLoading.current = false;
+      isLoading.current = false
     }
-  };
+  }
 
   return (
     <>
@@ -77,7 +77,7 @@ const ChatbotWidget = () => {
                       children={msg.content}
                       components={{
                         code({ node, inline, className, children, ...props }) {
-                          const match = /language-(\w+)/.exec(className || "");
+                          const match = /language-(\w+)/.exec(className || "")
                           return !inline && match ? (
                             <SyntaxHighlighter
                               style={oneDark}
@@ -93,7 +93,7 @@ const ChatbotWidget = () => {
                             >
                               {children}
                             </code>
-                          );
+                          )
                         },
                       }}
                     />
@@ -123,7 +123,7 @@ const ChatbotWidget = () => {
         )}
       </AnimatePresence>
     </>
-  );
-};
+  )
+}
 
-export default ChatbotWidget;
+export default ChatbotWidget

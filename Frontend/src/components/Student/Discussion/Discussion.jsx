@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const Discussion = () => {
   const [discussions, setDiscussions] = useState([
@@ -22,22 +22,20 @@ const Discussion = () => {
       question: "Any recommended resources for learning MongoDB basics?",
       timestamp: "1 day ago",
     },
-  ]);
+  ])
 
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode } = useTheme()
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-4">💬 Discussion Forum</h1>
-      <p
-        className={`mb-8 ${
-          isDarkMode ? "text-gray-400" : "text-gray-600"
-        }`}
-      >
+      <p className={`mb-8 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
         Ask questions, help others, and grow together!
       </p>
 
@@ -52,11 +50,11 @@ const Discussion = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DiscussionPost = ({ author, question, timestamp }) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode } = useTheme()
 
   return (
     <div
@@ -81,7 +79,7 @@ const DiscussionPost = ({ author, question, timestamp }) => {
         Posted by <span className="font-medium">{author}</span> • {timestamp}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Discussion;
+export default Discussion

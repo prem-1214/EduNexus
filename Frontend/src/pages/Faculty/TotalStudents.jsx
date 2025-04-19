@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Card, CardContent } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { Card, CardContent } from "@/components/ui/card"
+import { Loader2 } from "lucide-react"
 
 const TotalStudents = () => {
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [students, setStudents] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("/video/students");
-        setStudents(response.data);
+        const response = await axios.get("/video/students")
+        setStudents(response.data)
       } catch (error) {
-        console.error("Error fetching students:", error);
+        console.error("Error fetching students:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchStudents();
-  }, []);
+    fetchStudents()
+  }, [])
 
   if (loading) {
     return (
@@ -30,7 +30,7 @@ const TotalStudents = () => {
           Loading students...
         </p>
       </div>
-    );
+    )
   }
 
   return (
@@ -72,7 +72,7 @@ const TotalStudents = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default TotalStudents;
+export default TotalStudents

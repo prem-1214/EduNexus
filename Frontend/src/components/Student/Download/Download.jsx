@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaSearch, FaDownload, FaFileAlt } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { FaSearch, FaDownload, FaFileAlt } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const initialDownloads = [
   {
@@ -21,20 +21,22 @@ const initialDownloads = [
     url: "/downloads/dsa-cheatsheet.pdf",
     size: "650KB",
   },
-];
+]
 
 const Downloads = () => {
-  const [search, setSearch] = useState("");
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [search, setSearch] = useState("")
+  const { isDarkMode } = useTheme()
 
   const filteredDownloads = initialDownloads.filter((file) =>
     file.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-6">📁 Downloads</h1>
@@ -76,11 +78,11 @@ const Downloads = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DownloadCard = ({ title, url, size }) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const { isDarkMode } = useTheme()
 
   return (
     <div
@@ -109,7 +111,7 @@ const DownloadCard = ({ title, url, size }) => {
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Downloads;
+export default Downloads

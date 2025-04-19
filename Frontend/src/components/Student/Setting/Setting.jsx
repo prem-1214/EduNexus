@@ -1,13 +1,14 @@
-import { FaUser, FaEnvelope, FaLock, FaBell, FaSave } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import { FaUser, FaEnvelope, FaLock, FaBell, FaSave } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const Settings = () => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
-
+  const { isDarkMode } = useTheme()
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-6">⚙️ Settings</h1>
@@ -94,7 +95,7 @@ const Settings = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

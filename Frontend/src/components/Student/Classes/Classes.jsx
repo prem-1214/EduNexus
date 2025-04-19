@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaChalkboardTeacher, FaSearch, FaCalendarAlt } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import { useState } from "react"
+import { FaChalkboardTeacher, FaSearch, FaCalendarAlt } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const classList = [
   {
@@ -24,20 +24,22 @@ const classList = [
     time: "Friday, 2:00 - 4:00 PM",
     link: "#",
   },
-];
+]
 
 const Classes = () => {
-  const [search, setSearch] = useState("");
-  const { isDarkMode } = useTheme(); // Access the dark mode state
+  const [search, setSearch] = useState("")
+  const { isDarkMode } = useTheme()
 
   const filteredClasses = classList.filter((cls) =>
     cls.title.toLowerCase().includes(search.toLowerCase())
-  );
+  )
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
       <h1 className="text-3xl font-bold mb-6">👨‍🏫 Classes</h1>
@@ -77,12 +79,11 @@ const Classes = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ClassCard = ({ title, instructor, time, link }) => {
-  const { isDarkMode } = useTheme(); // Access the dark mode state
-
+  const { isDarkMode } = useTheme()
   return (
     <div
       className={`p-5 rounded-xl shadow-lg hover:shadow-2xl transition ${
@@ -110,7 +111,7 @@ const ClassCard = ({ title, instructor, time, link }) => {
         View / Join Class
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Classes;
+export default Classes

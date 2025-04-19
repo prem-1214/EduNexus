@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { FaSearch } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { FaSearch } from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const StudentFilesPage = () => {
-  const [files, setFiles] = useState([]);
-  const [filteredFiles, setFilteredFiles] = useState([]);
-  const [error, setError] = useState("");
-  const [viewMode, setViewMode] = useState("card");
-  const [search, setSearch] = useState("");
-  const [program, setProgram] = useState("");
-  const [branch, setBranch] = useState("");
-  const [semester, setSemester] = useState("");
-  const [sortOption, setSortOption] = useState("newest");
-  const [currentPage, setCurrentPage] = useState(1);
-  const filesPerPage = 6;
+  const [files, setFiles] = useState([])
+  const [filteredFiles, setFilteredFiles] = useState([])
+  const [error, setError] = useState("")
+  const [viewMode, setViewMode] = useState("card")
+  const [search, setSearch] = useState("")
+  const [program, setProgram] = useState("")
+  const [branch, setBranch] = useState("")
+  const [semester, setSemester] = useState("")
+  const [sortOption, setSortOption] = useState("newest")
+  const [currentPage, setCurrentPage] = useState(1)
+  const filesPerPage = 6
 
-  const { isDarkMode } = useTheme(); // Access the dark mode state
-
+  const { isDarkMode } = useTheme()
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -25,57 +24,57 @@ const StudentFilesPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        });
-        setFiles(response.data.files || []);
-        setError("");
+        })
+        setFiles(response.data.files || [])
+        setError("")
       } catch (err) {
-        console.error("Error fetching files:", err);
-        setError("Failed to fetch files. Please try again later.");
+        console.error("Error fetching files:", err)
+        setError("Failed to fetch files. Please try again later.")
       }
-    };
+    }
 
-    fetchFiles();
-  }, []);
+    fetchFiles()
+  }, [])
 
   useEffect(() => {
-    let tempFiles = [...files];
+    let tempFiles = [...files]
 
-    if (program) tempFiles = tempFiles.filter((f) => f.program === program);
-    if (branch) tempFiles = tempFiles.filter((f) => f.branch === branch);
-    if (semester) tempFiles = tempFiles.filter((f) => f.semester === semester);
+    if (program) tempFiles = tempFiles.filter((f) => f.program === program)
+    if (branch) tempFiles = tempFiles.filter((f) => f.branch === branch)
+    if (semester) tempFiles = tempFiles.filter((f) => f.semester === semester)
     if (search)
       tempFiles = tempFiles.filter((f) =>
         f.fileName.toLowerCase().includes(search.toLowerCase())
-      );
+      )
 
     if (sortOption === "newest") {
-      tempFiles.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+      tempFiles.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))
     } else if (sortOption === "name") {
-      tempFiles.sort((a, b) => a.fileName.localeCompare(b.fileName));
+      tempFiles.sort((a, b) => a.fileName.localeCompare(b.fileName))
     }
 
-    setFilteredFiles(tempFiles);
-  }, [files, search, program, branch, semester, sortOption]);
+    setFilteredFiles(tempFiles)
+  }, [files, search, program, branch, semester, sortOption])
 
-  const totalPages = Math.ceil(filteredFiles.length / filesPerPage);
+  const totalPages = Math.ceil(filteredFiles.length / filesPerPage)
   const paginatedFiles = filteredFiles.slice(
     (currentPage - 1) * filesPerPage,
     currentPage * filesPerPage
-  );
+  )
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+    setCurrentPage(newPage)
+  }
 
   return (
     <div
       className={`p-6 pt-20 transition-all duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#F9FAFB] text-[#1F2937]"
+        isDarkMode
+          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          : "bg-[#F9FAFB] text-[#1F2937]"
       }`}
     >
-      <h1 className="text-3xl font-bold mb-6">
-        📁 Shared Files
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">📁 Shared Files</h1>
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
@@ -325,7 +324,7 @@ const StudentFilesPage = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default StudentFilesPage;
+export default StudentFilesPage
