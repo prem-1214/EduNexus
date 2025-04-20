@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { Card, CardContent } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import "primereact/resources/themes/lara-light-blue/theme.css"
+import "primereact/resources/primereact.min.css"
+import { Card, CardContent } from "@/components/ui/card"
 
 const TotalStudents = () => {
   const [students, setStudents] = useState([])
@@ -45,30 +49,30 @@ const TotalStudents = () => {
       </header>
 
       <Card className="backdrop-blur-xl bg-white/80 border border-[#E5E7EB] shadow-xl rounded-2xl">
-        <CardContent className="overflow-x-auto p-0">
-          <table className="min-w-full divide-y divide-[#E5E7EB] font-nunito text-sm text-left">
-            <thead className="bg-[#E0F7F1] text-[#1E1E7E]">
-              <tr>
-                <th className="py-4 px-6 font-medium">Username</th>
-                <th className="py-4 px-6 font-medium">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student, index) => (
-                <tr
-                  key={index}
-                  className={`${
-                    index % 2 === 0 ? "bg-[#F8FAFC]" : "bg-white"
-                  } hover:bg-[#E0F7F1]/60 transition duration-200`}
-                >
-                  <td className="py-3 px-6 text-[#1E1E7E] font-medium">
-                    {student.userName}
-                  </td>
-                  <td className="py-3 px-6 text-[#374151]">{student.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <CardContent className="p-4">
+          <DataTable
+            value={students}
+            paginator
+            rows={5}
+            rowsPerPageOptions={[5, 10, 20]}
+            stripedRows
+            className="bg-white/90 font-nunito rounded-xl"
+            responsiveLayout="scroll"
+            emptyMessage="No students found"
+          >
+            <Column
+              field="userName"
+              header="Username"
+              sortable
+              style={{ minWidth: "200px" }}
+            />
+            <Column
+              field="email"
+              header="Email"
+              sortable
+              style={{ minWidth: "250px" }}
+            />
+          </DataTable>
         </CardContent>
       </Card>
     </div>
