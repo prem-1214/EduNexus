@@ -3,6 +3,7 @@ import axios from "axios"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { jsPDF } from "jspdf"
 
 const categories = [
   "C",
@@ -39,11 +40,12 @@ const QuizPage = () => {
     try {
       const response = await axios.post("http://localhost:11434/api/generate", {
         model: "llama3.2",
-        prompt: `Return ONLY a valid JSON array (no markdown, no explanation, no wrapping text) of exactly 10 multiple-choice questions on "${topic}". Each question object must include: 
+        prompt: `Return ONLY a valid JSON array (no markdown, no explanation, no wrapping text) of exactly 10 multiple-choice questions on "${topic}". Each question object must include:
         {
           "question": "...",
           "options": ["...", "...", "...", "..."],
-          "answer": "..."
+          "answer": "...",
+          "explanation": "..."
         }
         Make sure all quotes are double quotes. END the response immediately after the array.`,
         stream: false,
@@ -52,7 +54,6 @@ const QuizPage = () => {
       const raw = response.data.response
       const match = raw.match(/\[\s*{[\s\S]*?}\s*\]/)
       if (!match) throw new Error("No valid JSON array found.")
-
       const parsed = JSON.parse(match[0])
       setQuiz(parsed)
     } catch (err) {
@@ -62,6 +63,28 @@ const QuizPage = () => {
     } finally {
       setLoading(false)
     }
+  }
+  const generatePDF = () => {
+    const doc = new jsPDF()
+    doc.setFontSize(14)
+    doc.text(`${category} Quiz - Solutions`, 20, 20)
+
+    let y = 30
+    quiz.forEach((q, i) => {
+      doc.text(`${i + 1}. ${q.question}`, 10, y)
+      y += 8
+      doc.text(`Correct Answer: ${q.answer}`, 12, y)
+      y += 8
+      doc.text(`Explanation: ${q.explanation || "N/A"}`, 12, y)
+      y += 12
+
+      if (y > 270) {
+        doc.addPage()
+        y = 20
+      }
+    })
+
+    doc.save(`${category}_quiz_solutions.pdf`)
   }
 
   useEffect(() => {
@@ -151,7 +174,7 @@ const QuizPage = () => {
 
   if (isFinished) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-[#FAFAFA] dark:bg-[#0B1120]">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAFAFA] dark:bg-[#0B1120] px-4">
         <Card className="glassmorphic p-10 max-w-xl dark:bg-slate-800">
           <h2 className="text-3xl font-semibold text-[#1E1E7E] dark:text-white mb-4">
             🎉 Quiz Completed!
@@ -159,10 +182,23 @@ const QuizPage = () => {
           <p className="text-lg text-[#1FAA59]">
             You scored {score} out of {quiz.length}
           </p>
-          <div className="flex gap-4 mt-6">
-            <Button onClick={() => fetchQuiz(category)}>
-              Retry {category}
-            </Button>
+          <div className="my-6 space-y-4">
+            {quiz.map((q, i) => (
+              <div key={i} className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow">
+                <p className="font-medium text-[#1E1E7E] dark:text-white">
+                  {i + 1}. {q.question}
+                </p>
+                <p className="text-sm mt-1 text-green-600">
+                  ✅ Correct Answer: {q.answer}
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  💡 Explanation: {q.explanation || "Not available"}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center mt-6">
+            <Button onClick={() => fetchQuiz(category)}>Retry {category}</Button>
             <Button
               variant="outline"
               onClick={() => {
@@ -171,6 +207,12 @@ const QuizPage = () => {
               }}
             >
               Back to Categories
+            </Button>
+            <Button
+              className="bg-[#1FAA59] hover:bg-green-700 text-white"
+              onClick={generatePDF}
+            >
+              Download Solution PDF
             </Button>
           </div>
         </Card>
