@@ -16,6 +16,7 @@ const StudentFilesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const filesPerPage = 6
 
+
   const { isDarkMode } = useTheme()
   useEffect(() => {
     const fetchFiles = async () => {
@@ -207,6 +208,7 @@ const StudentFilesPage = () => {
               <th className="border px-4 py-2">Branch</th>
               <th className="border px-4 py-2">Semester</th>
               <th className="border px-4 py-2">Uploaded By</th>
+              <th className="border px-4 py-2">Uploaded At</th>
               <th className="border px-4 py-2">Download</th>
             </tr>
           </thead>
@@ -222,6 +224,9 @@ const StudentFilesPage = () => {
                 <td className="border px-4 py-2">
                   {file.owner?.userName || "Unknown"}
                 </td>
+                <td className="border px-4 py-2">
+  {new Date(file.uploadedAt).toLocaleDateString()}
+</td>
                 <td className="border px-4 py-2">
                   <a
                     href={file.fileUrl}
