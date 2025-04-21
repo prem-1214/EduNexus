@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")).render(
     <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
       <UserProvider>
         <BrowserRouter>
-          <App />
+          <App /> 
         </BrowserRouter>
       </UserProvider>
     </GoogleOAuthProvider>
