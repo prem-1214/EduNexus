@@ -6,6 +6,7 @@ import Pagination from "../../components/Pagination/Pagination.jsx"
 const UploadedVideosPage = () => {
   const { isDarkMode } = useTheme()
   const [videos, setVideos] = useState([])
+  const [allUploadedVideos, setAllUploadedVideos] = useState([]) 
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -33,9 +34,26 @@ const UploadedVideosPage = () => {
     }
   }
 
+  // Fetch current page of videos based on filters
   useEffect(() => {
     fetchVideos()
   }, [page, program, branch, semester, subject, searchTerm])
+
+  // Fetch all uploaded videos once for dropdown options
+  useEffect(() => {
+    const fetchAllVideos = async () => {
+      try {
+        const { data } = await axios.get("/video/uploadedVideos", {
+          params: { page: 1, limit: 10000 },
+        })
+        setAllUploadedVideos(data.videos)
+      } catch (err) {
+        console.error("Error fetching all videos for dropdowns", err)
+      }
+    }
+
+    fetchAllVideos()
+  }, [])
 
   const handleDelete = async (videoId) => {
     const confirmDelete = window.confirm(
@@ -54,8 +72,9 @@ const UploadedVideosPage = () => {
   }
 
   const uniqueOptions = (key) => [
-    ...new Set(videos.map((v) => v[key]).filter(Boolean)),
+    ...new Set(allUploadedVideos.map((v) => v[key]).filter(Boolean)),
   ]
+
   const totalPages = Math.ceil(total / limit)
 
   return (
