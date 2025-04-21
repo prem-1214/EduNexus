@@ -41,16 +41,16 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#141e30] via-[#243b55] to-[#141e30] text-white px-4">
-      <div className="w-full max-w-5xl rounded-2xl backdrop-blur-xl bg-white/10 dark:bg-black/30 border border-white/20 shadow-2xl flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 px-4">
+      <div className="w-full max-w-5xl rounded-2xl backdrop-blur-xl bg-white/70 border border-gray-200 shadow-2xl flex flex-col md:flex-row overflow-hidden">
         {/* Left: Register Form */}
         <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
-          <h2 className="text-3xl font-extrabold mb-6 text-center tracking-tight">
+          <h2 className="text-3xl font-extrabold mb-6 text-center tracking-tight text-gray-900">
             Create an Account
           </h2>
 
           {errorMessage && (
-            <div className="bg-red-500/80 text-white text-sm px-4 py-2 rounded-md mb-4 text-center animate-pulse shadow-md">
+            <div className="bg-red-100 text-red-600 text-sm px-4 py-2 rounded-md mb-4 text-center shadow">
               {errorMessage}
             </div>
           )}
@@ -62,7 +62,7 @@ const Register = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-300"
+                className="w-full px-4 py-2 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-800 placeholder-gray-400"
                 placeholder="you@example.com"
                 required
               />
@@ -74,7 +74,7 @@ const Register = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-pink-400 text-white placeholder-gray-300"
+                className="w-full px-4 py-2 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300 text-gray-800 placeholder-gray-400"
                 placeholder="••••••••"
                 required
               />
@@ -82,7 +82,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full py-2 rounded-md bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 transition-all duration-300 font-semibold tracking-wide text-white shadow-md"
+              className="w-full py-2 rounded-md bg-gradient-to-r from-blue-400 to-teal-300 hover:from-blue-500 hover:to-teal-400 transition-all duration-300 font-semibold tracking-wide text-white shadow-md"
             >
               Register
             </button>
@@ -98,19 +98,19 @@ const Register = () => {
             </div>
           </div>
 
-          <p className="mt-6 text-sm text-center text-gray-300">
+          <p className="mt-6 text-sm text-center text-gray-500">
             Already have an account?{" "}
-            <Link to="/login" className="text-cyan-400 hover:underline">
+            <Link to="/login" className="text-blue-500 hover:underline">
               Login here
             </Link>
           </p>
         </div>
 
         {/* Vertical Divider */}
-        <div className="hidden md:block w-px bg-white/20 my-8" />
+        <div className="hidden md:block w-px bg-gray-200 my-8" />
 
         {/* Right: Quote Section */}
-        <div className="w-full md:w-1/2 p-10 flex items-center justify-center">
+        <div className="w-full md:w-1/2 p-10 flex items-center justify-center bg-white/70">
           <TypingQuote />
         </div>
       </div>

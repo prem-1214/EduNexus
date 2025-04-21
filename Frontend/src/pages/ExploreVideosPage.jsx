@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { useTheme } from "../../../Context/ThemeContext.jsx"
-import Pagination from "../../../components/Pagination/Pagination.jsx"
+import { useTheme } from "../Context/ThemeContext.jsx"
+import Pagination from "../components/Pagination/Pagination.jsx"
 
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()
   const [videos, setVideos] = useState([])
+  const [allVideos, setAllVideos] = useState([]) // For dropdown options
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -41,12 +42,29 @@ const ExploreVideosPage = () => {
     }
   }
 
+  // Fetch paginated + filtered videos
   useEffect(() => {
     fetchVideos()
   }, [page, program, branch, semester, subject, searchTerm])
 
+  // Fetch all videos (once) for dropdowns
+  useEffect(() => {
+    const fetchAllVideos = async () => {
+      try {
+        const { data } = await axios.get("/video/exploreVideos", {
+          params: { page: 1, limit: 10000 },
+        })
+        setAllVideos(data.videos)
+      } catch (err) {
+        console.error("Error fetching all videos", err)
+      }
+    }
+
+    fetchAllVideos()
+  }, [])
+
   const uniqueOptions = (key) => [
-    ...new Set(videos.map((v) => v[key]).filter(Boolean)),
+    ...new Set(allVideos.map((v) => v[key]).filter(Boolean)),
   ]
 
   const totalPages = Math.ceil(total / limit)
