@@ -7,8 +7,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { jsPDF } from "jspdf"
 import robotAnimation from "../../../assets/robot-working.json"
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY
-
 const quizCategories = {
   Python: [
     "Variables",
@@ -75,26 +73,16 @@ const QuizPage = () => {
     setLoading(true)
     setError(false)
     try {
-      const response = await axios.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          contents: [
-            {
-              parts: [
-                {
-                  text: prompt,
-                },
-              ],
-            },
-          ],
-        }
-      )
-  
-      const raw =
-        response.data.candidates?.[0]?.content?.parts?.[0]?.text || ""
-      console.log("Gemini raw response:", raw)
-  
-      const parsed = extractJSON(raw) // ← only use this now
+      const response = await axios.post("http://localhost:11434/api/generate", {
+        model: "llama3.2",
+        prompt,
+        stream: false,
+      })
+
+      const raw = response.data.response
+      const match = raw.match(/\[\s*{[\s\S]*?}\s*\]/)
+      if (!match) throw new Error("No valid JSON array found.")
+      const parsed = JSON.parse(match[0])
       setQuiz(parsed)
       setStep(3)
     } catch (err) {
@@ -104,15 +92,6 @@ const QuizPage = () => {
       setLoading(false)
     }
   }
-  
-  const extractJSON = (text) => {
-    const start = text.indexOf("[")
-    const end = text.lastIndexOf("]")
-    if (start === -1 || end === -1) throw new Error("No JSON array boundaries")
-    const json = text.substring(start, end + 1)
-    return JSON.parse(json)
-  }
-  
 
   const handleCategorySelect = (cat) => {
     setCategory(cat)
@@ -174,23 +153,25 @@ const QuizPage = () => {
 
   const getPrompt = () => {
     return `
-Generate exactly 10 multiple-choice questions on "${category}".
+Return ONLY a valid JSON array of exactly 10 multiple-choice questions on "${category}".
 ${
   selectedSubtopics.length
-    ? `Only use these subtopics: ${selectedSubtopics.join(", ")}.`
+    ? `Only include questions from: ${selectedSubtopics.join(", ")}.`
     : ""
 }
-
-Each question must be a JSON object with:
+Each question object must include:
 {
-  "question": "string",
-  "options": ["A", "B", "C", "D"],
-  "answer": "Correct option (must match one from options)",
-  "explanation": "A brief explanation for the correct answer"
+  "question": "...",
+  "options": ["...", "...", "...", "..."],
+  "answer": "...",
+  "explanation": "A brief explanation for why the answer is correct. This must not be empty."
 }
-
-Return ONLY a JSON array of these 10 questions. 
-DO NOT include any extra text, comments, or formatting.
+  Important rules:
+- Each explanation must be at least 1 sentence long and directly related to the correct answer.
+- Do not leave the "explanation" field blank.
+- Use double quotes for all strings.
+- Return ONLY the JSON. No extra text, comments, or Markdown.
+- Make sure all quotes are double quotes. No explanation outside JSON.
 `
   }
 
@@ -222,15 +203,15 @@ DO NOT include any extra text, comments, or formatting.
       <div className="min-h-screen flex flex-col items-center justify-center px-4">
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-screen space-y-3">
-            <p className="text-2xl font-medium dark:text-white text-gray-800">
-              🤖 Generating your quiz...
-            </p>
-            <Lottie
-              animationData={robotAnimation}
-              loop={true}
-              className="w-89 h-89"
-            />
-          </div>
+          <p className="text-2xl font-medium dark:text-white text-gray-800">
+            🤖 Generating your quiz...
+          </p>
+          <Lottie
+            animationData={robotAnimation}
+            loop={true}
+            className="w-89 h-89"
+          />
+        </div>
         ) : error ? (
           <div className="flex items-center justify-center min-h-screen">
             <p className="text-lg text-red-500 dark:text-red-300">
@@ -300,6 +281,30 @@ DO NOT include any extra text, comments, or formatting.
     )
   }
 
+  // Loading or error
+  if (loading) {
+    return (
+      <div>
+        <p className="text-center mt-20 text-lg dark:text-white">
+          🤖 Generating quiz…
+        </p>
+      </div>
+    )
+  }
+  if (error) {
+    return (
+      <div className="text-center mt-20 space-y-4 flex flex-col items-center justify-center">
+        <p className="text-red-600 font-semibold">
+          ⚠️ Failed to generate quiz.
+        </p>
+        <Button onClick={() => fetchQuiz(getPrompt())}>Retry</Button>
+        <Button variant="outline" onClick={() => setStep(1)}>
+          Back
+        </Button>
+      </div>
+    )
+  }
+
   // Step 3: Quiz
   if (step === 3) {
     const question = quiz[current]
@@ -364,6 +369,7 @@ DO NOT include any extra text, comments, or formatting.
       </div>
     )
   }
+  console.log("Quiz data:", quiz)
 
   // Step 4: Results
   return (
