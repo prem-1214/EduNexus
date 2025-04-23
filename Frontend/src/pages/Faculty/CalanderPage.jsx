@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from "@fullcalendar/list"
 import { v4 as uuidv4 } from "uuid"
-import { useTheme } from "../../context/ThemeContext.jsx"
+import { useTheme } from "../../Context/ThemeContext.jsx"
 import { Card } from "@/components/ui/card"
 
 const CalendarPage = () => {

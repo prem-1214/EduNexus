@@ -16,7 +16,7 @@ import {
   FaMoon,
   FaQuestionCircle,
 } from "react-icons/fa"
-import { useTheme } from "../../../context/ThemeContext"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const StudentSidebar = ({ onToggle }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)

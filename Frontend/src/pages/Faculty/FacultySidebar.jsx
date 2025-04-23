@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
-import { useTheme } from "../../context/ThemeContext.jsx"
-import { useUser } from "../../context/UserContext.jsx"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useUser } from "../../Context/UserContext.jsx"
 import Logout from "../Student/Logout/Logout.jsx"
 import {
   Menu,

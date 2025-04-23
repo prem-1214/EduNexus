@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useUser } from "../../context/UserContext.jsx"
+import { useUser } from "../../Context/UserContext.jsx"
 // import ChatbotWidget from "../../components/ChatBot/ChatbotWidget.jsx"
 import ChatbotWidgetGemini from "../../components/ChatBot/Chatbotgemini.jsx"
 import axios from "axios"
