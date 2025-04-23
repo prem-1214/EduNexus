@@ -3,8 +3,6 @@ import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaCommentDots, FaTimes } from "react-icons/fa"
 import ReactMarkdown from "react-markdown"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY // or hardcode for testing
 
@@ -104,30 +102,7 @@ const ChatbotWidgetGemini = () => {
                   }`}
                 >
                   {msg.role === "bot" ? (
-                    <ReactMarkdown
-                      children={msg.content}
-                      components={{
-                        code({ node, inline, className, children, ...props }) {
-                          const match = /language-(\w+)/.exec(className || "")
-                          return !inline && match ? (
-                            <SyntaxHighlighter
-                              style={oneDark}
-                              language={match[1]}
-                              PreTag="div"
-                              children={String(children).replace(/\n$/, "")}
-                              {...props}
-                            />
-                          ) : (
-                            <code
-                              className="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded"
-                              {...props}
-                            >
-                              {children}
-                            </code>
-                          )
-                        },
-                      }}
-                    />
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
                   ) : (
                     msg.content
                   )}
