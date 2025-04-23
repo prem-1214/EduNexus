@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "npm install dotenv && node ./src/server.js",
-    "build": "cd ../Frontend && npm install && npm run build"
+    "build": "npm install && npm run build"
   },
   "keywords": [],
   "author": "",
