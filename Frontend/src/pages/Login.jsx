@@ -4,7 +4,7 @@ import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../context/UserContext.jsx"
-import TypingQuote from "../Context/TypingQuote.jsx"
+import TypingQuote from "../context/TypingQuote.jsx"
 
 const Login = () => {
   const [email, setEmail] = useState("")

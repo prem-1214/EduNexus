@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useUser } from "../../../context/UserContext.jsx"
-import { useTheme } from "../../../Context/ThemeContext.jsx"
+import { useTheme } from "../../../context/ThemeContext.jsx"
 
 const StudentDashboardPage = ({ isSidebarCollapsed }) => {
   const navigate = useNavigate()

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
-import { useTheme } from "../../../Context/ThemeContext"
+import { useTheme } from "../../../context/ThemeContext"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
 import "primereact/resources/themes/lara-light-blue/theme.css"

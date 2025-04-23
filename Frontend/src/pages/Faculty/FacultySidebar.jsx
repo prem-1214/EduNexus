@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
-import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useTheme } from "../../context/ThemeContext.jsx"
 import { useUser } from "../../context/UserContext.jsx"
 import Logout from "../Student/Logout/Logout.jsx"
 import {
