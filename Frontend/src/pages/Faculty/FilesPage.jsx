@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { useTheme } from "../../Context/ThemeContext.jsx"
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import "primereact/resources/themes/lara-light-indigo/theme.css"
-import "primereact/resources/primereact.min.css"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useTheme } from "../../Context/ThemeContext.jsx";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
 
 const FilesPage = () => {
-  const { isDarkMode } = useTheme()
-  const [uploadedFiles, setUploadedFiles] = useState([])
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const [viewMode, setViewMode] = useState("table")
+  const { isDarkMode } = useTheme();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [viewMode, setViewMode] = useState("table");
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -20,18 +20,18 @@ const FilesPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        })
-        setUploadedFiles(response.data.files)
-        setError("")
+        });
+        setUploadedFiles(response.data.files);
+        setError("");
       } catch (error) {
-        console.error("Error fetching files:", error)
-        setError("Failed to fetch files. Please try again later.")
-        setSuccess("")
+        console.error("Error fetching files:", error);
+        setError("Failed to fetch files. Please try again later.");
+        setSuccess("");
       }
-    }
+    };
 
-    fetchFiles()
-  }, [])
+    fetchFiles();
+  }, []);
 
   const downloadTemplate = (rowData) => {
     return (
@@ -39,28 +39,34 @@ const FilesPage = () => {
         href={rowData.fileUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+        className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
       >
         Download
       </a>
-    )
-  }
+    );
+  };
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
+      className={`min-h-screen transition-colors duration-300 px-4 py-10 sm:px-10 ${
         isDarkMode
-          ? "bg-[#1E1E2F] text-[#F8FAFC]"
+          ? "bg-[#0F172A] text-[#F8FAFC]"
           : "bg-[#FAFAFA] text-[#1F2937]"
-      } p-6 sm:p-10`}
+      }`}
     >
-      <div className="max-w-7xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md border border-gray-300 dark:border-gray-700">
+      <div
+        className={`max-w-6xl mx-auto glassmorphism p-8 rounded-2xl shadow-xl border ${
+          isDarkMode
+            ? "bg-[#1E293B] border-[#334155]"
+            : "bg-white border-[#E5E7EB]"
+        }`}
+      >
         <header className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-blue-900 dark:text-blue-400">
+          <h1 className="text-3xl font-bold text-[#1E1E7E] dark:text-green-400">
             📁 My Files
           </h1>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+            className="bg-[#1FAA59] hover:bg-[#16A34A] text-white px-4 py-2 rounded-lg transition"
             onClick={() =>
               setViewMode((prev) => (prev === "table" ? "card" : "table"))
             }
@@ -79,29 +85,115 @@ const FilesPage = () => {
         )}
 
         {viewMode === "table" ? (
-          <div className="overflow-x-auto bg-white dark:bg-gray-900 rounded-xl">
+          <div className="overflow-x-auto">
             <DataTable
               value={uploadedFiles}
               paginator
               rows={6}
-              className="p-datatable-sm"
+              className={`p-datatable-sm ${
+                isDarkMode
+                  ? "bg-[#1E293B] text-[#F8FAFC] border-[#334155]"
+                  : "bg-white text-[#1F2937] border-[#E5E7EB]"
+              }`}
               stripedRows
               removableSort
-              emptyMessage="No files found."
+              emptyMessage={
+                <span
+                  className={`font-medium ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
+                  No files found.
+                </span>
+              }
               responsiveLayout="scroll"
+              paginatorClassName={`${
+                isDarkMode
+                  ? "bg-[#1E293B] text-[#F8FAFC] border-[#334155]"
+                  : "bg-gray-100 text-[#1F2937] border-[#E5E7EB]"
+              }`}
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
-              <Column field="fileName" header="File Name" sortable filter />
-              <Column field="description" header="Description" sortable filter />
-              <Column field="category" header="Category" sortable filter />
-              <Column field="program" header="Program" sortable filter />
-              <Column field="branch" header="Branch" sortable filter />
-              <Column field="semester" header="Semester" sortable filter />
-              <Column field="subject" header="Subject" sortable filter />
+              <Column
+                field="fileName"
+                header="File Name"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="description"
+                header="Description"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="category"
+                header="Category"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="program"
+                header="Program"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="branch"
+                header="Branch"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="semester"
+                header="Semester"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
+              <Column
+                field="subject"
+                header="Subject"
+                sortable
+                filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
+              />
               <Column
                 field="uploadedAtFormatted"
                 header="Uploaded"
                 sortable
                 filter
+                style={{
+                  backgroundColor: isDarkMode ? "#1E293B" : "#F9FAFB",
+                  color: isDarkMode ? "#F8FAFC" : "#1F2937",
+                }}
               />
               <Column header="Actions" body={downloadTemplate} />
             </DataTable>
@@ -111,9 +203,13 @@ const FilesPage = () => {
             {uploadedFiles.slice(0, 6).map((file) => (
               <div
                 key={file._id}
-                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-6 transition transform hover:scale-105"
+                className={`rounded-lg shadow-md p-6 transition transform hover:scale-105 ${
+                  isDarkMode
+                    ? "bg-[#1E293B] border-[#334155]"
+                    : "bg-white border-[#E5E7EB]"
+                }`}
               >
-                <h2 className="text-lg font-bold text-blue-900 dark:text-blue-400">
+                <h2 className="text-lg font-bold text-[#1E1E7E] dark:text-green-400">
                   {file.fileName}
                 </h2>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -143,7 +239,7 @@ const FilesPage = () => {
                   href={file.fileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-block text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                  className="mt-4 inline-block text-blue-600 dark:text-green-400 font-semibold hover:underline"
                 >
                   Download
                 </a>
@@ -153,7 +249,7 @@ const FilesPage = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FilesPage
+export default FilesPage;

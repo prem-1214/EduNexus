@@ -5,13 +5,12 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
-import { Card, CardContent } from "@/components/ui/card";
-import { useTheme } from "../../Context/ThemeContext.jsx"; // Import ThemeContext
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const TotalStudents = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isDarkMode } = useTheme(); // Access ThemeContext
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -32,7 +31,7 @@ const TotalStudents = () => {
     return (
       <div
         className={`flex justify-center items-center min-h-screen ${
-          isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#FAFAFA] text-[#1F2937]"
+          isDarkMode ? "bg-[#0F172A] text-[#F8FAFC]" : "bg-[#FAFAFA] text-[#1F2937]"
         }`}
       >
         <Loader2 className="w-8 h-8 animate-spin text-[#1FAA59]" />
@@ -43,83 +42,81 @@ const TotalStudents = () => {
 
   return (
     <div
-      className={`min-h-screen px-4 py-10 sm:px-8 transition-colors duration-300 ${
-        isDarkMode ? "bg-[#1E1E2F] text-[#F8FAFC]" : "bg-[#FAFAFA] text-[#1F2937]"
+      className={`min-h-screen px-6 py-8 sm:px-12 transition-colors duration-300 ${
+        isDarkMode ? "bg-[#0F172A] text-[#F8FAFC]" : "bg-[#FAFAFA] text-[#1F2937]"
       }`}
     >
-      <header className="text-center mb-10">
+      <header className="text-center mb-8">
         <h1
-          className={`text-4xl font-semibold drop-shadow-sm ${
-            isDarkMode ? "text-blue-400" : "text-[#1E1E7E]"
+          className={`text-4xl font-bold ${
+            isDarkMode ? "text-green-400" : "text-[#1E1E7E]"
           }`}
         >
-          🎓 Students
+          🎓 Total Students
         </h1>
-        <p className={`mt-2 ${isDarkMode ? "text-gray-400" : "text-[#374151]"}`}>
-          View all registered students and their contact info.
+        <p className={`mt-2 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+          View and manage all registered students.
         </p>
       </header>
 
-      <Card
-        className={`backdrop-blur-xl ${
+      <div
+        className={`max-w-7xl mx-auto rounded-lg shadow-lg p-6 ${
           isDarkMode
-            ? "bg-gray-900/80 border-gray-700"
-            : "bg-white/80 border-[#E5E7EB]"
-        } shadow-xl rounded-2xl`}
+            ? "bg-[#1E293B] border-[#334155]"
+            : "bg-white border-[#E5E7EB]"
+        }`}
       >
-        <CardContent className="p-4">
-          <DataTable
-            value={students}
-            paginator
-            rows={5}
-            rowsPerPageOptions={[5, 10, 20]}
-            stripedRows
-            className={`font-nunito rounded-xl ${
-              isDarkMode
-                ? "bg-gray-900 text-white border-gray-700"
-                : "bg-white text-gray-800 border-gray-300"
-            }`}
-            responsiveLayout="scroll"
-            emptyMessage={
-              <span
-                className={`font-medium ${
-                  isDarkMode ? "text-gray-400" : "text-gray-600"
-                }`}
-              >
-                No students found
-              </span>
-            }
-            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            paginatorClassName={`${
-              isDarkMode
-                ? "bg-gray-800 text-white border-gray-700"
-                : "bg-gray-100 text-gray-800 border-gray-300"
-            }`}
-          >
-            <Column
-              field="userName"
-              header="Username"
-              sortable
-              style={{
-                minWidth: "200px",
-                backgroundColor: isDarkMode ? "#2D2D3A" : "#F9FAFB",
-                color: isDarkMode ? "#F8FAFC" : "#1F2937",
-              }}
-            />
-            <Column
-              field="email"
-              header="Email"
-              sortable
-              style={{
-                minWidth: "250px",
-                backgroundColor: isDarkMode ? "#2D2D3A" : "#F9FAFB",
-                color: isDarkMode ? "#F8FAFC" : "#1F2937",
-              }}
-            />
-          </DataTable>
-        </CardContent>
-      </Card>
+        <DataTable
+  value={students}
+  paginator
+  rows={5}
+  rowsPerPageOptions={[5, 10, 20]}
+  stripedRows
+  className={`rounded-lg border ${
+    isDarkMode
+      ? "bg-[#1E293B] text-[#F8FAFC] border-[#334155]"
+      : "bg-white text-[#1F2937] border-[#E5E7EB]"
+  }`}
+  responsiveLayout="scroll"
+  emptyMessage={
+    <span
+      className={`font-medium ${
+        isDarkMode ? "text-gray-400" : "text-gray-600"
+      }`}
+    >
+      No students found.
+    </span>
+  }
+  paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  paginatorClassName={`${
+    isDarkMode
+      ? "bg-[#1E293B] text-[#F8FAFC] border-[#334155]"
+      : "bg-gray-100 text-[#1F2937] border-[#E5E7EB]"
+  }`}
+>
+  <Column
+    field="userName"
+    header="Username"
+    sortable
+    style={{
+      minWidth: "200px",
+      backgroundColor: isDarkMode ? "#2D3748"  : "#F7FAFC",
+      color: isDarkMode ? "#F8FAFC" : "#1F2937",
+    }}
+  />
+  <Column
+    field="email"
+    header="Email"
+    sortable
+    style={{
+      minWidth: "250px",
+      backgroundColor: isDarkMode ? "#2D3748" : "#F7FAFC",
+      color: isDarkMode ? "#F8FAFC" : "#1F2937",
+    }}
+  />
+</DataTable>
+      </div>
     </div>
   );
 };
