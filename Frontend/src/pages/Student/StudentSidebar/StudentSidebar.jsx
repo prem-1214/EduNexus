@@ -33,16 +33,16 @@ const StudentSidebar = ({ onToggle }) => {
 
   const menuItems = [
     { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
-    { name: "Assignments", icon: <FaBook />, to: "/assignment" },
+    // { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
-    { name: "Discussions", icon: <FaComments />, to: "/discussions" },
+    // { name: "Discussions", icon: <FaComments />, to: "/discussions" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },
-    { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
-    { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
-    { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
+    // { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
+    // { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
+    // { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Quiz", icon: <FaQuestionCircle />, to: "/quiz" },
-    { name: "Settings", icon: <FaCog />, to: "/settings" },
+    // { name: "Settings", icon: <FaCog />, to: "/settings" },
   ]
 
   const handleLogout = () => {

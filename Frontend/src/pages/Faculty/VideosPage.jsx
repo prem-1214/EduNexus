@@ -192,7 +192,7 @@ const UploadedVideosPage = () => {
                       isDarkMode ? "text-gray-400" : "text-gray-600"
                     }`}
                   >
-                    <span>{video.views || 0} views</span> ·{" "}
+                    {/* <span>{video.views || 0} views</span> ·{" "} */}
                     <span>
                       {video.uploadedAtFormatted ||
                         new Date(video.createdAt).toLocaleDateString()}
