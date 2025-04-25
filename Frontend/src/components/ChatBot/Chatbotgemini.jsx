@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FaCommentDots, FaTimes } from "react-icons/fa"
 import ReactMarkdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+// import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY // or hardcode for testing
 

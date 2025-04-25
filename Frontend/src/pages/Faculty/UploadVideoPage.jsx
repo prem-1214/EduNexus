@@ -23,9 +23,9 @@ const UploadVideoPage = () => {
   const [loading, setLoading] = useState(false)
 
   const branchOptions = {
-    "B.Tech": ["CSE", "ECE", "ME", "CE"],
-    "B.Sc": ["Maths", "Physics", "Chemistry"],
-    BBA: ["General", "Finance", "Marketing"],
+    "B.Tech": ["All Branches", "CSE", "ECE", "ME", "CE"],
+    "B.Sc": ["All Branches", "Maths", "Physics", "Chemistry"],
+    "BBA": ["All Branches", "General", "Finance", "Marketing"]
   }
 
   const semesterOptions = ["1", "2", "3", "4", "5", "6", "7", "8"]
@@ -107,7 +107,6 @@ const UploadVideoPage = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full p-3 rounded-xl bg-[#F9FAFB] dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155]"
                   placeholder="Enter video description"
-                  required
                 />
               </div>
             </div>
@@ -138,7 +137,6 @@ const UploadVideoPage = () => {
                   value={branch}
                   onChange={(e) => setBranch(e.target.value)}
                   className="w-full p-3 rounded-xl bg-[#F9FAFB] dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155]"
-                  required
                   disabled={!program}
                 >
                   <option value="">Select Branch</option>
@@ -156,7 +154,6 @@ const UploadVideoPage = () => {
                   value={semester}
                   onChange={(e) => setSemester(e.target.value)}
                   className="w-full p-3 rounded-xl bg-[#F9FAFB] dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155]"
-                  required
                 >
                   <option value="">Select Semester</option>
                   {semesterOptions.map((sem) => (

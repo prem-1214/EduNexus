@@ -13,10 +13,6 @@ const videoSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  category: {
-    type: String,
-    enum: ["sub1", "sub2", "sub3", "sub4"],
-  },
   program: {
     type: String,
   },

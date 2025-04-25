@@ -178,7 +178,7 @@ const UploadedVideosPage = () => {
                       isDarkMode ? "text-gray-100" : "text-gray-800"
                     }`}
                   >
-                    {video.title}
+                    {video.title} | {video.program} | {video.branch} | {video.semester}
                   </h3>
                   <p
                     className={`text-xs mt-1 ${
