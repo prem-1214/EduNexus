@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode"
 import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../Context/UserContext.jsx"
 import TypingQuote from "../Context/TypingQuote.jsx"
+import api from "../utils/axiosInstance.js"; // Import the axios instance
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -30,19 +31,20 @@ const Login = () => {
 
   const handleGoogleSuccess = async (response) => {
     if (response.credential) {
-      const userInfo = jwtDecode(response.credential)
+      const userInfo = jwtDecode(response.credential);
       try {
-        const googleResponse = await axios.post("/auth/google-login", {
+        // Use the axios instance to make the request
+        const googleResponse = await api.post("/auth/google-login", {
           userInfo,
-        })
-        localStorage.setItem("accessToken", googleResponse.data.accessToken)
-        updateUser(googleResponse.data.user)
-        const role = googleResponse.data.user.role
-        if (role === "student") navigate("/studentDashboard")
-        else if (role === "educator") navigate("/educatorDashboard")
-        else setErrorMessage("Unknown role. Please contact support.")
+        });
+        localStorage.setItem("accessToken", googleResponse.data.accessToken);
+        updateUser(googleResponse.data.user);
+        const role = googleResponse.data.user.role;
+        if (role === "student") navigate("/studentDashboard");
+        else if (role === "educator") navigate("/educatorDashboard");
+        else setErrorMessage("Unknown role. Please contact support.");
       } catch (error) {
-        setErrorMessage("Google login failed.")
+        setErrorMessage("Google login failed.");
       }
     }
   }
