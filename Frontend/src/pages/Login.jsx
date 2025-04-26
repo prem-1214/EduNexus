@@ -16,7 +16,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("/auth/login", { email, password })
+      const response = await api.post("/auth/login", { email, password })
       localStorage.setItem("accessToken", response.data.accessToken)
       updateUser(response.data.user)
       const role = response.data.user.role
@@ -50,19 +50,18 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 px-4">
       <div className="w-full max-w-5xl rounded-2xl backdrop-blur-xl bg-white/70 border border-gray-200 shadow-2xl flex flex-col md:flex-row overflow-hidden">
-        
         {/* Left: Login Form */}
         <div className="w-full md:w-1/2 p-10 flex flex-col justify-center">
           <h2 className="text-3xl font-extrabold mb-6 text-center tracking-tight text-gray-900">
             Welcome Back
           </h2>
-  
+
           {errorMessage && (
             <div className="bg-red-100 text-red-600 text-sm px-4 py-2 rounded-md mb-4 text-center shadow">
               {errorMessage}
             </div>
           )}
-  
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium mb-1">Email</label>
@@ -75,7 +74,7 @@ const Login = () => {
                 required
               />
             </div>
-  
+
             <div>
               <label className="block text-sm font-medium mb-1">Password</label>
               <input
@@ -87,7 +86,7 @@ const Login = () => {
                 required
               />
             </div>
-  
+
             <button
               type="submit"
               className="w-full py-2 rounded-md bg-gradient-to-r from-blue-400 to-teal-300 hover:from-blue-500 hover:to-teal-400 transition-all duration-300 font-semibold tracking-wide text-white shadow-md"
@@ -95,7 +94,7 @@ const Login = () => {
               Login
             </button>
           </form>
-  
+
           <div className="mt-6 flex items-center justify-center">
             <div className="bg-white rounded-md shadow p-1">
               <GoogleLogin
@@ -105,7 +104,7 @@ const Login = () => {
               />
             </div>
           </div>
-  
+
           <p className="mt-6 text-sm text-center text-gray-500">
             Not registered?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
@@ -113,10 +112,10 @@ const Login = () => {
             </Link>
           </p>
         </div>
-  
+
         {/* Vertical Divider */}
         <div className="hidden md:block w-px bg-gray-200 my-8" />
-  
+
         {/* Right: Quote Section */}
         <div className="w-full md:w-1/2 p-10 flex items-center justify-center bg-white/70">
           <TypingQuote />
@@ -124,7 +123,6 @@ const Login = () => {
       </div>
     </div>
   )
-  
 }
 
 export default Login
