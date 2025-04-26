@@ -4,8 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm install dotenv && node ./src/server.js",
-    "build": "npm install && npm run build"
+    "start": "node ./src/server.js",
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
