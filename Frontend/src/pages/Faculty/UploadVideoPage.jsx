@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { UploadCloud, Video, Image } from "lucide-react"
 import { useTheme } from "../../Context/ThemeContext"
+import api from "../../utils/axiosInstance"
 
 const UploadVideoPage = () => {
   const navigate = useNavigate()
@@ -45,7 +46,7 @@ const UploadVideoPage = () => {
       if (video) formData.append("video", video)
       if (thumbnail) formData.append("thumbnail", thumbnail)
 
-      const response = await axios.post("/video/upload", formData, {
+      const response = await api.post("/video/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

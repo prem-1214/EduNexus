@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import api from "../../utils/axiosInstance.js"
 
 const UploadFilePage = () => {
   const { isDarkMode } = useTheme()
@@ -43,7 +44,7 @@ const UploadFilePage = () => {
     formData.append("subject", subject)
 
     try {
-      await axios.post("/file/upload", formData, {
+      await api.post("/file/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

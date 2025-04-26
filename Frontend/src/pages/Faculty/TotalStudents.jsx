@@ -6,6 +6,7 @@ import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import { useTheme } from "../../Context/ThemeContext.jsx";
+import api from "../../utils/axiosInstance.js";
 
 const TotalStudents = () => {
   const [students, setStudents] = useState([]);
@@ -15,7 +16,7 @@ const TotalStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("/video/students");
+        const response = await api.get("/video/students");
         setStudents(response.data);
       } catch (error) {
         console.error("Error fetching students:", error);

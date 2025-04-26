@@ -5,6 +5,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import api from "../../utils/axiosInstance.js";
 
 const FilesPage = () => {
   const { isDarkMode } = useTheme();
@@ -16,7 +17,7 @@ const FilesPage = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await axios.get("/file/my-files", {
+        const response = await api.get("/file/my-files", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
