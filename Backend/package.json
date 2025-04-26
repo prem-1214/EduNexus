@@ -4,8 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./src/server.js",
-    "build": "cd ../Frontend && npm install && npm run build"
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "build": "npm run build"
   },
   "keywords": [],
   "author": "",
