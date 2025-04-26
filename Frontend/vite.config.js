@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path'; // Import the path module
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    autoprefixer(),
+    react()],
   build: {
     outDir: 'dist', // Ensure the output directory is within the frontend folder
     emptyOutDir: true, // Clear the output directory before building
