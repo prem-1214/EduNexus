@@ -1,7 +1,8 @@
 import axios from "axios"
 
+
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "import.meta.env.VITE_BACKEND_API_URL",
   withCredentials: true,
 })
 
@@ -34,7 +35,7 @@ api.interceptors.response.use(
       try {
         // Attempt to refresh the token
         const refreshResponse = await axios.post(
-          "/auth/refresh-token", // Backend endpoint for refreshing tokens
+          `${import.meta.env.VITE_BACKEND_API_URL}/auth/refresh-token`, // Backend endpoint for refreshing tokens
           {},
           { withCredentials: true } // Ensure cookies are sent
         )
