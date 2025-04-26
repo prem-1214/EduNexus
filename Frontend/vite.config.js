@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path'; // Import the path module
-import autoprefixer from 'autoprefixer';
+import path from 'path';
+
 
 export default defineConfig({
   plugins: [
     react()],
   build: {
-    outDir: 'dist', // Ensure the output directory is within the frontend folder
-    emptyOutDir: true, // Clear the output directory before building
+    outDir: 'dist',
+    emptyOutDir: true, 
   },
   server: {
     proxy: {
@@ -24,13 +24,13 @@ export default defineConfig({
       },  
 
     },
-    port: 5173, // Optional: Specify the development server port
+    port: 5173, 
     historyApiFallback: true,
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './srcStyle'), // Use the path module here
+      '@': path.resolve(__dirname, './srcStyle'), 
     },
   },
-  base: "./", // Ensures correct routing
+  base: "./", 
 });
