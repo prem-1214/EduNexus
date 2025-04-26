@@ -10,11 +10,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/auth": { target: "https://edunexus-13tr.onrender.com", changeOrigin: true },
-      "/user": { target: "https://edunexus-13tr.onrender.com", changeOrigin: true },
-      "/video": { target: "https://edunexus-13tr.onrender.com", changeOrigin: true, secure: false },
-      "/faculty": { target: "https://edunexus-13tr.onrender.com", changeOrigin: true },
-      "/file": { target: "https://edunexus-13tr.onrender.com", changeOrigin: true },
       '/api/generate': {
         target: 'http://localhost:11434',
         changeOrigin: true,
