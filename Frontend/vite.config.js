@@ -5,7 +5,6 @@ import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   plugins: [
-    autoprefixer(),
     react()],
   build: {
     outDir: 'dist', // Ensure the output directory is within the frontend folder
