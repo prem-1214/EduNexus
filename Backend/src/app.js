@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const app = express()
 const allowedOrigins = [
-  "https://edu-nexus-frontend-gray.vercel.app", // Deployed frontend
+  process.env.FRONTEND_URI, // Deployed frontend
   "http://localhost:5173", // Local frontend
 ];
 
