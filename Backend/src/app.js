@@ -10,16 +10,25 @@ import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
 const app = express()
+const allowedOrigins = [
+  "https://edu-nexus-frontend-gray.vercel.app", // Deployed frontend
+  "http://localhost:5173", // Local frontend
+];
 
 // Middleware
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
-)
+);
 
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups")
