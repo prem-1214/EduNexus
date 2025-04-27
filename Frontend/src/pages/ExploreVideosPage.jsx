@@ -23,7 +23,7 @@ const ExploreVideosPage = () => {
   const fetchVideos = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get("/video/exploreVideos", {
+      const { data } = await api.get("/video/exploreVideos", {
         params: {
           page,
           limit,

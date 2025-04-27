@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { jsPDF } from "jspdf";
 import robotAnimation from "../../../assets/robot-working.json";
+import api from "../../../utils/axiosInstance";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -41,7 +42,7 @@ const QuizPage = () => {
     setLoading(true);
     setError(false);
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
         {
           contents: [
