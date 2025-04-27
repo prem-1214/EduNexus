@@ -42,7 +42,7 @@ const QuizPage = () => {
     setLoading(true);
     setError(false);
     try {
-      const response = await api.post(
+      const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
         {
           contents: [
