@@ -13,29 +13,25 @@ const __dirname = path.dirname(__filename)
 const app = express()
 
 
-app.use(cors({
-  origin : "*",
-}))
-
-// const allowedOrigins = [
-//   process.env.FRONTEND_URI, // Deployed frontend
-//   "http://localhost:5173", // Local frontend
-// ];
+const allowedOrigins = [
+  process.env.FRONTEND_URI, // Deployed frontend
+  "http://localhost:5173", // Local frontend
+];
 
 
-// Middleware
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
+Middleware
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups")
