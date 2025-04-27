@@ -23,7 +23,7 @@ const UploadedVideosPage = () => {
   const fetchVideos = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get("/video/uploadedVideos", {
+      const { data } = await api.get("/video/uploadedVideos", {
         params: { page, limit, program, branch, semester, subject, searchTerm },
       })
       setVideos(data.videos)
