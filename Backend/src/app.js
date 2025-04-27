@@ -18,8 +18,6 @@ const allowedOrigins = [
   "http://localhost:5173", // Local frontend
 ];
 
-
-Middleware
 app.use(
   cors({
     origin: (origin, callback) => {
