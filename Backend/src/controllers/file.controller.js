@@ -54,4 +54,52 @@ const fileUploadHandler = async (req, res) => {
   }
 }
 
-export { fileUploadHandler }
+const editFileHandler = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { fileName, description, category, program, branch, semester, subject } = req.body
+
+    // Find the file by ID
+    const file = await File.findById(id)
+    if (!file) {
+      return res.status(404).json({ message: "File not found" })
+    }
+
+    // Ensure the user is the owner of the file
+    if (file.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized: You can only edit your own files" })
+    }
+
+    // Update file details if provided
+    if (fileName) file.fileName = fileName
+    if (description) file.description = description
+    if (category) file.category = category
+    if (program) file.program = program
+    if (branch) file.branch = branch
+    if (semester) file.semester = semester
+    if (subject) file.subject = subject
+
+    // Handle file replacement if a new file is uploaded
+    if (req.file) {
+      const uploadedFile = await uploadOnCloudinary(req.file.path)
+      if (!uploadedFile) {
+        return res.status(500).json({ message: "Cloudinary upload failed" })
+      }
+      file.fileUrl = uploadedFile.secure_url
+    }
+
+    // Save the updated file
+    await file.save()
+
+    return res.status(200).json({ message: "File updated successfully", file })
+  } catch (error) {
+    console.error("Error editing file:", error)
+    return res.status(500).json({ message: "Error editing file", error })
+  }
+}
+
+
+
+export { fileUploadHandler, 
+         editFileHandler
+ }

@@ -16,6 +16,7 @@ import VideosPage from "./pages/Faculty/VideosPage.jsx"
 import FilesPage from "./pages/Faculty/FilesPage.jsx"
 import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 
+
 // Student imports
 import StudentSidebar from "./pages/Student/StudentSidebar/StudentSidebar.jsx"
 import StudentDashboardPage from "./pages/Student/Dashboard/StudentDashboardPage.jsx"
@@ -120,6 +121,15 @@ function App() {
             <FacultyLayout>
               {" "}
               <FilesPage />{" "}
+            </FacultyLayout>
+          }
+        />
+        <Route
+          path="/editFile/:id"
+          element={
+            <FacultyLayout>
+              {" "}
+              <UploadFilePage />{" "}
             </FacultyLayout>
           }
         />

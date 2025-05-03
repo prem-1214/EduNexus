@@ -3,10 +3,10 @@ import User from "../models/user.model.js"
 
 const isAuthenticated = async (req, res, next) => {
   try {
-    // const token = req.headers.authorization?.split(" ")[1];
-    const token = req.cookies.accessToken // Use cookies for token storage
-    console.log("token cookies: ", req.cookies.accessToken) // Log cookies for debugging
-    console.log("Token:", token) // Log the token for debugging
+    
+    const token = req.cookies.accessToken 
+    console.log("token cookies: ", req.cookies.accessToken) 
+    console.log("Token:", token) 
     if (!token) {
       return res
         .status(401)
@@ -15,13 +15,12 @@ const isAuthenticated = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
 
-    // 🔥 Fetch full user from database
-    const user = await User.findById(decoded.id).select("-password") // exclude password
+    const user = await User.findById(decoded.id).select("-password") 
     if (!user) {
       return res.status(401).json({ message: "User not found." })
     }
 
-    req.user = user // Attach full user object
+    req.user = user 
     console.log("Authenticated User:", req.user)
 
     next()
