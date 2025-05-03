@@ -4,8 +4,8 @@ import "./index.css"
 import App from "./App.jsx"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { BrowserRouter, HashRouter } from "react-router-dom"
-import { ChatProvider } from "./context/ChatContext.jsx"
-import { UserProvider } from "./context/UserContext.jsx"
+import { ChatProvider } from "../src/context/ChatContext.jsx"
+import { UserProvider } from "../src/context/UserContext.jsx"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
