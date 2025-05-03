@@ -7,7 +7,7 @@ import api from "../utils/axiosInstance.js"
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()
   const [videos, setVideos] = useState([])
-  const [allVideos, setAllVideos] = useState([]) // For dropdown options
+  const [allVideos, setAllVideos] = useState([]) 
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -165,16 +165,16 @@ const ExploreVideosPage = () => {
                     isDarkMode ? "text-gray-100" : "text-gray-800"
                   }`}
                 >
-                  {video.title}
+                  {video.title} | {video.program} | {video.branch} | {video.semester}
                 </h3>
                 <p
                   className={`text-sm mt-2 line-clamp-2 ${
                     isDarkMode ? "text-gray-400" : "text-gray-600"
                   }`}
                 >
-                  {video.description || "No description available"}
+                  {video.uploader?.userName || "No description available"}
                 </p>
-                <div
+                {/* <div
                   className="grid gap-y-0 text-sm mt-2"
                   style={{ gridTemplateColumns: "42% 42%", columnGap: "2%" }}
                 >
@@ -190,7 +190,7 @@ const ExploreVideosPage = () => {
                   <p>
                     <strong>Subject:</strong> {video.subject || "N/A"}
                   </p>
-                </div>
+                </div> */}
                 <div
                   className={`text-xs mt-2 ${
                     isDarkMode ? "text-gray-400" : "text-gray-600"

@@ -6,6 +6,7 @@ import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import api from "../../utils/axiosInstance.js";
+import { useNavigate } from "react-router-dom";
 
 const FilesPage = () => {
   const { isDarkMode } = useTheme();
@@ -13,6 +14,8 @@ const FilesPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [viewMode, setViewMode] = useState("table");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -44,6 +47,19 @@ const FilesPage = () => {
       >
         Download
       </a>
+    );
+  };
+
+  const editTemplate = (rowData) => {
+    const navigate = useNavigate();
+
+    return (
+      <button
+        onClick={() => navigate(`/editFile/${rowData._id}`, { state: { file: rowData } })}
+        className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
+      >
+        Edit
+      </button>
     );
   };
 
@@ -197,6 +213,7 @@ const FilesPage = () => {
                 }}
               />
               <Column header="Actions" body={downloadTemplate} />
+              <Column header="Edit" body={editTemplate} />
             </DataTable>
           </div>
         ) : (
@@ -236,14 +253,22 @@ const FilesPage = () => {
                     <strong>Uploaded:</strong> {file.uploadedAtFormatted || "N/A"}
                   </p>
                 </div>
-                <a
-                  href={file.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-block text-blue-600 dark:text-green-400 font-semibold hover:underline"
-                >
-                  Download
-                </a>
+                <div className="mt-4 flex justify-between items-center">
+                  <a
+                    href={file.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
+                  >
+                    Download
+                  </a>
+                  <button
+                    onClick={() => navigate(`/editFile/${file._id}`, { state: { file } })}
+                    className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
             ))}
           </div>

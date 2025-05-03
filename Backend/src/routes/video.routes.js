@@ -1,7 +1,7 @@
 import { Router } from "express"
 import Video from "../models/video.model.js"
 import User from "../models/user.model.js"
-import { videoUploadHandler } from "../controllers/video.controller.js"
+import { editVideoHandler, videoUploadHandler } from "../controllers/video.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import isAuthenticated from "../middlewares/auth.middleware.js"
 import paginate from "../middlewares/pagination.js"
@@ -31,7 +31,7 @@ router.get("/uploadedVideos", isAuthenticated, paginate, async (req, res) => {
     const { program, branch, semester, subject, searchTerm } = req.query
 
     const filters = { uploader: userId }
-    console.log("Filters:", filters)
+    // console.log("Filters:", filters)
 
     if (program) filters.program = program
     if (branch) filters.branch = branch
@@ -47,8 +47,8 @@ router.get("/uploadedVideos", isAuthenticated, paginate, async (req, res) => {
 
     const total = await Video.countDocuments(filters)
     const totalPages = Math.ceil(total / limit)
-    console.log("Total Videos:", total)
-    console.log("Videos:", videos)
+    // console.log("Total Videos:", total)
+    // console.log("Videos:", videos)
 
     // console.log("req.user:", req.user._id); // Log the user object
     // console.log("before populating video")
@@ -70,7 +70,7 @@ router.get("/uploadedVideos", isAuthenticated, paginate, async (req, res) => {
       }),
     }))
 
-    console.log("Formatted Videos:", formattedVideos)
+    // console.log("Formatted Videos:", formattedVideos)
     return res
       .status(200)
       .json({ videos: formattedVideos, totalPages, total, page, limit })
@@ -147,33 +147,14 @@ router.delete("/deleteVideo/:id", isAuthenticated, async (req, res) => {
   }
 })
 
-router.patch("/editVideo/:id", isAuthenticated, async (req, res) => {
-  try {
-    const videoId = req.params.id
-    const userId = req.user._id
-    const { title, description } = req.body
-
-    // Find the video to ensure it belongs to the authenticated user
-    const video = await Video.findOne({ _id: videoId, uploader: userId })
-    if (!video) {
-      return res
-        .status(404)
-        .json({ message: "Video not found or not authorized to update" })
-    }
-
-    // Update the video details
-    video.title = title || video.title
-    video.description = description || video.description
-    await video.save()
-
-    return res
-      .status(200)
-      .json({ message: "Video updated successfully", video })
-  } catch (error) {
-    console.error("Error updating video:", error)
-    return res.status(500).json({ message: "Error updating video", error })
-  }
-})
+router.patch("/editVideo/:id", isAuthenticated, 
+    upload.fields([
+      {
+        name : "thumbnail",
+        maxCount : 1
+      }
+    ])
+  , editVideoHandler)
 
 // Route to get the total number of students
 router.get("/total-students", async (req, res) => {

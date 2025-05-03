@@ -56,8 +56,10 @@ const videoUploadHandler = async (req, res) => {
 
 const editVideoHandler = async (req, res) => {
   try {
-    const { videoId } = req.params
-    const { title, description } = req.body
+    const { id: videoId } = req.params
+    console.log("video id:", videoId)
+    const { title, description, program, branch, semester, subject  } = req.body
+    const {thumbnail} = req.files || {}
 
     // Find the video by ID
     const video = await Video.findById(videoId)
@@ -72,9 +74,23 @@ const editVideoHandler = async (req, res) => {
         .json({ message: "Unauthorized: You can only edit your own videos" })
     }
 
-    // Update video details
-    if (title) video.title = title
-    if (description) video.description = description
+   // Update video details only if provided
+   if (title !== undefined) video.title = title
+   if (description !== undefined) video.description = description
+   if (program !== undefined) video.program = program
+   if (branch !== undefined) video.branch = branch
+   if (semester !== undefined) video.semester = semester
+   if (subject !== undefined) video.subject = subject
+
+    if(thumbnail){
+      const thumbnailPath = thumbnail[0].path
+      const uploadedThumbnail = await uploadOnCloudinary(thumbnailPath)    
+
+      if(!uploadedThumbnail){
+        return res.status(500).json({ message: "Cloudinary upload failed" })
+      }
+      video.thumbnailUrl = uploadedThumbnail?.secure_url || ""
+    }
 
     await video.save()
 

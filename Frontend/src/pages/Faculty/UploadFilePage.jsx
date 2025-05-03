@@ -1,6 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useTheme } from "../../Context/ThemeContext.jsx"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,19 +9,23 @@ import { Card } from "@/components/ui/card"
 import api from "../../utils/axiosInstance.js"
 
 const UploadFilePage = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
   const { isDarkMode } = useTheme()
-  const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("Notes")
-  const [program, setProgram] = useState("B.Tech")
-  const [branch, setBranch] = useState("")
-  const [semester, setSemester] = useState(1)
-  const [subject, setSubject] = useState("")
+
+  // Check if editing an existing file
+  const editingFile = location.state?.file || null
+
+  const [file, setFile] = useState(null) // New file (optional)
+  const [fileName, setFileName] = useState(editingFile?.fileName || "")
+  const [description, setDescription] = useState(editingFile?.description || "")
+  const [category, setCategory] = useState(editingFile?.category || "Notes")
+  const [program, setProgram] = useState(editingFile?.program || "B.Tech")
+  const [branch, setBranch] = useState(editingFile?.branch || "")
+  const [semester, setSemester] = useState(editingFile?.semester || 1)
+  const [subject, setSubject] = useState(editingFile?.subject || "")
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
-
-  const navigate = useNavigate()
 
   const branchesByProgram = {
     "B.Tech": ["CSE", "ECE", "EEE", "ME", "CE"],
@@ -31,10 +35,10 @@ const UploadFilePage = () => {
     Other: ["General"],
   }
 
-  const handleUpload = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append("file", file)
+    if (file) formData.append("file", file) // Optional file upload
     formData.append("fileName", fileName)
     formData.append("description", description)
     formData.append("category", category)
@@ -51,21 +55,10 @@ const UploadFilePage = () => {
         },
       })
 
-      setFile(null)
-      setFileName("")
-      setDescription("")
-      setCategory("Notes")
-      setProgram("B.Tech")
-      setBranch("")
-      setSemester(1)
-      setSubject("")
-      setError("")
-      setSuccess("File uploaded successfully.")
       navigate("/my-files")
     } catch (err) {
-      console.error("Upload failed:", err)
-      setError("File upload failed. Please try again.")
-      setSuccess("")
+      console.error("Error submitting file:", err)
+      setError("File submission failed. Please try again.")
     }
   }
 
@@ -85,18 +78,18 @@ const UploadFilePage = () => {
         }`}
       >
         <h2 className="text-3xl font-semibold text-center text-[#1E1E7E] dark:text-green-400 mb-8">
-          📤 Upload a File
+          📤 {editingFile ? "Edit File" : "Upload a File"}
         </h2>
 
-        <form onSubmit={handleUpload} className="space-y-6">
-          <div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* <div>
             <label className="block font-medium mb-1">Choose File</label>
             <Input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
-              required
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
             />
-          </div>
+          </div> */}
 
           <div>
             <label className="block font-medium mb-1">File Name</label>
@@ -194,7 +187,7 @@ const UploadFilePage = () => {
             type="submit"
             className="w-full bg-[#1FAA59] hover:bg-[#16A34A] text-white"
           >
-            Upload File
+            {editingFile ? "Update File" : "Upload File"}
           </Button>
         </form>
 
