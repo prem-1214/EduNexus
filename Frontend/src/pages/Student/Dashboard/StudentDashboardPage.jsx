@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useTheme } from "../../../Context/ThemeContext.jsx"
+import { useTheme } from "../../../context/ThemeContext.jsx"
 import { useUser } from "../../../context/UserContext.jsx"
 
 const StudentDashboardPage = ({ isSidebarCollapsed }) => {

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useTheme } from "../../../Context/ThemeContext"
+import { useTheme } from "../../../context/ThemeContext"
 
 const Schedule = () => {
   const [isConnected, setIsConnected] = useState(false)

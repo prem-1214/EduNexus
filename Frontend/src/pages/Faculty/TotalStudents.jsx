@@ -5,7 +5,7 @@ import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
 import "primereact/resources/themes/lara-light-blue/theme.css"
 import "primereact/resources/primereact.min.css"
-import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useTheme } from "../../context/ThemeContext.jsx"
 import api from "../../utils/axiosInstance.js"
 
 const TotalStudents = () => {

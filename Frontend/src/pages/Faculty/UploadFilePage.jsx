@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate, useLocation } from "react-router-dom"
-import { useTheme } from "../../Context/ThemeContext.jsx"
+import { useTheme } from "../../context/ThemeContext.jsx"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"

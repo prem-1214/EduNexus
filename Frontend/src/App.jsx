@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
-import { ThemeProvider } from "./Context/ThemeContext.jsx"
+import { ThemeProvider } from "./context/ThemeContext.jsx"
 import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
 

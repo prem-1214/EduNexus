@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { FaSearch, FaGraduationCap, FaClock, FaUser } from "react-icons/fa"
-import { useTheme } from "../../../Context/ThemeContext"
+import { useTheme } from "../../../context/ThemeContext"
 
 const courseList = [
   {

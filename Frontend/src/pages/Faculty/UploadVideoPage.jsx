@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { UploadCloud, Video, Image } from "lucide-react"
-import { useTheme } from "../../Context/ThemeContext"
+import { useTheme } from "../../context/ThemeContext"
 import api from "../../utils/axiosInstance"
 
 const UploadVideoPage = () => {
