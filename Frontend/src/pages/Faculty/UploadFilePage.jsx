@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import api from "../../utils/axiosInstance.js"
 
 const UploadFilePage = () => {
   const navigate = useNavigate()
@@ -47,25 +48,12 @@ const UploadFilePage = () => {
     formData.append("subject", subject)
 
     try {
-      if (editingFile) {
-        // Editing an existing file
-        await axios.patch(`/file/editFile/${editingFile._id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        setSuccess("File updated successfully.")
-      } else {
-        // Uploading a new file
-        await axios.post("/file/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        setSuccess("File uploaded successfully.")
-      }
+      await api.post("/file/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
 
       navigate("/my-files")
     } catch (err) {

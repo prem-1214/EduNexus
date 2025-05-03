@@ -10,11 +10,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/auth": { target: "http://localhost:3000", changeOrigin: true },
-      "/user": { target: "http://localhost:3000", changeOrigin: true },
-      "/video": { target: "http://localhost:3000", changeOrigin: true, secure: false },
-      "/faculty": { target: "http://localhost:3000", changeOrigin: true },
-      "/file": { target: "http://localhost:3000", changeOrigin: true },
       '/api/generate': {
         target: 'http://localhost:11434',
         changeOrigin: true,

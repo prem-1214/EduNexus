@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { useTheme } from "../../Context/ThemeContext";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Pagination from "../../components/Pagination/Pagination";
-
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import Pagination from "../../components/Pagination/Pagination.jsx"
+import api from "../../utils/axiosInstance.js"
+import { useNavigate } from "react-router-dom"
 
 const UploadedVideosPage = () => {
   const { isDarkMode } = useTheme();
@@ -26,7 +26,7 @@ const UploadedVideosPage = () => {
   const fetchVideos = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("/video/uploadedVideos", {
+      const { data } = await api.get("/video/uploadedVideos", {
         params: { page, limit, program, branch, semester, subject, searchTerm },
       });
       setVideos(data.videos);
@@ -47,7 +47,7 @@ const UploadedVideosPage = () => {
   useEffect(() => {
     const fetchAllVideos = async () => {
       try {
-        const { data } = await axios.get("/video/uploadedVideos", {
+        const { data } = await api.get("/video/uploadedVideos", {
           params: { page: 1, limit: 10000 },
         });
         setAllUploadedVideos(data.videos);
@@ -66,7 +66,7 @@ const UploadedVideosPage = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`/video/deleteVideo/${videoId}`);
+      await api.delete(`/video/deleteVideo/${videoId}`);
       fetchVideos();
       alert("Video deleted successfully!");
     } catch (error) {

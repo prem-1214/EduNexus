@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useTheme } from "../../Context/ThemeContext";
+import React, { useState } from "react"
+import axios from "axios"
+import { useLocation, useNavigate } from "react-router-dom"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
+import { UploadCloud, Video, Image } from "lucide-react"
+import { useTheme } from "../../Context/ThemeContext"
+import api from "../../utils/axiosInstance"
 
 const UploadVideoPage = () => {
   const navigate = useNavigate();
@@ -52,7 +55,7 @@ const UploadVideoPage = () => {
       if (thumbnail) formData.append("thumbnail", thumbnail);
 
       // Editing an existing video
-      const response = await axios.patch(
+      const response = await api.patch(
         `/video/editVideo/${editingVideo._id}`,
         formData,
         {

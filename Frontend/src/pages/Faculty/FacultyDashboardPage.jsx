@@ -12,6 +12,7 @@ import {
 } from "../../../srcStyle/components/ui/card.jsx"
 import { Button } from "../../../srcStyle/components/ui/button.jsx"
 import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx"
+import api from "../../utils/axiosInstance.js"
 
 function FacultyDashboardPage() {
   const { user } = useUser()
@@ -25,7 +26,7 @@ function FacultyDashboardPage() {
     }
     const fetchTotalStudents = async () => {
       try {
-        const response = await axios.get("/video/total-students", {
+        const response = await api.get("/video/total-students", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },

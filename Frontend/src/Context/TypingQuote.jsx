@@ -111,7 +111,7 @@ const TypingQuote = () => {
             Generating your AI Quote...
           </h3>
         ) : (
-          <p className="text-lg md:text-xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed break-words whitespace-pre-wrap">
+          <p className="text-lg md:text-xl font-medium text-gray-700 leading-relaxed break-words whitespace-pre-wrap">
             {displayText}
             {isTyping && <span className="blinking-cursor">|</span>}
           </p>
@@ -147,7 +147,7 @@ const TypingQuote = () => {
                     ease: "easeInOut",
                   }}
                 >
-                  <Icon className="text-gray-800 dark:text-white w-6 h-6" />
+                  <Icon className="text-gray-700 w-6 h-6" />
                 </motion.div>
               </motion.div>
             );

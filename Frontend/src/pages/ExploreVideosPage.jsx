@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { useTheme } from "../Context/ThemeContext.jsx"
 import Pagination from "../components/Pagination/Pagination.jsx"
+import api from "../utils/axiosInstance.js"
 
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()
@@ -22,7 +23,7 @@ const ExploreVideosPage = () => {
   const fetchVideos = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get("/video/exploreVideos", {
+      const { data } = await api.get("/video/exploreVideos", {
         params: {
           page,
           limit,
@@ -51,7 +52,7 @@ const ExploreVideosPage = () => {
   useEffect(() => {
     const fetchAllVideos = async () => {
       try {
-        const { data } = await axios.get("/video/exploreVideos", {
+        const { data } = await api.get("/video/exploreVideos", {
           params: { page: 1, limit: 10000 },
         })
         setAllVideos(data.videos)

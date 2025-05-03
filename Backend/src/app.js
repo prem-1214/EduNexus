@@ -10,16 +10,26 @@ import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
 const app = express()
 
-// Middleware
+
+const allowedOrigins = [
+  process.env.FRONTEND_URI, // Deployed frontend
+  "http://localhost:5173", // Local frontend
+];
+
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
-)
+);
 
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups")
@@ -31,18 +41,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../../frontend/dist')))
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
-    })
-  } else {
-    app.get('/', (req, res) => {
-      res.send('API is running...')
-    })
-  }
+app.get("/", (req, res) => {
+  res.send("API is running...")
+})
 
 // Routes
 app.use("/auth", authRouter)

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { jsPDF } from "jspdf";
 import robotAnimation from "../../../assets/robot-working.json";
+import api from "../../../utils/axiosInstance";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -37,9 +38,14 @@ const QuizPage = () => {
   const [error, setError] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
 
+  // Fetch quiz from Gemini API
   const fetchQuiz = async (prompt) => {
     setLoading(true);
     setError(false);
+    setQuiz([]); // Reset quiz state
+    setCurrent(0); // Reset current question index
+    setScore(0); // Reset score
+    setUserAnswers([]); // Reset user answers
     try {
       const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -70,14 +76,21 @@ const QuizPage = () => {
     }
   };
 
+  // Extract JSON from Gemini API response
   const extractJSON = (text) => {
-    const start = text.indexOf("[");
-    const end = text.lastIndexOf("]");
-    if (start === -1 || end === -1) throw new Error("No JSON array boundaries");
-    const json = text.substring(start, end + 1);
-    return JSON.parse(json);
+    try {
+      const start = text.indexOf("[");
+      const end = text.lastIndexOf("]");
+      if (start === -1 || end === -1) throw new Error("No JSON array boundaries found");
+      const json = text.substring(start, end + 1);
+      return JSON.parse(json);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return []; // Return an empty array if parsing fails
+    }
   };
 
+  // Handle category selection
   const handleCategorySelect = (cat) => {
     setCategory(cat);
     setAvailableSubtopics(quizCategories[cat]);
@@ -85,6 +98,7 @@ const QuizPage = () => {
     setStep(2);
   };
 
+  // Generate PDF for quiz solutions
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(14);
@@ -108,6 +122,7 @@ const QuizPage = () => {
     doc.save(`${category}_quiz_solutions.pdf`);
   };
 
+  // Handle next question
   const handleNext = () => {
     if (!quiz[current]) return;
     const correct = quiz[current].answer;
@@ -122,6 +137,7 @@ const QuizPage = () => {
     }
   };
 
+  // Timer logic
   useEffect(() => {
     if (step === 3 && timer > 0 && quiz.length > 0) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -130,12 +146,14 @@ const QuizPage = () => {
     if (timer === 0 && step === 3) handleNext();
   }, [timer, step, quiz]);
 
+  // Initialize user answers when quiz is loaded
   useEffect(() => {
     if (quiz.length > 0) {
       setUserAnswers(Array(quiz.length).fill(null));
     }
   }, [quiz]);
 
+  // Generate prompt for Gemini API
   const getPrompt = () => {
     return `
 Generate exactly 10 multiple-choice questions on "${category}".
@@ -158,7 +176,7 @@ DO NOT include any extra text, comments, or formatting.
 `;
   };
 
-  // Step 1: Choose Category
+  // UI for Step 1: Choose Category
   if (step === 1) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 space-y-6 bg-[#FAFAFA] dark:bg-[#0F172A]">
@@ -180,7 +198,7 @@ DO NOT include any extra text, comments, or formatting.
     );
   }
 
-  // Step 2: Choose Subtopics
+  // UI for Step 2: Choose Subtopics
   if (step === 2) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#FAFAFA] dark:bg-[#0F172A]">
@@ -269,7 +287,7 @@ DO NOT include any extra text, comments, or formatting.
     );
   }
 
-  // Step 3: Quiz
+  // UI for Step 3: Quiz
   if (step === 3) {
     const question = quiz[current];
     return (
@@ -334,7 +352,7 @@ DO NOT include any extra text, comments, or formatting.
     );
   }
 
-  // Step 4: Results
+  // UI for Step 4: Results
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 bg-[#FAFAFA] dark:bg-[#0F172A]">
       <Card className="p-10 max-w-2xl dark:bg-[#1E293B] bg-white border border-[#E5E7EB] dark:border-[#334155]">

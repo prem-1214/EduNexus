@@ -1,8 +1,9 @@
 import axios from "axios"
+import api from "../utils/axiosInstance"
 
 const Logout = async () => {
   try {
-    await axios.post(
+    await api.post(
       "/user/logout",
       {},
       {
