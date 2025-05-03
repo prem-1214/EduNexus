@@ -7,7 +7,7 @@ import api from "../utils/axiosInstance.js"
 const ExploreVideosPage = () => {
   const { isDarkMode } = useTheme()
   const [videos, setVideos] = useState([])
-  const [allVideos, setAllVideos] = useState([]) 
+  const [allVideos, setAllVideos] = useState([])
   const [loading, setLoading] = useState(true)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -165,7 +165,8 @@ const ExploreVideosPage = () => {
                     isDarkMode ? "text-gray-100" : "text-gray-800"
                   }`}
                 >
-                  {video.title} | {video.program} | {video.branch} | {video.semester}
+                  {video.title} | {video.program} | {video.branch} |{" "}
+                  {video.semester}
                 </h3>
                 <p
                   className={`text-sm mt-2 line-clamp-2 ${
@@ -174,23 +175,6 @@ const ExploreVideosPage = () => {
                 >
                   {video.uploader?.userName || "No description available"}
                 </p>
-                {/* <div
-                  className="grid gap-y-0 text-sm mt-2"
-                  style={{ gridTemplateColumns: "42% 42%", columnGap: "2%" }}
-                >
-                  <p>
-                    <strong>Program:</strong> {video.program || "N/A"}
-                  </p>
-                  <p>
-                    <strong>Branch:</strong> {video.branch || "N/A"}
-                  </p>
-                  <p>
-                    <strong>Semester:</strong> {video.semester || "N/A"}
-                  </p>
-                  <p>
-                    <strong>Subject:</strong> {video.subject || "N/A"}
-                  </p>
-                </div> */}
                 <div
                   className={`text-xs mt-2 ${
                     isDarkMode ? "text-gray-400" : "text-gray-600"

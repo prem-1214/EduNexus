@@ -4,15 +4,18 @@ import "./index.css"
 import App from "./App.jsx"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { BrowserRouter, HashRouter } from "react-router-dom"
-import { UserProvider } from "./Context/UserContext.jsx"
+import { UserProvider } from "./context/UserContext.jsx"
+import { ChatProvider } from "./Context/ChatContext.jsx"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
       <UserProvider>
-        <BrowserRouter>
-          <App /> 
-        </BrowserRouter>
+        <ChatProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChatProvider>
       </UserProvider>
     </GoogleOAuthProvider>
   </StrictMode>

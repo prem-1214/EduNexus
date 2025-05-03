@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import {
   FaHome,
   FaBook,
@@ -15,44 +15,44 @@ import {
   FaSun,
   FaMoon,
   FaQuestionCircle,
-} from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext";
+} from "react-icons/fa"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const StudentSidebar = ({ onToggle }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const navigate = useNavigate();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const navigate = useNavigate()
+  const { isDarkMode, toggleTheme } = useTheme()
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add("dark")
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove("dark")
     }
-  }, [isDarkMode]);
+  }, [isDarkMode])
 
   const menuItems = [
     { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
     { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
-    { name: "Discussions", icon: <FaComments />, to: "/discussions" },
+    { name: "Discussions", icon: <FaComments />, to: "/chat" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },
     { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
     { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
     { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Quiz", icon: <FaQuestionCircle />, to: "/quiz" },
     { name: "Settings", icon: <FaCog />, to: "/settings" },
-  ];
+  ]
 
   const handleLogout = () => {
-    navigate("/login");
-  };
+    navigate("/login")
+  }
 
   const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-    onToggle(!isCollapsed); // Notify parent component about the state change
-  };
+    setIsCollapsed(!isCollapsed)
+    onToggle(!isCollapsed) // Notify parent component about the state change
+  }
 
   return (
     <div
@@ -135,7 +135,7 @@ const StudentSidebar = ({ onToggle }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StudentSidebar;
+export default StudentSidebar

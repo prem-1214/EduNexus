@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useTheme } from "../../Context/ThemeContext.jsx";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import api from "../../utils/axiosInstance.js";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import "primereact/resources/themes/lara-light-indigo/theme.css"
+import "primereact/resources/primereact.min.css"
+import api from "../../utils/axiosInstance.js"
+import { useNavigate } from "react-router-dom"
 
 const FilesPage = () => {
-  const { isDarkMode } = useTheme();
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [viewMode, setViewMode] = useState("table");
+  const { isDarkMode } = useTheme()
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+  const [viewMode, setViewMode] = useState("table")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -24,18 +24,18 @@ const FilesPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        });
-        setUploadedFiles(response.data.files);
-        setError("");
+        })
+        setUploadedFiles(response.data.files)
+        setError("")
       } catch (error) {
-        console.error("Error fetching files:", error);
-        setError("Failed to fetch files. Please try again later.");
-        setSuccess("");
+        console.error("Error fetching files:", error)
+        setError("Failed to fetch files. Please try again later.")
+        setSuccess("")
       }
-    };
+    }
 
-    fetchFiles();
-  }, []);
+    fetchFiles()
+  }, [])
 
   const downloadTemplate = (rowData) => {
     return (
@@ -47,21 +47,23 @@ const FilesPage = () => {
       >
         Download
       </a>
-    );
-  };
+    )
+  }
 
   const editTemplate = (rowData) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
       <button
-        onClick={() => navigate(`/editFile/${rowData._id}`, { state: { file: rowData } })}
+        onClick={() =>
+          navigate(`/editFile/${rowData._id}`, { state: { file: rowData } })
+        }
         className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
       >
         Edit
       </button>
-    );
-  };
+    )
+  }
 
   return (
     <div
@@ -250,7 +252,8 @@ const FilesPage = () => {
                     <strong>Subject:</strong> {file.subject}
                   </p>
                   <p>
-                    <strong>Uploaded:</strong> {file.uploadedAtFormatted || "N/A"}
+                    <strong>Uploaded:</strong>{" "}
+                    {file.uploadedAtFormatted || "N/A"}
                   </p>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
@@ -263,7 +266,9 @@ const FilesPage = () => {
                     Download
                   </a>
                   <button
-                    onClick={() => navigate(`/editFile/${file._id}`, { state: { file } })}
+                    onClick={() =>
+                      navigate(`/editFile/${file._id}`, { state: { file } })
+                    }
                     className="text-blue-600 dark:text-green-400 font-semibold hover:underline"
                   >
                     Edit
@@ -275,7 +280,7 @@ const FilesPage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FilesPage;
+export default FilesPage

@@ -16,7 +16,7 @@ const UploadFilePage = () => {
   // Check if editing an existing file
   const editingFile = location.state?.file || null
 
-  const [file, setFile] = useState(null) // New file (optional)
+  const [file, setFile] = useState(null)
   const [fileName, setFileName] = useState(editingFile?.fileName || "")
   const [description, setDescription] = useState(editingFile?.description || "")
   const [category, setCategory] = useState(editingFile?.category || "Notes")
@@ -38,7 +38,7 @@ const UploadFilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    if (file) formData.append("file", file) // Optional file upload
+    if (file) formData.append("file", file)
     formData.append("fileName", fileName)
     formData.append("description", description)
     formData.append("category", category)

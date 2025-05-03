@@ -74,7 +74,6 @@ const loginHandler = async (req, res) => {
         message: "User does not exist",
       })
     }
-    // const hashedPassword = await bcrypt.hash(password, 10)
     const isPasswordValid = bcrypt.compare(password, user.password)
     console.log("Password is correct : ", isPasswordValid)
 
@@ -91,8 +90,16 @@ const loginHandler = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, { httpOnly: true, sameSite: "none", secure: true })
-      .cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "none", secure: true })
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
       .json({
         user: loggedInUser,
         accessToken,
@@ -140,8 +147,16 @@ const googleLoginHandler = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, { httpOnly: true, sameSite: "none", secure: true })
-      .cookie("refreshToken", refreshToken, { httpOnly: true , sameSite: "none", secure : true})
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
       .json({
         user: loggedInUser,
         accessToken,

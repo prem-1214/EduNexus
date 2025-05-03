@@ -1,7 +1,10 @@
 import { Router } from "express"
 import isAuthenticated from "../middlewares/auth.middleware.js"
 import { upload } from "../middlewares/multer.middleware.js"
-import { fileUploadHandler, editFileHandler } from "../controllers/file.controller.js"
+import {
+  fileUploadHandler,
+  editFileHandler,
+} from "../controllers/file.controller.js"
 import File from "../models/file.models.js"
 import paginate from "../middlewares/pagination.js"
 

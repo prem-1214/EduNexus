@@ -1,7 +1,10 @@
 import { Router } from "express"
 import Video from "../models/video.model.js"
 import User from "../models/user.model.js"
-import { editVideoHandler, videoUploadHandler } from "../controllers/video.controller.js"
+import {
+  editVideoHandler,
+  videoUploadHandler,
+} from "../controllers/video.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import isAuthenticated from "../middlewares/auth.middleware.js"
 import paginate from "../middlewares/pagination.js"
@@ -47,18 +50,6 @@ router.get("/uploadedVideos", isAuthenticated, paginate, async (req, res) => {
 
     const total = await Video.countDocuments(filters)
     const totalPages = Math.ceil(total / limit)
-    // console.log("Total Videos:", total)
-    // console.log("Videos:", videos)
-
-    // console.log("req.user:", req.user._id); // Log the user object
-    // console.log("before populating video")
-
-    // const populatedVideo = await Video.find({ uploader: userId })
-    //                             .populate('uploader', 'userName avatar')
-    //                             .sort({ createdAt: -1 });
-    // const populatedVideo = await Video.find().populate('uploader', 'userName avatar').sort({createdAt : -1})
-    // console.log("Fetched Videos:", populatedVideo)
-
     const formattedVideos = videos.map((video) => ({
       ...video.toObject(),
       uploadedAtFormatted: new Date(video.createdAt).toLocaleString("en-GB", {
@@ -147,14 +138,17 @@ router.delete("/deleteVideo/:id", isAuthenticated, async (req, res) => {
   }
 })
 
-router.patch("/editVideo/:id", isAuthenticated, 
-    upload.fields([
-      {
-        name : "thumbnail",
-        maxCount : 1
-      }
-    ])
-  , editVideoHandler)
+router.patch(
+  "/editVideo/:id",
+  isAuthenticated,
+  upload.fields([
+    {
+      name: "thumbnail",
+      maxCount: 1,
+    },
+  ]),
+  editVideoHandler
+)
 
 // Route to get the total number of students
 router.get("/total-students", async (req, res) => {

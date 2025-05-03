@@ -1,4 +1,3 @@
-// ChatbotWidgetGemini.jsx
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaCommentDots, FaTimes } from "react-icons/fa"
