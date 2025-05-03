@@ -1,88 +1,100 @@
-import React, { useState } from "react"
-import axios from "axios"
-import { useLocation, useNavigate } from "react-router-dom"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { UploadCloud, Video, Image } from "lucide-react"
-import { useTheme } from "../../Context/ThemeContext"
-import api from "../../utils/axiosInstance"
+import React, { useState } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "../../Context/ThemeContext";
+import api from "../../utils/axiosInstance";
 
 const UploadVideoPage = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { isDarkMode } = useTheme()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isDarkMode } = useTheme();
 
   // Check if editing an existing video
-  const editingVideo = location.state?.video || null
+  const editingVideo = location.state?.video || null;
 
-  const [title, setTitle] = useState(editingVideo?.title || "")
+  const [title, setTitle] = useState(editingVideo?.title || "");
   const [description, setDescription] = useState(
     editingVideo?.description || ""
-  )
-  const [thumbnail, setThumbnail] = useState(null)
-  const [program, setProgram] = useState(editingVideo?.program || "")
-  const [branch, setBranch] = useState(editingVideo?.branch || "")
-  const [semester, setSemester] = useState(editingVideo?.semester || "")
-  const [subject, setSubject] = useState(editingVideo?.subject || "")
-  const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
+  );
+  const [thumbnail, setThumbnail] = useState(null);
+  const [program, setProgram] = useState(editingVideo?.program || "");
+  const [branch, setBranch] = useState(editingVideo?.branch || "");
+  const [semester, setSemester] = useState(editingVideo?.semester || "");
+  const [subject, setSubject] = useState(editingVideo?.subject || "");
+  const [videoFile, setVideoFile] = useState(null); // For uploading new videos
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const branchOptions = {
     "B.Tech": ["CSE", "ECE", "ME", "CE"],
     "B.Sc": ["Maths", "Physics", "Chemistry"],
     BBA: ["General", "Finance", "Marketing"],
-  }
+  };
 
-  const semesterOptions = ["1", "2", "3", "4", "5", "6", "7", "8"]
+  const semesterOptions = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
+  // Handle form submission for editing or uploading
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-
-    if (!editingVideo || !editingVideo._id) {
-      setMessage("Invalid video ID.")
-      setLoading(false)
-      return
-    }
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      const formData = new FormData()
-      if (title) formData.append("title", title)
-      if (description) formData.append("description", description)
-      if (program) formData.append("program", program)
-      if (branch) formData.append("branch", branch)
-      if (semester) formData.append("semester", semester)
-      if (subject) formData.append("subject", subject)
-      if (thumbnail) formData.append("thumbnail", thumbnail)
+      const formData = new FormData();
+      if (title) formData.append("title", title);
+      if (description) formData.append("description", description);
+      if (program) formData.append("program", program);
+      if (branch) formData.append("branch", branch);
+      if (semester) formData.append("semester", semester);
+      if (subject) formData.append("subject", subject);
+      if (thumbnail) formData.append("thumbnail", thumbnail);
 
-      // Editing an existing video
-      const response = await api.patch(
-        `/video/editVideo/${editingVideo._id}`,
-        formData,
-        {
+      if (editingVideo) {
+        // Editing an existing video
+        const response = await api.patch(
+          `/video/editVideo/${editingVideo._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        setMessage(response.data.message);
+        console.log("Video details updated successfully!");
+      } else {
+        // Uploading a new video
+        if (videoFile) formData.append("video", videoFile);
+        const response = await api.post("/video/uploadVideo", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-        }
-      )
-      setMessage(response.data.message)
-      console.log("Video details updated successfully!")
+        });
+        setMessage(response.data.message);
+        console.log("Video uploaded successfully!");
+      }
 
-      navigate("/uploadedVideos")
+      navigate("/uploadedVideos");
     } catch (error) {
-      console.error("Error updating video details:", error)
-      setMessage("Error updating video details.")
+      console.error("Error:", error);
+      setMessage("Error occurred while processing your request.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleFileSelect = (e) => {
-    const file = e.target.files[0]
-    setThumbnail(file)
-  }
+    const file = e.target.files[0];
+    setThumbnail(file);
+  };
+
+  const handleVideoSelect = (e) => {
+    const file = e.target.files[0];
+    setVideoFile(file);
+  };
 
   return (
     <div
@@ -95,10 +107,12 @@ const UploadVideoPage = () => {
       <Card className="w-full max-w-4xl bg-white dark:bg-[#1E293B] shadow-xl rounded-2xl border border-[#E5E7EB] dark:border-[#334155]">
         <CardHeader className="p-6 border-b border-[#E5E7EB] dark:border-[#334155]">
           <CardTitle className="text-3xl font-semibold text-[#1E1E7E] dark:text-[#F8FAFC]">
-            ✏️ Edit Video Details
+            {editingVideo ? "✏️ Edit Video Details" : "📤 Upload New Video"}
           </CardTitle>
           <p className="text-[#374151] dark:text-[#94A3B8] text-sm mt-1">
-            Update your video details and thumbnail below!
+            {editingVideo
+              ? "Update your video details and thumbnail below!"
+              : "Fill in the details to upload a new video!"}
           </p>
         </CardHeader>
 
@@ -204,6 +218,20 @@ const UploadVideoPage = () => {
               />
             </div>
 
+            {/* Video Upload (only for new videos) */}
+            {!editingVideo && (
+              <div>
+                <label className="block mb-1 font-medium">🎥 Video File</label>
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={handleVideoSelect}
+                  className="w-full p-3 rounded-xl bg-[#F9FAFB] dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155]"
+                  required
+                />
+              </div>
+            )}
+
             {/* Submit Button */}
             <div>
               <Button
@@ -211,7 +239,13 @@ const UploadVideoPage = () => {
                 className="w-full p-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
                 disabled={loading}
               >
-                {loading ? "Updating..." : "Update Video"}
+                {loading
+                  ? editingVideo
+                    ? "Updating..."
+                    : "Uploading..."
+                  : editingVideo
+                  ? "Update Video"
+                  : "Upload Video"}
               </Button>
             </div>
 
@@ -229,7 +263,7 @@ const UploadVideoPage = () => {
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default UploadVideoPage
+export default UploadVideoPage;

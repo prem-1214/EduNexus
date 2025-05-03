@@ -13,7 +13,7 @@ const UploadedVideosPage = () => {
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const limit = 9
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
   const [program, setProgram] = useState("")
   const [branch, setBranch] = useState("")
   const [semester, setSemester] = useState("")
@@ -199,30 +199,32 @@ const UploadedVideosPage = () => {
                         new Date(video.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                </div>
-                <div className="py-4 flex gap-2">
-                  <button
-                    onClick={() => handleDelete(video._id)}
-                    className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
-                      isDarkMode
-                        ? "bg-gray-700 text-gray-100 hover:bg-gray-600"
-                        : "bg-red-500 text-white hover:bg-red-600"
-                    }`}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() =>
-                      navigate(`/editVideo/${video._id}`, { state: { video } })
-                    }
-                    className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
-                      isDarkMode
-                        ? "bg-blue-700 text-gray-100 hover:bg-blue-600"
-                        : "bg-blue-500 text-white hover:bg-blue-600"
-                    }`}
-                  >
-                    Edit
-                  </button>
+                  <div className="py-2">
+                    <button
+                      onClick={() => handleDelete(video._id)}
+                      className={`h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
+                        isDarkMode
+                          ? "bg-gray-700 text-gray-100 hover:bg-gray-600"
+                          : "bg-red-500 text-white hover:bg-red-600"
+                      }`}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigate(`/editVideo/${video._id}`, {
+                          state: { video },
+                        })
+                      }
+                      className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
+                        isDarkMode
+                          ? "bg-blue-700 text-gray-100 hover:bg-blue-600"
+                          : "bg-blue-500 text-white hover:bg-blue-600"
+                      }`}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
