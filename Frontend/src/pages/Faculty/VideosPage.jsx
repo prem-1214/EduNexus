@@ -3,6 +3,7 @@ import axios from "axios"
 import { useTheme } from "../../Context/ThemeContext.jsx"
 import Pagination from "../../components/Pagination/Pagination.jsx"
 import api from "../../utils/axiosInstance.js"
+import { useNavigate } from "react-router-dom"
 
 const UploadedVideosPage = () => {
   const { isDarkMode } = useTheme();
