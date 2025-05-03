@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { FaChalkboardTeacher, FaSearch, FaCalendarAlt } from "react-icons/fa"
-import { useTheme } from "../../../context/ThemeContext"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const classList = [
   {

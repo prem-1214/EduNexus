@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ChatbotWidgetGemini from "../../components/ChatBot/Chatbotgemini.jsx"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
-import { useUser } from "../../context/UserContext.jsx"
+import { useUser } from "../../Context/UserContext.jsx"
 import {
   Card,
   CardContent,

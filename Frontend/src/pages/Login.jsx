@@ -3,9 +3,9 @@ import { GoogleLogin } from "@react-oauth/google"
 import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 import { Link, useNavigate } from "react-router-dom"
-import TypingQuote from "../context/TypingQuote.jsx"
+import TypingQuote from "../Context/TypingQuote.jsx"
 import api from "../utils/axiosInstance.js" // Import the axios instance
-import { useUser } from "../context/UserContext.jsx"
+import { useUser } from "../Context/UserContext.jsx"
 
 const Login = () => {
   const [email, setEmail] = useState("")

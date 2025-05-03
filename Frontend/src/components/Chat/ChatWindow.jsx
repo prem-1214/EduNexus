@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useChat } from "../../context/ChatContext.jsx"
+import { useChat } from "../../Context/ChatContext.jsx"
 import api from "../../utils/axiosInstance.js"
 
 const ChatWindow = () => {

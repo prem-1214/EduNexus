@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { useChat } from "../../context/ChatContext.jsx"
-import { useUser } from "../../context/UserContext.jsx"
+import { useChat } from "../../Context/ChatContext.jsx"
+import { useUser } from "../../Context/UserContext.jsx"
 import api from "../../utils/axiosInstance.js"
 
 const Sidebar = () => {

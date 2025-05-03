@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
-import { useChat } from "../context/ChatContext.jsx"
+import { useChat } from "../Context/ChatContext.jsx"
 import ChatSidebar from "../components/Chat/ChatSidebar.jsx"
-import { useUser } from "../context/UserContext.jsx"
+import { useUser } from "../Context/UserContext.jsx"
 import socket from "../utils/socket.js"
 import ChatWindow from "../components/Chat/ChatWindow.jsx"
 

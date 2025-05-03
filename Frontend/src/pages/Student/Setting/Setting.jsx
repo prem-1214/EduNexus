@@ -1,5 +1,5 @@
 import { FaUser, FaEnvelope, FaLock, FaBell, FaSave } from "react-icons/fa"
-import { useTheme } from "../../../context/ThemeContext"
+import { useTheme } from "../../../Context/ThemeContext"
 
 const Settings = () => {
   const { isDarkMode } = useTheme()

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
-import { useTheme } from "../../context/ThemeContext.jsx"
+import { useTheme } from "../../Context/ThemeContext.jsx"
 import Logout from "../Student/Logout/Logout.jsx"
 import {
   Menu,
@@ -16,7 +16,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react"
-import { useUser } from "../../context/UserContext.jsx"
+import { useUser } from "../../Context/UserContext.jsx"
 
 function FacultySidebar({ isOpen, setIsOpen }) {
   const { user } = useUser()
