@@ -1,6 +1,6 @@
 # Educational Management System  
 
-An Educational Management System enabling seamless interaction between students, faculty, and administrators. This application offers functionalities for user management, resource sharing, and analytics to enhance the educational experience.  
+An Educational Management System enabling seamless interaction between students and faculty. This application offers functionalities for user management, resource sharing to enhance the educational experience.  
 
 ## Table of Contents  
 
@@ -64,9 +64,8 @@ The frontend application will start on the configured port (e.g., `http://localh
 
 ## Feature Overview  
 
-- **User Management**: Role-based access for students, faculty, and administrators.  
-- **Resource Sharing**: Upload and share educational resources.  
-- **Analytics**: Insights into user activity and performance.  
+- **User Management**: Role-based access for students, faculty.  
+- **Resource Sharing**: Upload and share educational resources.    
 - **Authentication**: Secure login and registration with JWT-based authentication.  
 - **Google Login**: Seamless login using Google OAuth.  
 
@@ -75,19 +74,12 @@ The frontend application will start on the configured port (e.g., `http://localh
 ## User Roles  
 
 1. **Student**:  
-   - Access course materials.  
-   - Submit assignments.  
-   - View grades and feedback.  
+   - Access course materials.   
+   - Communicate with teachers.  
 
 2. **Faculty**:  
    - Upload course materials.  
-   - Grade assignments.  
    - Communicate with students.  
-
-3. **Administrator**:  
-   - Manage users and roles.  
-   - Monitor system activity.  
-   - Generate reports.  
 
 ---
 
