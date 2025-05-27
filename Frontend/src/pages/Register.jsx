@@ -4,6 +4,7 @@ import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 import { Link, useNavigate } from "react-router-dom"
 import TypingQuote from "../Context/TypingQuote.jsx"
+import api from "../utils/axiosInstance.js"
 
 const Register = () => {
   const [email, setEmail] = useState("")
@@ -14,7 +15,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("/auth/register", { email, password })
+      const response = await api.post("/auth/register", { email, password })
       localStorage.setItem("accessToken", response.data.accessToken)
       navigate("/login")
     } catch (error) {
@@ -26,7 +27,7 @@ const Register = () => {
     if (response.credential) {
       const userInfo = jwtDecode(response.credential)
       try {
-        const googleResponse = await axios.post("/auth/google-login", {
+        const googleResponse = await api.post("/auth/google-login", {
           userInfo,
         })
         localStorage.setItem("accessToken", googleResponse.data.accessToken)

@@ -33,16 +33,16 @@ const StudentSidebar = ({ onToggle }) => {
 
   const menuItems = [
     { name: "Dashboard", icon: <FaHome />, to: "/studentdashboard" },
-    // { name: "Assignments", icon: <FaBook />, to: "/assignment" },
+    { name: "Assignments", icon: <FaBook />, to: "/assignment" },
     { name: "Schedule", icon: <FaCalendar />, to: "/schedule" },
     { name: "Recordings", icon: <FaVideo />, to: "/recordings" },
-    // { name: "Discussions", icon: <FaComments />, to: "/discussions" },
+    { name: "Discussions", icon: <FaComments />, to: "/chat" },
     { name: "Notes", icon: <FaStickyNote />, to: "/notes" },
-    // { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
-    // { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
-    // { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
+    { name: "Downloads", icon: <FaDownload />, to: "/downloads" },
+    { name: "Classes", icon: <FaChalkboardTeacher />, to: "/classes" },
+    { name: "Courses", icon: <FaGraduationCap />, to: "/courses" },
     { name: "Quiz", icon: <FaQuestionCircle />, to: "/quiz" },
-    // { name: "Settings", icon: <FaCog />, to: "/settings" },
+    { name: "Settings", icon: <FaCog />, to: "/settings" },
   ]
 
   const handleLogout = () => {
@@ -69,7 +69,11 @@ const StudentSidebar = ({ onToggle }) => {
       {/* Logo and Toggle */}
       <div>
         <img
-          src="https://res.cloudinary.com/darbhv6uv/image/upload/v1742227008/EduNexus/logos/dbsiimjxvibjbqmqct5l.png"
+          src={
+            isDarkMode
+              ? "https://res.cloudinary.com/darbhv6uv/image/upload/v1745777890/EduNexus_1_iolyv7.png" // Dark mode logo
+              : "https://res.cloudinary.com/darbhv6uv/image/upload/v1742227008/EduNexus/logos/dbsiimjxvibjbqmqct5l.png" // Light mode logo
+          }
           alt="EduNexus Logo"
           className={`cursor-pointer mx-auto transition-all duration-300 ${
             isCollapsed ? "w-12" : "w-36"

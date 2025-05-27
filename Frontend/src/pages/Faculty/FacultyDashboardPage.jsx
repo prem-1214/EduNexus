@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { useUser } from "../../Context/UserContext.jsx"
-// import ChatbotWidget from "../../components/ChatBot/ChatbotWidget.jsx"
 import ChatbotWidgetGemini from "../../components/ChatBot/Chatbotgemini.jsx"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
+import { useUser } from "../../Context/UserContext.jsx"
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
 } from "../../../srcStyle/components/ui/card.jsx"
 import { Button } from "../../../srcStyle/components/ui/button.jsx"
 import { Skeleton } from "../../../srcStyle/components/ui/skeleton.jsx"
+import api from "../../utils/axiosInstance.js"
 
 function FacultyDashboardPage() {
   const { user } = useUser()
@@ -25,7 +25,7 @@ function FacultyDashboardPage() {
     }
     const fetchTotalStudents = async () => {
       try {
-        const response = await axios.get("/video/total-students", {
+        const response = await api.get("/video/total-students", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -59,7 +59,7 @@ function FacultyDashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* <ChatbotWidget /> */}
-          <ChatbotWidgetGemini/>
+          <ChatbotWidgetGemini />
           <Link to="/total-students">
             <Card className="bg-white dark:bg-[#1E293B] border border-[#E5E7EB] dark:border-[#334155] backdrop-blur-xl rounded-2xl shadow-lg hover:scale-[1.02] transition-all">
               <CardHeader>

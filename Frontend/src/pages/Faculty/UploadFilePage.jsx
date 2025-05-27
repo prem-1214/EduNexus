@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import api from "../../utils/axiosInstance.js"
 
 const UploadFilePage = () => {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ const UploadFilePage = () => {
   // Check if editing an existing file
   const editingFile = location.state?.file || null
 
-  const [file, setFile] = useState(null) // New file (optional)
+  const [file, setFile] = useState(null)
   const [fileName, setFileName] = useState(editingFile?.fileName || "")
   const [description, setDescription] = useState(editingFile?.description || "")
   const [category, setCategory] = useState(editingFile?.category || "Notes")
@@ -37,7 +38,7 @@ const UploadFilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
-    if (file) formData.append("file", file) // Optional file upload
+    if (file) formData.append("file", file)
     formData.append("fileName", fileName)
     formData.append("description", description)
     formData.append("category", category)
@@ -47,25 +48,12 @@ const UploadFilePage = () => {
     formData.append("subject", subject)
 
     try {
-      if (editingFile) {
-        // Editing an existing file
-        await axios.patch(`/file/editFile/${editingFile._id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        setSuccess("File updated successfully.")
-      } else {
-        // Uploading a new file
-        await axios.post("/file/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        setSuccess("File uploaded successfully.")
-      }
+      await api.post("/file/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
 
       navigate("/my-files")
     } catch (err) {

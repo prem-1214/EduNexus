@@ -1,85 +1,82 @@
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { useTheme } from "../../Context/ThemeContext";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Pagination from "../../components/Pagination/Pagination";
-
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import Pagination from "../../components/Pagination/Pagination.jsx"
+import api from "../../utils/axiosInstance.js"
+import { useNavigate } from "react-router-dom"
 
 const UploadedVideosPage = () => {
-  const { isDarkMode } = useTheme();
-  const [videos, setVideos] = useState([]);
-  const [allUploadedVideos, setAllUploadedVideos] = useState([]); // For filter dropdowns
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const limit = 9;
-
-  const navigate = useNavigate(); // Initialize useNavigate
-
-  // Filters
-  const [program, setProgram] = useState("");
-  const [branch, setBranch] = useState("");
-  const [semester, setSemester] = useState("");
-  const [subject, setSubject] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const { isDarkMode } = useTheme()
+  const [videos, setVideos] = useState([])
+  const [allUploadedVideos, setAllUploadedVideos] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
+  const limit = 9
+  const navigate = useNavigate()
+  const [program, setProgram] = useState("")
+  const [branch, setBranch] = useState("")
+  const [semester, setSemester] = useState("")
+  const [subject, setSubject] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const fetchVideos = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      const { data } = await axios.get("/video/uploadedVideos", {
+      const { data } = await api.get("/video/uploadedVideos", {
         params: { page, limit, program, branch, semester, subject, searchTerm },
-      });
-      setVideos(data.videos);
-      setTotal(data.total);
+      })
+      setVideos(data.videos)
+      setTotal(data.total)
     } catch (err) {
-      console.error("Error fetching videos", err);
+      console.error("Error fetching videos", err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   // Fetch current page of videos based on filters
   useEffect(() => {
-    fetchVideos();
-  }, [page, program, branch, semester, subject, searchTerm]);
+    fetchVideos()
+  }, [page, program, branch, semester, subject, searchTerm])
 
   // Fetch all uploaded videos once for dropdown options
   useEffect(() => {
     const fetchAllVideos = async () => {
       try {
-        const { data } = await axios.get("/video/uploadedVideos", {
+        const { data } = await api.get("/video/uploadedVideos", {
           params: { page: 1, limit: 10000 },
-        });
-        setAllUploadedVideos(data.videos);
+        })
+        setAllUploadedVideos(data.videos)
       } catch (err) {
-        console.error("Error fetching all videos for dropdowns", err);
+        console.error("Error fetching all videos for dropdowns", err)
       }
-    };
+    }
 
-    fetchAllVideos();
-  }, []);
+    fetchAllVideos()
+  }, [])
 
   const handleDelete = async (videoId) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this video?"
-    );
-    if (!confirmDelete) return;
+    )
+    if (!confirmDelete) return
 
     try {
-      await axios.delete(`/video/deleteVideo/${videoId}`);
-      fetchVideos();
-      alert("Video deleted successfully!");
+      await api.delete(`/video/deleteVideo/${videoId}`)
+      fetchVideos()
+      alert("Video deleted successfully!")
     } catch (error) {
-      console.error("Error deleting video:", error);
-      alert("Failed to delete video.");
+      console.error("Error deleting video:", error)
+      alert("Failed to delete video.")
     }
-  };
+  }
 
   const uniqueOptions = (key) => [
     ...new Set(allUploadedVideos.map((v) => v[key]).filter(Boolean)),
-  ];
+  ]
 
-  const totalPages = Math.ceil(total / limit);
+  const totalPages = Math.ceil(total / limit)
 
   return (
     <div
@@ -202,30 +199,32 @@ const UploadedVideosPage = () => {
                         new Date(video.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                </div>
-                <div className="py-4 flex gap-2">
-                  <button
-                    onClick={() => handleDelete(video._id)}
-                    className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
-                      isDarkMode
-                        ? "bg-gray-700 text-gray-100 hover:bg-gray-600"
-                        : "bg-red-500 text-white hover:bg-red-600"
-                    }`}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() =>
-                      navigate(`/editVideo/${video._id}`, { state: { video } })
-                    }
-                    className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
-                      isDarkMode
-                        ? "bg-blue-700 text-gray-100 hover:bg-blue-600"
-                        : "bg-blue-500 text-white hover:bg-blue-600"
-                    }`}
-                  >
-                    Edit
-                  </button>
+                  <div className="py-2">
+                    <button
+                      onClick={() => handleDelete(video._id)}
+                      className={`h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
+                        isDarkMode
+                          ? "bg-gray-700 text-gray-100 hover:bg-gray-600"
+                          : "bg-red-500 text-white hover:bg-red-600"
+                      }`}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigate(`/editVideo/${video._id}`, {
+                          state: { video },
+                        })
+                      }
+                      className={`ml-4 h-fit px-3 py-1 text-sm font-semibold rounded-lg ${
+                        isDarkMode
+                          ? "bg-blue-700 text-gray-100 hover:bg-blue-600"
+                          : "bg-blue-500 text-white hover:bg-blue-600"
+                      }`}
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -240,8 +239,8 @@ const UploadedVideosPage = () => {
         isDarkMode={isDarkMode}
       />
     </div>
-  );
-};
+  )
+}
 
 const selectClass = (isDarkMode) =>
   `px-3 py-2 rounded-lg border shadow-sm ${

@@ -5,18 +5,29 @@ import authRouter from "./routes/auth.routes.js"
 import videoRouter from "./routes/video.routes.js"
 import fileRouter from "./routes/file.routes.js"
 import userRouter from "./routes/user.routes.js"
+import chatRouter from "./routes/chat.routes.js"
+import messageRouter from "./routes/message.routes.js"
 import path from "path"
 import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
 const app = express()
 
-// Middleware
+const allowedOrigins = [
+   process.env.FRONTEND_URI, // Deployed frontend
+  "http://localhost:5173", // Local frontend
+]
+
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
     credentials: true,
   })
 )
@@ -31,23 +42,16 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../../frontend/dist')))
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
-    })
-  } else {
-    app.get('/', (req, res) => {
-      res.send('API is running...')
-    })
-  }
+app.get("/", (req, res) => {
+  res.send("API is running...")
+})
 
 // Routes
 app.use("/auth", authRouter)
 app.use("/video", videoRouter)
 app.use("/file", fileRouter)
 app.use("/user", userRouter)
+app.use("/chat", chatRouter)
+app.use("/message", messageRouter)
 
 export default app

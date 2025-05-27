@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { useTheme } from "../../Context/ThemeContext.jsx"
-import { useUser } from "../../Context/UserContext.jsx"
 import Logout from "../Student/Logout/Logout.jsx"
 import {
   Menu,
@@ -13,9 +12,11 @@ import {
   File,
   Upload,
   Compass,
+  MessageCircleMore,
   Sun,
   Moon,
 } from "lucide-react"
+import { useUser } from "../../Context/UserContext.jsx"
 
 function FacultySidebar({ isOpen, setIsOpen }) {
   const { user } = useUser()
@@ -100,6 +101,12 @@ function FacultySidebar({ isOpen, setIsOpen }) {
             to="/exploreVideos"
             icon={<Compass size={22} />}
             text="Explore Videos"
+            isOpen={isOpen}
+          />
+          <SidebarLink
+            to="/connect"
+            icon={<MessageCircleMore size={22} />}
+            text="Connect"
             isOpen={isOpen}
           />
           <SidebarLink

@@ -7,6 +7,7 @@ import { Column } from "primereact/column"
 import "primereact/resources/themes/lara-light-blue/theme.css"
 import "primereact/resources/primereact.min.css"
 import "primeicons/primeicons.css"
+import api from "../../../utils/axiosInstance"
 
 const StudentFilesPage = () => {
   const [files, setFiles] = useState([])
@@ -27,7 +28,7 @@ const StudentFilesPage = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await axios.get("/file/all-files", {
+        const response = await api.get("/file/all-files", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },

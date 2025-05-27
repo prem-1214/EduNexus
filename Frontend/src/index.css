@@ -1,6 +1,10 @@
+/* @import "@shadcn/ui/dist/styles.css"; */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import shadcn styles */
 
 @layer base {
   :root {

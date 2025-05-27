@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Routes, Route, Navigate } from "react-router-dom" 
+import { Routes, Route, Navigate } from "react-router-dom"
 import { ThemeProvider } from "./Context/ThemeContext.jsx"
 import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
@@ -16,7 +16,6 @@ import VideosPage from "./pages/Faculty/VideosPage.jsx"
 import FilesPage from "./pages/Faculty/FilesPage.jsx"
 import CalendarPage from "./pages/Faculty/CalanderPage.jsx"
 
-
 // Student imports
 import StudentSidebar from "./pages/Student/StudentSidebar/StudentSidebar.jsx"
 import StudentDashboardPage from "./pages/Student/Dashboard/StudentDashboardPage.jsx"
@@ -29,6 +28,7 @@ import Downloads from "./pages/Student/Download/Download.jsx"
 import Courses from "./pages/Student/Courses/Courses.jsx"
 import Settings from "./pages/Student/Setting/Setting.jsx"
 import QuizPage from "./pages/Student/Quiz/Quiz.jsx"
+import ChatPage from "./pages/ChatPage.jsx"
 
 const FacultyLayout = ({ children }) => {
   const { user } = useUser()
@@ -150,6 +150,14 @@ function App() {
           }
         />
         <Route
+          path="/connect"
+          element={
+            <FacultyLayout>
+              <ChatPage />
+            </FacultyLayout>
+          }
+        />
+        <Route
           path="/calender"
           element={
             <FacultyLayout>
@@ -214,11 +222,11 @@ function App() {
           }
         />
         <Route
-          path="/discussions"
+          path="/chat"
           element={
             <StudentLayout>
               {" "}
-              <Discussions />{" "}
+              <ChatPage />{" "}
             </StudentLayout>
           }
         />

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import { v4 as uuidv4 } from "uuid";
-import { useTheme } from "../../Context/ThemeContext.jsx";
-import { Card } from "@/components/ui/card";
+import React, { useState } from "react"
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import interactionPlugin from "@fullcalendar/interaction"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import listPlugin from "@fullcalendar/list"
+import { v4 as uuidv4 } from "uuid"
+import { useTheme } from "../../Context/ThemeContext.jsx"
+import { Card } from "@/components/ui/card"
 
 const CalendarPage = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme()
   const [events, setEvents] = useState([
     {
       id: uuidv4(),
@@ -24,43 +24,43 @@ const CalendarPage = () => {
       date: "2025-04-12",
       color: "#3B82F6",
     },
-  ]);
+  ])
 
   const handleDateClick = (info) => {
-    const title = prompt(`Enter event for ${info.dateStr}`);
+    const title = prompt(`Enter event for ${info.dateStr}`)
     if (title) {
       const newEvent = {
         id: uuidv4(),
         title,
         date: info.dateStr,
         color: "#3B82F6",
-      };
-      setEvents((prev) => [...prev, newEvent]);
+      }
+      setEvents((prev) => [...prev, newEvent])
     }
-  };
+  }
 
   const handleEventClick = (info) => {
     const action = prompt(
       `Edit or delete event: "${info.event.title}"? Type "edit" to edit or "delete" to delete.`
-    );
+    )
     if (action === "edit") {
-      const newTitle = prompt("Enter new title:", info.event.title);
+      const newTitle = prompt("Enter new title:", info.event.title)
       if (newTitle) {
         setEvents((prev) =>
           prev.map((event) =>
             event.id === info.event.id ? { ...event, title: newTitle } : event
           )
-        );
+        )
       }
     } else if (action === "delete") {
       const confirmDelete = window.confirm(
         `Delete event: "${info.event.title}"?`
-      );
+      )
       if (confirmDelete) {
-        setEvents((prev) => prev.filter((event) => event.id !== info.event.id));
+        setEvents((prev) => prev.filter((event) => event.id !== info.event.id))
       }
     }
-  };
+  }
 
   return (
     <div
@@ -119,7 +119,7 @@ const CalendarPage = () => {
         />
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default CalendarPage;
+export default CalendarPage

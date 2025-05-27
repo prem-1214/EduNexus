@@ -57,7 +57,15 @@ const fileUploadHandler = async (req, res) => {
 const editFileHandler = async (req, res) => {
   try {
     const { id } = req.params
-    const { fileName, description, category, program, branch, semester, subject } = req.body
+    const {
+      fileName,
+      description,
+      category,
+      program,
+      branch,
+      semester,
+      subject,
+    } = req.body
 
     // Find the file by ID
     const file = await File.findById(id)
@@ -67,7 +75,9 @@ const editFileHandler = async (req, res) => {
 
     // Ensure the user is the owner of the file
     if (file.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized: You can only edit your own files" })
+      return res
+        .status(403)
+        .json({ message: "Unauthorized: You can only edit your own files" })
     }
 
     // Update file details if provided
@@ -98,8 +108,4 @@ const editFileHandler = async (req, res) => {
   }
 }
 
-
-
-export { fileUploadHandler, 
-         editFileHandler
- }
+export { fileUploadHandler, editFileHandler }
