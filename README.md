@@ -1,3 +1,18 @@
+## 🛑 Important Information
+
+Before you begin, please review the following points carefully.
+
+> ⚠️ **How to login :**
+>
+> Default login is ---> 
+> **Student**
+> 
+> **For faculty login :**
+>
+>**Email :** faculty.admin@gmail.com
+>
+>**Password :** faculty.admin
+
 # Educational Management System  
 
 An Educational Management System enabling seamless interaction between students and faculty. This application offers functionalities for user management, resource sharing to enhance the educational experience.  
