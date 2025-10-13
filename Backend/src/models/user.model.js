@@ -17,8 +17,8 @@ const userSchema = new Schema(
       trim: true,
       validate: {
         validator: function (v) {
-          const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gsfcuniversity\.ac\.in$/
-          const educatorRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gsfcuniversity\.ac\.in$/
+          const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gmail\.com$/
+          const educatorRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gmail\.com$/
           return studentRegex.test(v) || educatorRegex.test(v)
         },
         message: (props) => `${props.value} is not a valid email address!`,
@@ -65,8 +65,8 @@ const userSchema = new Schema(
 )
 
 userSchema.pre("save", async function (next) {
-  const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gsfcuniversity\.ac\.in$/
-  const educatorRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gsfcuniversity\.ac\.in$/
+  const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gmail\.com$/
+  const educatorRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gmail\.com$/
 
   if (studentRegex.test(this.email)) {
     this.role = "student"
