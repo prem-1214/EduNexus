@@ -65,7 +65,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  const studentRegex = /^\d{2}[a-zA-Z]{2}\d{5}@gmail\.com$/;
+  const studentRegex = /^[a-zA-Z0-9.]+@gmail\.com$/;
   const educatorRegex = /^[a-zA-Z]+\.[a-zA-Z]+@gmail\.com$/;
 
   if (studentRegex.test(this.email)) {
