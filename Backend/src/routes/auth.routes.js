@@ -1,16 +1,19 @@
-import { Router } from "express"
+import { Router } from "express";
 import {
   googleLoginHandler,
   loginHandler,
   registerHandler,
-} from "../controllers/user.controller.js"
+  refreshAccessTokenHandler,
+} from "../controllers/user.controller.js";
 
-const router = Router()
+const router = Router();
 
-router.route("/register").post(registerHandler)
+router.route("/register").post(registerHandler);
 
-router.post("/login", loginHandler)
+router.post("/login", loginHandler);
 
-router.route("/google-login").post(googleLoginHandler)
+router.route("/google-login").post(googleLoginHandler);
 
-export default router
+router.post("/refresh-token", refreshAccessTokenHandler);
+
+export default router;
