@@ -1,26 +1,16 @@
 services:
   backend:
-    # Pin this to a release tag or commit SHA; avoid mutable "latest" in production.
-    image: ${DOCKER_USERNAME}/edunexus-backend:${BACKEND_IMAGE_TAG:-v1.0.0}
+    image: ${DOCKER_USERNAME}/edunexus-backend:${BACKEND_IMAGE_TAG}
     container_name: edunexus-backend
+
     restart: unless-stopped
+
     ports:
       - "3000:3000"
-    environment:
-      - PORT=3000
-      - NODE_ENV=production
-      - FRONTEND_URI=${FRONTEND_URI}
-      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
-      - ACCESS_TOKEN_EXPIRY=${ACCESS_TOKEN_EXPIRY}
-      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
-      - REFRESH_TOKEN_EXPIRY=${REFRESH_TOKEN_EXPIRY}
-      - MONGODB_URI=${MONGODB_URI}
-      - DB_NAME=${DB_NAME}
-      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-    networks:
-      - edunexus-network
+
+    env_file:
+      - .env
+
     healthcheck:
       test:
         [
@@ -35,6 +25,15 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    networks:
+      - edunexus-network
 
 networks:
   edunexus-network:
